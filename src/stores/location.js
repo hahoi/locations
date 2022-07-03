@@ -26,18 +26,147 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
+
+
+
+import proj4 from "proj4";
+import Tainan from "../assets/Tainan";
+import Taipei from "../assets/Taipei";
+import Pingtung from "../assets/funMap";
+
+
+//defs
+proj4.defs([
+  [
+    "EPSG:4326",
+    "+title=WGS84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees",
+  ],
+  [
+    "EPSG:3826",
+    "+title=TWD97 TM2 +proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +units=m +no_defs",
+  ],
+  [
+    "EPSG:3828",
+    "+title=TWD67 TM2 +proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=aust_SA +towgs84=-752,-358,-179,-0.0000011698,0.0000018398,0.0000009822,0.00002329 +units=m +no_defs",
+  ],
+]);
+
+//EPSG
+let EPSG3826 = new proj4.Proj("EPSG:3826"); //TWD97 TM2(121分帶)
+let EPSG3828 = new proj4.Proj("EPSG:3828"); //TWD67 TM2(121分帶)
+let EPSG4326 = new proj4.Proj("EPSG:4326"); //WGS84
+
+
+const TainanMap = Tainan.map((item) => {
+  let x = Number(item.X坐標);
+  let y = Number(item.Y坐標);
+  let latlng = proj4(EPSG3826, EPSG4326, [x, y]);
+  const data = { 設施: "", 簡介: "" };
+  (data.lat = latlng[1]), (data.lng = latlng[0]);
+
+  for (let key in item) {
+    if (key === "Seq") {
+      // data.Seq = item.Seq;
+    } else if (key === "編號") {
+      // data.編號 = item.編號;
+    } else if (key === "縣市") {
+      data.縣市 = "台南市";
+    } else if (key === "所在轄區") {
+      // data.所在轄區 = item.所在轄區;
+    } else if (key === "X坐標") {
+      // data.X坐標 = item.X坐標;
+    } else if (key === "Y坐標") {
+      // data.Y坐標 = item.Y坐標;
+    } else if (key === "公園名稱") {
+      data.名稱 = item.公園名稱;
+    } else if (key === "里別") {
+      data.里別 = item.里別;
+    } else if (key === "面積公頃") {
+      // data.面積公頃 = item.面積公頃;
+    } else if (key === "公園全景") {
+    } else if (key === "類別") {
+      // data.類別 = item.類別;
+    } else if (key === "座落位置") {
+      data.座落位置 = item.座落位置;
+    } else if (key === "管理單位") {
+    } else if (key === "使用分區") {
+    } else if (item[key] !== "") {
+      data.設施 += key + ",";
+      // console.log(key, item[key]);
+    }
+  }
+  return data;
+});
+// console.log(TainanMap);
+
+
+
+
+const TaipeiMap = Taipei.map((item) => {
+  const data = {
+    名稱: item.Col1,
+    簡介: item.Col2,
+    lng: item.Col3,
+    lat: item.Col4,
+    設施: "",
+    縣市: "台北市",
+    里別: item.Col11,
+    座落位置: item.Col7,
+  };
+  if (item.Col13) data.設施 += item.Col13 + ",";
+  if (item.Col14) data.設施 += item.Col14 + ",";
+  if (item.Col15) data.設施 += item.Col15 + ",";
+  if (item.Col24) data.設施 += item.Col24 + ",";
+  return data;
+});
+
+
+
+// 轉換成陣列
+const PingtungMap = Object.keys(Pingtung).map((key) => {
+  const data = {
+    名稱: Pingtung[key].name,
+    簡介: Pingtung[key].Introduction,
+    lng: Pingtung[key].lng,
+    lat: Pingtung[key].lat,
+    設施: "",
+    縣市: "屏東縣",
+    里別: "",
+    座落位置: "",
+  };
+  return data;
+});
+// console.log(TaipeiMap);
+
+// console.log(PingtungMap);
+
+
+const merge = [...PingtungMap, ...TainanMap, ...TaipeiMap]
+// PingtungMap.forEach(item => merge.push(item))
+const mergeMap = merge.map((item, index) => {
+  return {
+    id: "ID" + index,
+    ...item,
+  }
+})
+console.log(mergeMap)
+
+
+
+
 const firebaseApp = initializeApp(getFirebaseConfig());
 
 // 轉換成陣列
-const locations = Object.keys(funMap).map((key) => funMap[key]);
+// const locations = Object.keys(funMap).map((key) => funMap[key]);
 
 
 export const locationStore = defineStore('locationStore', {
   state: () => ({
     counter: 0,
     funparks: null, //{}
-    locations: locations,
+    locations: mergeMap,
     search: "",
+    currentID: "",
   }),
 
   getters: {
@@ -93,7 +222,7 @@ export const locationStore = defineStore('locationStore', {
               //搜尋文字型態個欄位
               if (typeof task[key] === 'string') {
                 let item = task[key]
-                // console.log(key,task[key])
+                // console.log(key, task[key])
                 let searchLowerCase = keyword.toLowerCase()
                 if (item.includes(searchLowerCase)) {
                   // locationsFiltered[id] = task
@@ -134,6 +263,9 @@ export const locationStore = defineStore('locationStore', {
     },
     set_search (val) {
       this.search = val
+    },
+    set_current_Id (val) {
+      this.currentId = val
     },
 
     //查，全部

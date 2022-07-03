@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated style="max-width: 800px; margin: auto">
       <q-toolbar>
         <!-- <q-btn
           flat
@@ -23,7 +23,10 @@
           </div>
         </div>
 
-        <q-toolbar-title class="text-center"> 媽媽去哪裡玩 </q-toolbar-title>
+        <q-toolbar-title class="text-center text-h5">
+          <i class="fa-regular fa-trees"></i>
+          爸媽去哪裡玩
+        </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
       </q-toolbar>
@@ -49,17 +52,21 @@
       </q-list>
     </q-drawer> -->
 
-    <q-page-container>
+    <q-page-container style="max-width: 800px; margin: auto">
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-grey-2 text-white">
+    <q-footer
+      elevated
+      class="bg-grey-2 text-white"
+      style="max-width: 800px; margin: auto"
+    >
       <q-toolbar class="q-px-none">
         <q-toolbar-title>
           <div class="row justify-around no-wrap">
             <q-btn color="amber" text-color="black" class="col-grow" to="/">
-              <q-icon left size="1em" name="article" />
-              <div class="text-h6">功能一</div>
+              <q-icon left size="2em" name="home" class="text-blue-14" />
+              <div class="text-h6 text-blue-14">Home</div>
             </q-btn>
 
             <q-btn
@@ -67,10 +74,10 @@
               glossy
               text-color="white"
               class="col-grow"
-              to="/Tab"
+              to="/FunPark/list"
             >
-              <q-icon left size="1em" name="local_hospital" />
-              <div class="text-h6">功能二</div>
+              <q-icon left size="2em" name="park" />
+              <div class="text-h6">找公園</div>
             </q-btn>
 
             <q-btn
@@ -78,10 +85,10 @@
               glossy
               text-color="black"
               class="col-grow"
-              to="/Api3"
+              to="/FunPark/map"
             >
-              <q-icon left size="1em" name="local_hospital" />
-              <div class="text-h6">功能三</div>
+              <q-icon left size="2em" name="pin_drop" />
+              <div class="text-h6">看地圖</div>
             </q-btn>
           </div>
         </q-toolbar-title>

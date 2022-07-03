@@ -4,7 +4,7 @@
       clearable
       color="secondary"
       v-model="searchField"
-      label="全文查詢，多個關鍵字用空白隔開"
+      label="關鍵字查詢，多個關鍵字用空白隔開"
       @keyup.esc="searchField = ''"
       outlined
       class=""

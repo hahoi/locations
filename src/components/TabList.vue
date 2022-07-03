@@ -1,9 +1,15 @@
 <template>
   <div class="">
-    <Search></Search>
+    <!-- 關鍵字搜尋 -->
+    <search class="q-ma-md full-width" />
+
     <!-- List選項 -->
     <q-list bordered separator>
-      <q-infinite-scroll @load="loadMore" :offset="100">
+      <q-infinite-scroll
+        @load="loadMore"
+        :offset="500"
+        style="position: relative; top: 80px"
+      >
         <div v-for="(item, key) in showingData" :key="key">
           <q-item
             clickable
@@ -11,7 +17,10 @@
             :to="{ name: 'showPark', params: { parkId: item.id } }"
           >
             <q-item-section>
-              <q-item-label class="text-h6">{{ item.name }}</q-item-label>
+              <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
+              <q-item-label class="text-body1 text-grey">{{
+                item.縣市
+              }}</q-item-label>
             </q-item-section>
 
             <q-item-section side>

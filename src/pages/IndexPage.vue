@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props, context) {
     const router = useRouter();
 
-    router.replace("/funpark").catch((err) => {});
+    // router.replace("/funpark").catch((err) => {});
     return {};
   },
 });
