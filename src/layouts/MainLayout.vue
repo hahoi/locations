@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated style="max-width: 800px; margin: auto">
+    <q-header elevated>
       <q-toolbar>
         <!-- <q-btn
           flat
@@ -24,7 +24,7 @@
         </div>
 
         <q-toolbar-title class="text-center text-h5">
-          <i class="fa-regular fa-trees"></i>
+          <q-icon name="supervisor_account" color="cyan" size="2em"></q-icon>
           爸媽去哪裡玩
         </q-toolbar-title>
 
@@ -52,15 +52,11 @@
       </q-list>
     </q-drawer> -->
 
-    <q-page-container style="max-width: 800px; margin: auto">
+    <q-page-container>
       <router-view />
     </q-page-container>
 
-    <q-footer
-      elevated
-      class="bg-grey-2 text-white"
-      style="max-width: 800px; margin: auto"
-    >
+    <q-footer elevated class="bg-grey-2 text-white">
       <q-toolbar class="q-px-none">
         <q-toolbar-title>
           <div class="row justify-around no-wrap">
@@ -171,7 +167,13 @@ export default defineComponent({
       showBackIcon: false,
     });
     // 將要顯示倒退按鈕的頁面，放在此陣列中
-    const backRoute = ["showPark"];
+    const backRoute = [
+      "showPark",
+      "parkingLot",
+      "Bathroom",
+      "DiningSnacks",
+      "ConvenienceStore",
+    ];
 
     // 監視頁面跳轉
     watch(

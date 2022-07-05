@@ -27,7 +27,9 @@ const svgMarker = {
 };
 
 //從遠端網址設定 Marker 的圖標
-const iconBase = { path: "https://maps.google.com/mapfiles/kml/shapes/" };
+const iconBase = {
+  path: "https://maps.google.com/mapfiles/kml/pal2/icon4.png",
+};
 
 onMounted(() => {
   // console.log(props.locations);
@@ -67,7 +69,7 @@ function initMap() {
       // label: location.title,
       // title: location.name,
       map: map,
-      // icon: location.icon || {},
+      icon: "https://maps.google.com/mapfiles/kml/pal2/icon4.png",
     });
 
     //彈跳說明視窗
@@ -75,9 +77,9 @@ function initMap() {
       content: `
           <div id="content">
             <p class="text-h6 text-brown">${location.名稱}</p>
-            <a href="${location.naveUrl}" target="_blank"><span class="text-h6">導航</span></a>
           </div>
         `,
+      // <a href="${location.naveUrl}" target="_blank"><span class="text-h6">導航</span></a>
       maxWidth: 200,
     });
 

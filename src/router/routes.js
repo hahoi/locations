@@ -33,7 +33,31 @@ const routes = [
           {
             path: "showPark/:parkId",
             name: "showPark",
-            component: () => import("src/components/ShowPark.vue"),
+            component: () => import("src/pages/FunPark/ShowPark.vue"),
+            meta: { transition: 'slide-left' }
+          },
+          {
+            path: "Bathroom/:parkId",
+            name: "Bathroom",
+            component: () => import("src/components/Surrounding/Bathroom.vue"),
+            meta: { transition: 'slide-left' }
+          },
+          {
+            path: "parkingLot/:parkId",
+            name: "parkingLot",
+            component: () => import("src/components/Surrounding/ParkingLot.vue"),
+            meta: { transition: 'slide-left' }
+          },
+          {
+            path: "DiningSnacks/:parkId",
+            name: "DiningSnacks",
+            component: () => import("src/components/Surrounding/DiningSnacks.vue"),
+            meta: { transition: 'slide-left' }
+          },
+          {
+            path: "ConvenienceStore/:parkId",
+            name: "ConvenienceStore",
+            component: () => import("src/components/Surrounding/ConvenienceStore.vue"),
             meta: { transition: 'slide-left' }
           },
         ]

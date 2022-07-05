@@ -53,8 +53,8 @@
               />
               <q-checkbox
                 v-model="selection"
-                val="樹屋"
-                label="樹屋"
+                val="彈跳床"
+                label="彈跳床"
                 color="orange"
               />
               <q-checkbox
@@ -65,9 +65,38 @@
               />
               <q-checkbox
                 v-model="selection"
+                val="翹翹板"
+                label="翹翹板"
+                color="orange"
+              />
+            </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-section>
+            <div class="q-gutter-sm">
+              <q-checkbox
+                v-model="selection"
+                val="草坪"
+                label="草坪"
+                color="Cyan"
+              />
+              <q-checkbox
+                v-model="selection"
+                val="樹屋"
+                label="樹屋"
+                color="Cyan"
+              />
+              <q-checkbox
+                v-model="selection"
+                val="游泳池"
+                label="游泳池"
+                color="Cyan"
+              />
+              <q-checkbox
+                v-model="selection"
                 val="放風箏"
                 label="放風箏"
-                color="orange"
+                color="Cyan"
               />
             </div>
           </q-card-section>

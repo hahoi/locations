@@ -1,7 +1,7 @@
 <script setup>
 import Taipei from "../assets/Taipei";
 
-import Pingtung from "../assets/funMap";
+import Pingtung from "../assets/Pingtung";
 
 const TaipeiMap = Taipei.map((item) => {
   const data = {

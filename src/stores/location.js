@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase/app';
 import { uid, date, Notify, extend } from 'quasar'
 // import { showErrorMessage } from "src/utils/function-show-error-message";
 
-import funMap from "../assets/funMap.js";
+import funMap from "../assets/Pingtung.js";
 
 
 import {
@@ -32,7 +32,7 @@ import {
 import proj4 from "proj4";
 import Tainan from "../assets/Tainan";
 import Taipei from "../assets/Taipei";
-import Pingtung from "../assets/funMap";
+import Pingtung from "../assets/Pingtung";
 
 
 //defs
@@ -61,7 +61,12 @@ const TainanMap = Tainan.map((item) => {
   let x = Number(item.X坐標);
   let y = Number(item.Y坐標);
   let latlng = proj4(EPSG3826, EPSG4326, [x, y]);
-  const data = { 設施: "", 簡介: "" };
+  const data = {
+    設施: "",
+    簡介: "",
+    介紹: "",
+    navi: "",
+  };
   (data.lat = latlng[1]), (data.lng = latlng[0]);
 
   for (let key in item) {
@@ -82,10 +87,10 @@ const TainanMap = Tainan.map((item) => {
     } else if (key === "里別") {
       data.里別 = item.里別;
     } else if (key === "面積公頃") {
-      // data.面積公頃 = item.面積公頃;
+      data.面積 = item.面積公頃;
     } else if (key === "公園全景") {
     } else if (key === "類別") {
-      // data.類別 = item.類別;
+      data.類別 = item.類別;
     } else if (key === "座落位置") {
       data.座落位置 = item.座落位置;
     } else if (key === "管理單位") {
@@ -106,12 +111,14 @@ const TaipeiMap = Taipei.map((item) => {
   const data = {
     名稱: item.Col1,
     簡介: item.Col2,
+    介紹: "",
     lng: item.Col3,
     lat: item.Col4,
     設施: "",
     縣市: "台北市",
     里別: item.Col11,
     座落位置: item.Col7,
+    navi: "",
   };
   if (item.Col13) data.設施 += item.Col13 + ",";
   if (item.Col14) data.設施 += item.Col14 + ",";
@@ -121,18 +128,22 @@ const TaipeiMap = Taipei.map((item) => {
 });
 
 
-
+// 屏東
 // 轉換成陣列
 const PingtungMap = Object.keys(Pingtung).map((key) => {
   const data = {
     名稱: Pingtung[key].name,
     簡介: Pingtung[key].Introduction,
+    介紹: Pingtung[key].introduce || "",
     lng: Pingtung[key].lng,
     lat: Pingtung[key].lat,
     設施: "",
     縣市: "屏東縣",
     里別: "",
     座落位置: "",
+    navi: Pingtung[key].navi || "",
+    便利商店: Pingtung[key].便利商店 || [],
+    段落: Pingtung[key].段落 || [],
   };
   return data;
 });
@@ -145,7 +156,8 @@ const merge = [...PingtungMap, ...TainanMap, ...TaipeiMap]
 // PingtungMap.forEach(item => merge.push(item))
 const mergeMap = merge.map((item, index) => {
   return {
-    id: "ID" + index,
+    // id: "ID" + index,
+    id: item.縣市 + item.名稱,
     ...item,
   }
 })
@@ -229,7 +241,28 @@ export const locationStore = defineStore('locationStore', {
                   arr_flag[index] = true; //先把符合的記下來
                 }
               }
-            })
+              // 針對每個段落搜尋
+              if (key === '段落') {
+                task[key].forEach(elm => {
+                  // console.log(elm)
+                  //搜尋elm中每個欄位
+                  Object.keys(elm).forEach((key) => {
+                    if (typeof elm[key] === 'string') {
+                      // 段落中符合的文字，記錄下來
+                      // console.log(key, task[key],searchLowerCase)
+                      let item = elm[key]
+                      let searchLowerCase = keyword.toLowerCase()
+                      if (item.includes(searchLowerCase)) {
+                        // locationsFiltered[id] = task
+                        arr_flag[index] = true; //先把符合的記下來
+                      }
+                    }
+
+                  })
+
+                }) //end 段落
+              } //end if
+            }) //end Object.key
           })
 
           //判斷每一筆資料是否符合多個關鍵字

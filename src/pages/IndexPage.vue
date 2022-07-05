@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex flex-center">
+    <h5>首頁介紹資訊，待補充........</h5>
     <img
       alt="Quasar logo"
       src="~assets/quasar-logo-vertical.svg"
