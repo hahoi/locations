@@ -1,5 +1,5 @@
 <template>
-  <q-card flat>
+  <q-card flat class="bg-grey-11">
     <q-card-section>
       <q-form ref="form">
         <div class="q-ma-md row items-start">
@@ -7,7 +7,6 @@
             v-model="park.名稱"
             label="名稱"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -20,7 +19,6 @@
             v-model="park.lat"
             label="lat 緯度"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -33,7 +31,6 @@
             v-model="park.lng"
             label="lng 經度"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -46,7 +43,6 @@
             v-model="park.navi"
             label="導航"
             class="full-width"
-            outlined
             type="textarea"
             rows="4"
           >
@@ -60,7 +56,6 @@
             v-model="park.縣市"
             label="縣市"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -73,7 +68,6 @@
             v-model="park.區域"
             label="區域"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -86,7 +80,6 @@
             v-model="park.位置"
             label="位置"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -99,7 +92,6 @@
             v-model="park.類別"
             label="類別"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -112,7 +104,6 @@
             v-model="park.面積"
             label="面積"
             class="full-width"
-            outlined
             style="font-size: 18px"
           >
             <template v-slot:append>
@@ -125,7 +116,6 @@
             v-model="park.簡介"
             label="簡介"
             class="full-width"
-            outlined
             type="textarea"
             rows="2"
             style="font-size: 18px"
@@ -140,7 +130,6 @@
             v-model="park.介紹"
             label="介紹"
             class="full-width"
-            outlined
             type="textarea"
             rows="4"
             style="font-size: 18px"

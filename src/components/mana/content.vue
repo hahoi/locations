@@ -1,55 +1,105 @@
 <template>
-  <div v-for="(item, key) in park.段落">
-    <q-card
-      class="q-mt-xl cursor-pointer"
-      style="width: 100%; max-width: 800px"
-      @click="editMessage(item, key)"
-    >
-      <!-- <div class="flex row "> -->
-      <div v-html="item.排序"></div>
-      <!-- <q-space /> -->
-      <!-- <q-icon name="delete"  @click="deleteMsg(key)"/><q-icon name="close" /> -->
-      <!-- </div> -->
-      <q-card-section v-if="item.標題 != ''">
-        <div class="text-h6" v-html="item.標題"></div>
-      </q-card-section>
+  <div>
+    <!-- 這個隱藏的 input file select 放在裡面ref會找不到 -->
+    <input
+      id="mediaCapture"
+      ref="mediaCapture"
+      type="file"
+      accept="image/*"
+      capture="camera"
+      style="display: none"
+      @change="onMediaFileSelected"
+    />
 
-      <q-card-section class="q-pt-none text-subtitle1" v-if="item.內容">
-        <div v-html="item.內容"></div>
-      </q-card-section>
-      <q-img
-        contain
-        :src="item.照片.url"
-        v-if="item.照片.url"
-        style="border-radius: 3%/5%; max-width: 300px"
+    <div v-for="(item, key) in park.段落">
+      <q-card
+        class="q-mt-xl cursor-pointer bg-blue-grey-1"
+        style="width: 100%; max-width: 800px"
       >
-        <div class="absolute-bottom-left text-subtitle2" v-if="item.照片.簡介">
-          {{ item.照片.簡介 }}
-        </div>
-      </q-img>
-    </q-card>
-
-    <!-- ＝＝＝編輯單一訊息內容＝＝＝ -->
-    <q-dialog
-      v-model="dialogMessage"
-      :maximized="true"
-      persistent
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card class="bg-grey-1" style="max-width: 800px; margin: 0 auto">
-        <q-bar style="z-index: 1; position: fixed; top: 0; width: 100%">
-          <q-btn push icon="close" class="bg-black text-white" v-close-popup
-            >離開
-            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-          <!-- @click.stop.prevent="dialogMessage = false" -->
-
-          <q-space />
-        </q-bar>
-
         <q-card-section class="q-mt-xl">
-          <q-form ref="form">
+          <q-btn label="刪除"></q-btn>
+        </q-card-section>
+        <q-card-section class="">
+          <div class="q-ma-md row items-start" style="max-width: 100px">
+            <q-input v-model="item.排序" label="排序">
+              <template v-slot:append>
+                <q-icon name="close" @click="item.排序 = ''" />
+              </template>
+            </q-input>
+          </div>
+          <div class="q-ma-md row items-start">
+            <q-input
+              v-model="item.標題"
+              label="標題"
+              class="full-width"
+              style="font-size: 18px"
+            >
+              <template v-slot:append>
+                <q-icon name="close" @click="item.標題 = ''" />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="q-ma-md row items-start">
+            <q-input
+              v-model="item.內容"
+              type="textarea"
+              rows="2"
+              label="內容"
+              class="full-width"
+              style="font-size: 18px"
+            >
+              <template v-slot:append>
+                <q-icon name="close" @click="item.內容 = ''" />
+              </template>
+            </q-input>
+          </div>
+
+          <div class="q-ma-md row items-start">
+            <q-img
+              contain
+              :src="item.照片.url"
+              v-if="item.照片.url"
+              style="border-radius: 3%/5%; max-width: 300px"
+              @click="$refs.mediaCapture.click((data.key = key))"
+            >
+            </q-img>
+          </div>
+          <div class="q-ma-md row items-start">
+            <q-input
+              v-model="item.照片.簡介"
+              label="圖片介紹"
+              class="full-width"
+              style="font-size: 18px"
+            >
+              <template v-slot:append>
+                <q-icon name="close" @click="item.照片.簡介 = ''" />
+              </template>
+            </q-input>
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <!-- ＝＝＝編輯單一訊息內容＝＝＝ -->
+      <q-dialog
+        v-model="dialogMessage"
+        :maximized="true"
+        persistent
+        transition-show="slide-up"
+        transition-hide="slide-down"
+      >
+        <q-card class="text-h6" style="max-width: 800px; margin: 0 auto">
+          <q-bar style="z-index: 1; position: fixed; top: 0; width: 100%">
+            <q-btn push icon="close" class="bg-black text-white" v-close-popup
+              >離開
+              <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+            <!-- @click.stop.prevent="dialogMessage = false" -->
+
+            <q-space />
+          </q-bar>
+
+          <q-card-section class="q-mt-xl">
             <div class="q-ma-md row items-start" style="max-width: 100px">
               <q-input v-model="data.message.排序" label="排序" outlined>
                 <template v-slot:append>
@@ -85,23 +135,13 @@
                 </template>
               </q-input>
             </div>
-            <!-- 上傳訊息內容圖片 -->
-            <div class="q-pa-md">
-              <div class="text-center text-negative">記得要先按上傳圖片</div>
-              <q-uploader
-                :factory="factoryFn2"
-                accept=".jpg, image/*"
-                style="max-width: 300px"
-              />
-              <!-- 顯示已存在圖片 -->
+            <div>
               <img
                 :src="data.message.照片.url"
-                style="max-width: 300px"
-                v-if="data.message.照片"
+                alt=""
+                style="border-radius: 3%/5%; max-width: 300px"
               />
             </div>
-            <!-- {{data.message.照片}} -->
-            <!-- 非常重要 ， 不是用 data.message.照片.intro 判斷，要用data.message.照片判斷  -->
 
             <div class="q-ma-md row items-start" v-if="data.message.照片">
               <q-input
@@ -132,15 +172,24 @@
                 @click="deleteMsg(key)"
               />
             </div>
-          </q-form>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 <script setup>
 import { onMounted, computed, reactive, ref, toRefs, watchEffect } from "vue";
 import { locationStore } from "stores/location";
+
+import { compress, compressAccurately } from "image-conversion";
+import {
+  getStorage,
+  ref as StorageRef,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 const props = defineProps({
   location: Object,
@@ -148,11 +197,16 @@ const props = defineProps({
 const store = locationStore();
 
 const dialogMessage = ref(false);
+const mediaCapture = ref(null);
 const data = reactive({
   message: {},
   key: "",
 });
 
+onMounted(() => {
+  // DOM元素在出事渲染后分配给ref
+  console.log(mediaCapture.value);
+});
 const park = props.location;
 // console.log(park);
 
@@ -192,5 +246,56 @@ function editSave(key) {
     data: park,
   };
   store.saveFunpark(payload);
+}
+
+// 選擇上傳圖片，回傳檔案 file
+async function onMediaFileSelected(event) {
+  event.preventDefault();
+  var file = event.target.files[0];
+  let fileName = file.name;
+  console.log(file);
+  if (!file.type.match("image.*")) {
+    return;
+  }
+  // 壓縮圖檔，Compress image to 200kb
+  // console.log(file);
+  const resAvatarFile = await compressAccurately(file, 200);
+  // console.log(resAvatarFile);
+
+  // 上傳圖片，儲存圖片
+  saveImageMessage(fileName, resAvatarFile);
+  // }
+}
+
+// A loading image URL. 等待旋轉小圖
+const LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif?a";
+
+async function saveImageMessage(fileName, file) {
+  console.log(data.key, park.段落[data.key]);
+  // 內容: ""
+  // 排序: "2"
+  // 標題: ""
+  // 照片:{
+  //  findkey: ""
+  //  url: ""
+  //  }
+  // 簡介: "照片簡介"
+
+  try {
+    // 2 - Upload the image to Cloud Storage.
+    const filePath = `/FunParks/${park.id}/${fileName}`;
+    const newImageRef = StorageRef(getStorage(), filePath);
+    const fileSnapshot = await uploadBytesResumable(newImageRef, file);
+
+    // 3 - Generate a public URL for the file.
+    const publicImageUrl = await getDownloadURL(newImageRef);
+
+    const message = park.段落[data.key];
+
+    message.照片.url = publicImageUrl;
+    message.照片.findKey = filePath;
+  } catch (error) {
+    console.error("storage 發生錯誤", error);
+  }
 }
 </script>

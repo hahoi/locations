@@ -28,7 +28,7 @@ import {
 
 import {
   getStorage,
-  ref as StorageRef,
+  ref as StorageRef, uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
@@ -72,6 +72,11 @@ const TainanMap = Tainan.map((item) => {
     簡介: "",
     介紹: "",
     navi: "",
+    便利商店: [],
+    段落: [],
+    停車場: [],
+    廁所: [],
+    附近美食: [],
   };
   (data.lat = latlng[1]), (data.lng = latlng[0]);
 
@@ -125,6 +130,11 @@ const TaipeiMap = Taipei.map((item) => {
     區域: item.Col11,
     位置: item.Col7,
     navi: "",
+    便利商店: [],
+    段落: [],
+    停車場: [],
+    廁所: [],
+    附近美食: [],
   };
   if (item.Col13) data.設施 += item.Col13 + ",";
   if (item.Col14) data.設施 += item.Col14 + ",";
@@ -328,8 +338,26 @@ export const locationStore = defineStore('locationStore', {
       }
     },
 
-    // 存入資料庫
+    // 存入資料
     async saveFunpark (payload) {
+      console.log(payload.data)
+      Notify.create({
+        type: 'positive',
+        message: '資料存檔中...',
+        position: "center",
+        timeout: 1000,
+      })
+      try {
+        const cityRef = doc(getFirestore(), 'FunParks', payload.id);
+        await setDoc(cityRef, payload.data)
+      } catch (error) {
+        console.error("firebase 有錯誤發生", error);
+      }
+    },
+
+
+    // 更新資料
+    async updateFunpark (payload) {
       console.log(payload.data)
       Notify.create({
         type: 'positive',
@@ -338,7 +366,7 @@ export const locationStore = defineStore('locationStore', {
       })
       try {
         const cityRef = doc(getFirestore(), 'FunParks', payload.id);
-        await setDoc(cityRef, payload.data)
+        await updateDoc(cityRef, payload.data)
       } catch (error) {
         console.error("firebase 有錯誤發生", error);
       }
@@ -350,7 +378,7 @@ export const locationStore = defineStore('locationStore', {
         const findKey = "/FunParks/" + payload.id + "/" + payload.files[0].name;
         console.log(findKey);
         const newImageRef = StorageRef(getStorage(), findKey);
-        const fileSnapshot = await uploadBytesResumable(newImageRef, payload.files);
+        const fileSnapshot = await uploadBytes(newImageRef, payload.files);
         // 3 - Generate a public URL for the file.
         const publicImageUrl = await getDownloadURL(newImageRef);
         console.log(publicImageUrl)
