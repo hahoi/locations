@@ -1,21 +1,22 @@
 <template>
   <q-page class="q-pa-md row items-start q-gutter-sm" style="max-width: 800px">
     <q-card class="my-card" flat bordered>
-      <q-card-section class="q-pt-xs" row items-start>
+      <q-card-section class="" row items-start>
         <!-- <div class="text-overline">Overline</div> -->
         <div
           class="text-h5 text-center q-mt-sm q-mb-xs"
           v-html="matchLocation.名稱"
         ></div>
       </q-card-section>
-      <q-card-section class="intro">
+      <q-card-section class="q-gutter-md intro">
         <div>縣市：<span v-html="matchLocation.縣市"></span></div>
-      </q-card-section>
-      <q-card-section class="intro">
-        <div>里別：<span v-html="matchLocation.里別"></span></div>
-      </q-card-section>
-      <q-card-section class="intro">
-        <div>位置：<span v-html="matchLocation.座落位置"></span></div>
+        <div>區域：<span v-html="matchLocation.區域"></span></div>
+        <div>位置：<span v-html="matchLocation.位置"></span></div>
+        <div>
+          面積：<span v-html="matchLocation.面積"></span
+          ><span v-if="matchLocation.面積">公頃</span>
+        </div>
+        <div>類別：<span v-html="matchLocation.類別"></span></div>
       </q-card-section>
       <q-card-section class="intro">
         <div><span v-html="matchLocation.簡介"></span></div>
@@ -24,14 +25,15 @@
         <div><span v-html="matchLocation.介紹"></span></div>
       </q-card-section>
       <q-card-section class="intro">
-        <div>設施：<span v-html="br(matchLocation.設施)"></span></div>
+        <div v-if="matchLocation.設施">遊具設施</div>
+        <div v-html="br(matchLocation.設施)"></div>
       </q-card-section>
 
       <q-separator />
     </q-card>
 
     <template
-      v-if="matchLocation.段落 !== undefined"
+      v-if="matchLocation.段落"
       v-for="(item, key) in matchLocation.段落"
       class="q-pa-md row items-start q-gutter-md"
     >

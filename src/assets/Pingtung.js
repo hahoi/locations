@@ -15,9 +15,9 @@ export default {
         照片: {
           url: "https://firebasestorage.googleapis.com/v0/b/funpark-96a09.appspot.com/o/%E5%B1%8F%E6%9D%B1%E7%B8%A3%E9%BA%9F%E6%B4%9B%E5%AE%A2%E5%AE%B6%E8%8A%B1%E8%BD%8E%E7%89%B9%E8%89%B2%E9%81%8A%E6%88%B2%E5%A0%B4%2F%E9%BA%9F1.jpg?alt=media&token=22b6acb5-1592-405d-ba79-12130698950e",
           findkey: "",
-          簡介: "照片簡介",
+          簡介: "",
         },
-        內容: "簡單介紹",
+        內容: "",
         排序: "1",
       },
       {
@@ -43,16 +43,40 @@ export default {
     ],
     便利商店: [
       {
-        店名: "全家便利商店",
+        title: "全家便利商店",
         navi: "https://www.google.com.tw/maps/place/%E5%85%A8%E5%AE%B6%E4%BE%BF%E5%88%A9%E5%95%86%E5%BA%97+%E9%BA%9F%E6%B4%9B%E9%BA%9F%E8%B6%BE%E5%BA%97/@22.6509729,120.5249116,19z/data=!4m5!3m4!1s0x346e1800ef9954ef:0xae76eec0cdebc485!8m2!3d22.6514564!4d120.5257872?hl=zh-TW&authuser=0",
         lat: 22.65150676542429,
         lng: 120.52578753330589,
       },
       {
-        店名: "7-11便利商店",
+        title: "7-11便利商店",
         navi: "https://www.google.com.tw/maps/place/%E5%85%A8%E5%AE%B6%E4%BE%BF%E5%88%A9%E5%95%86%E5%BA%97+%E9%BA%9F%E6%B4%9B%E9%BA%9F%E8%B6%BE%E5%BA%97/@22.6509729,120.5249116,19z/data=!4m5!3m4!1s0x346e1800ef9954ef:0xae76eec0cdebc485!8m2!3d22.6514564!4d120.5257872?hl=zh-TW&authuser=0",
         lat: 22.66,
         lng: 120.53,
+      },
+    ],
+    附近美食: [
+      {
+        title: "手工甜點",
+        navi: "https://www.google.com.tw/maps/place/%E5%85%A8%E5%AE%B6%E4%BE%BF%E5%88%A9%E5%95%86%E5%BA%97+%E9%BA%9F%E6%B4%9B%E9%BA%9F%E8%B6%BE%E5%BA%97/@22.6509729,120.5249116,19z/data=!4m5!3m4!1s0x346e1800ef9954ef:0xae76eec0cdebc485!8m2!3d22.6514564!4d120.5257872?hl=zh-TW&authuser=0",
+        lat: 22.63718457026922,
+        lng: 120.51734748575144,
+      },
+    ],
+    停車場: [
+      {
+        title: "停一",
+        navi: "",
+        lat: 22.635385,
+        lng: 120.514232,
+      },
+    ],
+    廁所: [
+      {
+        title: "廁所",
+        navi: "",
+        lat: 22.635019,
+        lng: 120.514232,
       },
     ]
 

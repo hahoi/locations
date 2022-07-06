@@ -26,6 +26,12 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
+import {
+  getStorage,
+  ref as StorageRef,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 
 
@@ -85,14 +91,14 @@ const TainanMap = Tainan.map((item) => {
     } else if (key === "公園名稱") {
       data.名稱 = item.公園名稱;
     } else if (key === "里別") {
-      data.里別 = item.里別;
+      data.區域 = item.里別;
     } else if (key === "面積公頃") {
       data.面積 = item.面積公頃;
     } else if (key === "公園全景") {
     } else if (key === "類別") {
       data.類別 = item.類別;
     } else if (key === "座落位置") {
-      data.座落位置 = item.座落位置;
+      data.位置 = item.座落位置;
     } else if (key === "管理單位") {
     } else if (key === "使用分區") {
     } else if (item[key] !== "") {
@@ -116,8 +122,8 @@ const TaipeiMap = Taipei.map((item) => {
     lat: item.Col4,
     設施: "",
     縣市: "台北市",
-    里別: item.Col11,
-    座落位置: item.Col7,
+    區域: item.Col11,
+    位置: item.Col7,
     navi: "",
   };
   if (item.Col13) data.設施 += item.Col13 + ",";
@@ -139,11 +145,14 @@ const PingtungMap = Object.keys(Pingtung).map((key) => {
     lat: Pingtung[key].lat,
     設施: "",
     縣市: "屏東縣",
-    里別: "",
-    座落位置: "",
+    區域: "",
+    位置: "",
     navi: Pingtung[key].navi || "",
     便利商店: Pingtung[key].便利商店 || [],
     段落: Pingtung[key].段落 || [],
+    停車場: Pingtung[key].停車場 || [],
+    廁所: Pingtung[key].廁所 || [],
+    附近美食: Pingtung[key].附近美食 || [],
   };
   return data;
 });
@@ -176,7 +185,7 @@ export const locationStore = defineStore('locationStore', {
   state: () => ({
     counter: 0,
     funparks: null, //{}
-    locations: mergeMap,
+    locations: mergeMap, //[]
     search: "",
     currentID: "",
   }),
@@ -300,6 +309,7 @@ export const locationStore = defineStore('locationStore', {
     set_current_Id (val) {
       this.currentId = val
     },
+    // 更新公園資料，這個function用不到
 
     //查，全部
     async queryfunparks () {
@@ -318,10 +328,45 @@ export const locationStore = defineStore('locationStore', {
       }
     },
 
+    // 存入資料庫
+    async saveFunpark (payload) {
+      console.log(payload.data)
+      Notify.create({
+        type: 'positive',
+        message: '資料存檔中...',
+        timeout: 1000,
+      })
+      try {
+        const cityRef = doc(getFirestore(), 'FunParks', payload.id);
+        await setDoc(cityRef, payload.data)
+      } catch (error) {
+        console.error("firebase 有錯誤發生", error);
+      }
+    },
+
+    async uploadPhoto (payload) {
+      try {
+        // //如果已經有圖檔，因為只要一個，所以要先刪除
+        const findKey = "/FunParks/" + payload.id + "/" + payload.files[0].name;
+        console.log(findKey);
+        const newImageRef = StorageRef(getStorage(), findKey);
+        const fileSnapshot = await uploadBytesResumable(newImageRef, payload.files);
+        // 3 - Generate a public URL for the file.
+        const publicImageUrl = await getDownloadURL(newImageRef);
+        console.log(publicImageUrl)
+        return {
+          findKey: findKey,
+          url: publicImageUrl
+        }
+      } catch (error) {
+        console.error("firebase 有錯誤發生", error);
+      }
+    }
 
 
 
 
 
-  }
+
+  } //end action
 })

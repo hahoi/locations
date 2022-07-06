@@ -5,12 +5,25 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'Tainan', component: () => import('pages/Tainan.vue') },
-      { path: 'Taipei', component: () => import('pages/Taipei.vue') },
+      // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
+      // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
+      {
+        path: '/mana',
+        component: () => import('src/pages/Mana/index.vue'),
+        children: [
+          { path: '', component: () => import('pages/Mana/parkList.vue') },
+          {
+            path: 'edit/:parkId',
+            name: 'edit',
+            component: () => import('pages/Mana/edit.vue')
+          },
+
+        ]
+      },
       {
         path: '/FunPark',
         component: () => import('src/pages/FunPark/index.vue'),
-        meta: { title: '公園', role: '', icon: 'home', divider: true },
+        // meta: { title: '公園', role: '', icon: 'home', divider: true },
         children: [
           {
             // name: "funparks",

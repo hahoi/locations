@@ -1,6 +1,5 @@
 <template>
   <div class="q-ma-md">
-    <h2>便利商店資訊，待補充......</h2>
     <CMap :locations="locations" :center="center"></CMap>
   </div>
 </template>
@@ -30,7 +29,7 @@ const locations = [
     position: new google.maps.LatLng(center.lat, center.lng),
     icon: {
       url: iconBase + "icon4.png",
-      scaledSize: new google.maps.Size(80, 80),
+      scaledSize: new google.maps.Size(50, 50),
     },
     navi: location.navi,
   },
@@ -39,7 +38,7 @@ const locations = [
 if (location.便利商店 !== undefined) {
   location.便利商店.forEach((element) => {
     const data = {
-      title: element.店名,
+      title: element.title,
       position: new google.maps.LatLng(element.lat, element.lng),
       icon: {
         url: iconBase + "icon19.png",

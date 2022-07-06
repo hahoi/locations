@@ -1,11 +1,33 @@
 <template>
-  <q-page class="flex flex-center">
-    <h5>首頁介紹資訊，待補充........</h5>
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    />
+  <q-page class="">
+    <div class="text-center q-pa-md">
+      <div><h5>親子對好玩公園的搜尋需求</h5></div>
+      <div><h5>搜尋引擎如何解決問題</h5></div>
+      <div><h5>可複製，未來能延伸到全國各點特色公園</h5></div>
+      <q-parallax :height="150">
+        <template v-slot:media>
+          <video
+            width="720"
+            height="440"
+            poster="https://cdn.quasar.dev/img/polina.jpg"
+            autoplay
+            loop
+            muted
+          >
+            <source
+              type="video/webm"
+              src="https://cdn.quasar.dev/img/polina.webm"
+            />
+            <source
+              type="video/mp4"
+              src="https://cdn.quasar.dev/img/polina.mp4"
+            />
+          </video>
+        </template>
+
+        <h3 class="text-white">Video</h3>
+      </q-parallax>
+    </div>
   </q-page>
 </template>
 

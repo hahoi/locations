@@ -173,6 +173,7 @@ export default defineComponent({
       "Bathroom",
       "DiningSnacks",
       "ConvenienceStore",
+      "edit",
     ];
 
     // 監視頁面跳轉
