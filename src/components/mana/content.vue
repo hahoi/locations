@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 這個隱藏的 input file select 放在裡面ref會找不到 -->
+    <!-- 這個隱藏的 input file select 放在迴圈裡面 ref會變成陣列 -->
     <input
       id="mediaCapture"
       ref="mediaCapture"
@@ -17,7 +17,7 @@
         style="width: 100%; max-width: 800px"
       >
         <q-card-section class="q-mt-xl">
-          <q-btn label="刪除"></q-btn>
+          <q-btn label="刪除" @click="delItem(key)"></q-btn>
         </q-card-section>
         <q-card-section class="">
           <div class="q-ma-md row items-start" style="max-width: 100px">
@@ -93,6 +93,7 @@ import {
   uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 const props = defineProps({
@@ -122,6 +123,31 @@ async function factoryFn2(files) {
   data.message.照片.url = storageInfo.url;
   data.message.照片.findKey = storageInfo.findKey;
   console.log("段落", park.段落);
+}
+
+// 刪除item 資料
+function delItem(index) {
+  console.log(park.段落[index]);
+  // 刪除storage上的照片
+  // console.log(park.段落[index].照片.findKey);
+  storageImgDelete(park.段落[index].照片.findKey);
+  park.段落.splice(index, 1); // 通过splice 删除数据
+}
+
+function storageImgDelete(findKey) {
+  const storage = getStorage();
+  // console.log(findKey);
+
+  const desertRef = StorageRef(storage, findKey);
+
+  // Delete the file
+  deleteObject(desertRef)
+    .then(() => {
+      console.log("檔案刪除成功！");
+    })
+    .catch((error) => {
+      console.log("錯誤發生");
+    });
 }
 
 // 存檔，存到資料庫即可

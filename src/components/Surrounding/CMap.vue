@@ -46,7 +46,7 @@ function initMap() {
   const markers = props.locations.map((location, i) => {
     const marker = new google.maps.Marker({
       position: location.position,
-      label: location.title,
+      label: location.標題,
       map: map,
       icon: location.icon,
     });
@@ -55,7 +55,7 @@ function initMap() {
     const infowindow = new google.maps.InfoWindow({
       content: `
           <div id="content">
-            <p class="text-h6 text-brown">${location.title}</p>
+            <p class="text-h6 text-brown">${location.標題}</p>
           <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
           </div>
         `,
