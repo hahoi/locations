@@ -114,11 +114,11 @@ const props = defineProps({
 });
 const park = props.location;
 
-const mediaCapture = ref(null);
+// const mediaCapture = ref(null);
 
 onMounted(() => {
   // DOM元素在出事渲染后分配给ref
-  console.log(mediaCapture.value);
+  // console.log(mediaCapture.value);
 });
 
 const blank = {

@@ -176,8 +176,8 @@ import Search from "src/components/search";
 
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
-
-const locations = computed(() => store.locationsFilteredArray); // 響應式
+store.queryFunParks();
+// const locations = computed(() => store.locationsFilteredArray); // 響應式
 let rating = ref(0);
 let area = ref(0);
 

@@ -28,23 +28,19 @@
           </q-tab-panel>
 
           <q-tab-panel name="廁所">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <Bathroom :location="location"></Bathroom>
           </q-tab-panel>
 
           <q-tab-panel name="停車場">
-            <div class="text-h6">Movies</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <Parking :location="location"></Parking>
           </q-tab-panel>
 
           <q-tab-panel name="附近美食">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <Dining :location="location"></Dining>
           </q-tab-panel>
 
           <q-tab-panel name="便利商店">
-            <div class="text-h6">Movies</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <Convenien :location="location"></Convenien>
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -60,6 +56,11 @@ import { locationStore } from "stores/location";
 import park from "src/components/mana/park";
 import content from "src/components/mana/content";
 import appendContent from "src/components/mana/appendContent";
+import Bathroom from "../../components/mana/bathroom.vue";
+import Parking from "../../components/mana/parking.vue";
+import DiningSnacks from "../../components/Surrounding/DiningSnacks.vue";
+import Convenien from "../../components/mana/convenien.vue";
+import Dining from "../../components/mana/dining.vue";
 
 const router = useRouter();
 const route = useRoute();

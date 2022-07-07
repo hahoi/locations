@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card flat v-for="(item, key) in park.停車場">
+    <q-card flat v-for="(item, key) in park.附近美食">
       <q-card-section class="bg-grey-11 q-mt-lg">
         <div class="row justify-end">
           <q-btn label="刪除" @click="delItem(key)"></q-btn>
@@ -85,7 +85,7 @@ const props = defineProps({
   location: Object,
 });
 const park = props.location;
-const bathroom = props.location.停車場;
+const bathroom = props.location.附近美食;
 
 const blank = {
   title: "",
@@ -99,10 +99,10 @@ const data = reactive({});
 watchEffect(() => {});
 
 function appendBathroom() {
-  park.停車場.push(extend(true, {}, blank));
+  park.附近美食.push(extend(true, {}, blank));
 }
 function delItem(index) {
-  park.停車場.splice(index, 1); // 通过splice 删除数据
+  park.附近美食.splice(index, 1); // 通过splice 删除数据
 }
 // 存入資料庫
 async function SaveToDB() {

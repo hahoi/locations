@@ -79,102 +79,6 @@
           </div>
         </q-card-section>
       </q-card>
-
-      <!-- ＝＝＝編輯單一訊息內容＝＝＝ -->
-      <q-dialog
-        v-model="dialogMessage"
-        :maximized="true"
-        persistent
-        transition-show="slide-up"
-        transition-hide="slide-down"
-      >
-        <q-card class="text-h6" style="max-width: 800px; margin: 0 auto">
-          <q-bar style="z-index: 1; position: fixed; top: 0; width: 100%">
-            <q-btn push icon="close" class="bg-black text-white" v-close-popup
-              >離開
-              <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
-            </q-btn>
-            <!-- @click.stop.prevent="dialogMessage = false" -->
-
-            <q-space />
-          </q-bar>
-
-          <q-card-section class="q-mt-xl">
-            <div class="q-ma-md row items-start" style="max-width: 100px">
-              <q-input v-model="data.message.排序" label="排序" outlined>
-                <template v-slot:append>
-                  <q-icon name="close" @click="data.message.排序 = ''" />
-                </template>
-              </q-input>
-            </div>
-            <div class="q-ma-md row items-start">
-              <q-input
-                v-model="data.message.標題"
-                label="標題"
-                class="full-width"
-                outlined
-                style="font-size: 18px"
-              >
-                <template v-slot:append>
-                  <q-icon name="close" @click="data.message.標題 = ''" />
-                </template>
-              </q-input>
-            </div>
-            <div class="q-ma-md row items-start">
-              <q-input
-                v-model="data.message.內容"
-                type="textarea"
-                rows="2"
-                label="內容"
-                class="full-width"
-                outlined
-                style="font-size: 18px"
-              >
-                <template v-slot:append>
-                  <q-icon name="close" @click="data.message.內容 = ''" />
-                </template>
-              </q-input>
-            </div>
-            <div>
-              <img
-                :src="data.message.照片.url"
-                alt=""
-                style="border-radius: 3%/5%; max-width: 300px"
-              />
-            </div>
-
-            <div class="q-ma-md row items-start" v-if="data.message.照片">
-              <q-input
-                v-model="data.message.照片.簡介"
-                label="圖片介紹"
-                class="full-width"
-                outlined
-                style="font-size: 18px"
-              >
-                <template v-slot:append>
-                  <q-icon name="close" @click="data.message.照片.簡介 = ''" />
-                </template>
-              </q-input>
-            </div>
-            <q-separator class="q-mt-xl" />
-            <div class="flex row q-mt-md">
-              <q-btn
-                label="存檔"
-                color="primary"
-                icon="save"
-                @click="editSave(key)"
-              />
-              <q-space />
-              <q-btn
-                label="刪除"
-                color="negative"
-                icon="save"
-                @click="deleteMsg(key)"
-              />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
     </div>
   </div>
 </template>
@@ -196,8 +100,6 @@ const props = defineProps({
 });
 const store = locationStore();
 
-const dialogMessage = ref(false);
-const mediaCapture = ref(null);
 const data = reactive({
   message: {},
   key: "",
@@ -205,18 +107,11 @@ const data = reactive({
 
 onMounted(() => {
   // DOM元素在出事渲染后分配给ref
-  console.log(mediaCapture.value);
+  // console.log(mediaCapture.value);
 });
 const park = props.location;
 // console.log(park);
 
-function editMessage(item, key) {
-  // park.段落陣列中，每個 item
-  // 先設定好要修改的段落
-  data.message = park.段落[key];
-
-  dialogMessage.value = true;
-}
 // 圖檔預覽、上傳、並修改資料庫
 async function factoryFn2(files) {
   const payload = {

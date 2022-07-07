@@ -23,8 +23,12 @@
           </div>
         </div>
 
-        <q-toolbar-title class="text-center text-h5">
-          <q-icon name="supervisor_account" color="cyan" size="2em"></q-icon>
+        <!-- $router.push('/') -->
+        <q-toolbar-title class="text-center text-h5" @click="reload()">
+          <q-img
+            src="../assets/好玩公園-無背景PNG.png"
+            style="width: 40px"
+          ></q-img>
           爸媽去哪裡玩
         </q-toolbar-title>
 
@@ -103,8 +107,9 @@ import {
   toRefs,
   watch,
 } from "vue";
-import { useRoute } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import EssentialLink from "components/EssentialLink.vue";
+import { locationStore } from "stores/location";
 
 const linksList = [
   {
@@ -159,6 +164,9 @@ export default defineComponent({
   },
 
   setup() {
+    const store = locationStore();
+
+    const router = useRouter();
     const route = useRoute();
     const leftDrawerOpen = ref(false);
     //---------- data ----------
@@ -194,6 +202,12 @@ export default defineComponent({
       return false;
     }
 
+    function reload() {
+      //更新
+      store.queryFunParks();
+      // window.location.reload(true);
+    }
+
     return {
       ...toRefs(data),
 
@@ -202,6 +216,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      reload,
     };
   },
 });

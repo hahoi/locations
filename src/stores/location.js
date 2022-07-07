@@ -180,7 +180,7 @@ const mergeMap = merge.map((item, index) => {
     ...item,
   }
 })
-console.log(mergeMap)
+// console.log(mergeMap)
 
 
 
@@ -195,7 +195,7 @@ export const locationStore = defineStore('locationStore', {
   state: () => ({
     counter: 0,
     funparks: null, //{}
-    locations: mergeMap, //[]
+    locations: [], //mergeMap, //[]
     search: "",
     currentID: "",
   }),
@@ -322,17 +322,19 @@ export const locationStore = defineStore('locationStore', {
     // 更新公園資料，這個function用不到
 
     //查，全部
-    async queryfunparks () {
-      this.funparks = {}
+    async queryFunParks () {
+      // this.funparks = {} 物件
+      this.locations = []
       try {
         const q = query(
-          collection(getFirestore(), "funParks")
-        );
+          // collection(getFirestore(), "FunParks"), orderBy("id", "desc"));
+          collection(getFirestore(), "FunParks"));
         const qSnap = await getDocs(q);
         qSnap.forEach((doc) => {
-          this.funparks[doc.id] = doc.data()
+          // this.funparks[doc.id] = doc.data() //物件
+          this.locations.push({ id: doc.id, ...doc.data() }) //陣列
         });
-        // console.log(this.funparks)
+        console.log(this.locations)
       } catch (error) {
         console.error("Firestore 錯誤", error);
       }

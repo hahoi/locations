@@ -136,7 +136,8 @@ const fab1 = ref(false);
 const hideLabels = ref(false);
 
 function br(text) {
-  return text.replaceAll(",", "<br />");
+  // return text.replaceAll(",", "<br />");
+  return text;
 }
 
 //將找到符合的關鍵字用紅色字顯示

@@ -5,6 +5,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
+      { path: 'writeToFirestore', component: () => import('pages/writeToFirestore.vue') },
       // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
       {
