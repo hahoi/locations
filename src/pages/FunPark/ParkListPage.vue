@@ -120,43 +120,47 @@
         </q-card>
       </q-expansion-item>
 
-      <!-- <q-page-sticky expand position="top"> -->
-      <!-- <q-toolbar class="bg-white"> -->
       <!-- 關鍵字搜尋 -->
       <search class="q-ma-md full-width" />
-      <!-- </q-toolbar> -->
-      <!-- </q-page-sticky> -->
-      <!-- List選項 -->
-      <q-list bordered separator>
-        <q-infinite-scroll @load="loadMore" :offset="500">
-          <div v-for="(item, key) in showingData" :key="key">
-            <q-item
-              clickable
-              v-ripple
-              :to="{ name: 'showPark', params: { parkId: item.id } }"
-            >
-              <q-item-section>
-                <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
-                <q-item-label class="text-body1 text-grey">{{
-                  item.縣市
-                }}</q-item-label>
-              </q-item-section>
 
-              <q-item-section side>
-                <template>
-                  <q-chip
-                    color="deep-orange"
-                    text-color="white"
-                    icon-right="directions"
-                  >
-                  </q-chip>
-                </template>
-              </q-item-section>
-            </q-item>
-            <q-separator />
-          </div>
-        </q-infinite-scroll>
-      </q-list>
+      <!-- List選項 -->
+      <template v-if="store.locationDataReady">
+        <q-list bordered separator>
+          <q-infinite-scroll @load="loadMore" :offset="500">
+            <div v-for="(item, key) in showingData" :key="key">
+              <q-item
+                clickable
+                v-ripple
+                :to="{ name: 'showPark', params: { parkId: item.id } }"
+              >
+                <q-item-section>
+                  <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
+                  <q-item-label class="text-body1 text-grey">{{
+                    item.縣市
+                  }}</q-item-label>
+                </q-item-section>
+
+                <q-item-section side>
+                  <template>
+                    <q-chip
+                      color="deep-orange"
+                      text-color="white"
+                      icon-right="directions"
+                    >
+                    </q-chip>
+                  </template>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+            </div>
+          </q-infinite-scroll>
+        </q-list>
+      </template>
+      <template v-else>
+        <div class="row justify-center">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
 
       <!-- 回到頂端 -->
       <q-page-scroller

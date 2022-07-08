@@ -58,7 +58,6 @@ import content from "src/components/mana/content";
 import appendContent from "src/components/mana/appendContent";
 import Bathroom from "../../components/mana/bathroom.vue";
 import Parking from "../../components/mana/parking.vue";
-import DiningSnacks from "../../components/Surrounding/DiningSnacks.vue";
 import Convenien from "../../components/mana/convenien.vue";
 import Dining from "../../components/mana/dining.vue";
 

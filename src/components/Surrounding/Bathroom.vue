@@ -57,7 +57,7 @@ const center = {
 // 先把公園當作一個點位
 const locations = [
   {
-    title: location.名稱,
+    標題: location.名稱,
     position: new google.maps.LatLng(center.lat, center.lng),
     icon: {
       url: iconBase + "icon4.png",
@@ -70,7 +70,7 @@ const locations = [
 if (location.廁所 !== undefined) {
   location.廁所.forEach((element) => {
     const data = {
-      title: element.title,
+      標題: element.標題,
       position: new google.maps.LatLng(element.lat, element.lng),
       icon: {
         url: iconBase + "icon1.png",

@@ -1,14 +1,21 @@
 <template>
   <div>
-    <q-input
-      clearable
-      color="secondary"
-      v-model="searchField"
-      label="關鍵字查詢，多個關鍵字用空白隔開"
-      @keyup.esc="searchField = ''"
-      outlined
-      class=""
-    />
+    <transition
+      appear
+      enter-active-class="animated animate__bounceOut"
+      leave-active-class="animated animate__heartBeat"
+    >
+      <q-input
+        clearable
+        color="secondary"
+        v-model="searchField"
+        label="關鍵字查詢，多個關鍵字用空白隔開"
+        @keyup.esc="searchField = ''"
+        outlined
+        class=""
+        style="border: 1px solid #33ff00; border-radius: 5px"
+      />
+    </transition>
   </div>
 </template>
 

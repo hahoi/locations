@@ -107,7 +107,7 @@
         label="新增"
         color="primary"
         class="col-4 text-h6"
-        @click="appendBathroom"
+        @click="appendItem"
       ></q-btn>
 
       <q-btn
@@ -169,10 +169,7 @@ const blank = {
 };
 const showSaveBtnMsg = ref(false);
 
-// 有輸資料才可以存檔
-watchEffect(() => {});
-
-function appendBathroom() {
+function appendItem() {
   park.廁所.push(extend(true, {}, blank));
   console.log(park.廁所);
 }
