@@ -1,6 +1,6 @@
 <template>
   <q-page style="z-index: 1; max-width: 800px">
-    <div class="q-ma-md">
+    <div class="q-ma-md" v-if="Authority">
       <!-- 關鍵字搜尋 -->
       <search class="q-ma-md full-width" />
 
@@ -58,13 +58,18 @@
 import { ref, reactive, computed, toRefs, watchEffect } from "vue";
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
-import { LocalStorage, Loading, extend } from "quasar";
+import { LocalStorage, Loading, extend, useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+
+const $q = useQuasar();
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
 
-let rating = ref(0);
-let area = ref(0);
+const rating = ref(0);
+const area = ref(0);
+const Authority = ref(false);
 
 // 捲動分頁載入
 const timer = null;
@@ -108,6 +113,28 @@ watchEffect(() => {
 function storeLocationId(id) {
   // console.log(id);
   LocalStorage.set("parkId", id);
+}
+prompt();
+function prompt() {
+  $q.dialog({
+    title: "請輸入編輯密碼",
+    message: "",
+    prompt: {
+      model: "",
+      isValid: (val) => val.length > 2, // << here is the magic
+      cancel: false,
+      type: "text", // optional
+    },
+    cancel: false,
+    persistent: true,
+  })
+    .onOk((data) => {
+      if (data === "20220708") {
+        Authority.value = true;
+      }
+    })
+    .onCancel(() => {})
+    .onDismiss(() => {});
 }
 </script>
 <style></style>

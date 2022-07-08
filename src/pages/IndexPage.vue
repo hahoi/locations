@@ -1,6 +1,6 @@
 <template>
   <q-page class="">
-    <div class="text-center q-pa-md">
+    <div class="text-center q-pa-md" style="position: relative; height: 80vh">
       <div><h5>親子對好玩公園的搜尋需求</h5></div>
       <div><h5>搜尋引擎如何解決問題</h5></div>
       <div><h5>可複製，未來能延伸到全國各點特色公園</h5></div>
@@ -29,6 +29,16 @@
         <h3 class="text-white">Video</h3>
       </q-parallax>
     </div>
+    <!-- 回到頂端 -->
+
+    <q-btn
+      fab
+      icon="keyboard_arrow_up"
+      color="white"
+      size="sm"
+      @click="$router.push('/mana')"
+      style="position: absolute; bottom: 58px; right: 18px"
+    />
   </q-page>
 </template>
 

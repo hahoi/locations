@@ -29,8 +29,6 @@
                 label="台北市"
                 color="teal"
               />
-
-              <div style="position: absolute; top: 5px; right: 10px">清除</div>
             </div>
           </q-card-section>
 
@@ -114,6 +112,22 @@
               </div>
             </div>
           </q-card-section>
+          <div
+            style="
+              position: absolute;
+              top: 182px;
+              right: 10px;
+              border: 1px solid #f90101;
+              border-radius: 5px;
+              box-shadow: 2px 1px 8px 3px rgba(0, 0, 0, 0.1);
+              color: #fff;
+              background-color: #f90101;
+            "
+            @click="clearSelect()"
+          >
+            清除
+          </div>
+
           <q-separator />
         </q-card>
       </q-expansion-item>
@@ -239,6 +253,12 @@ watchPostEffect(() => {
 function storeLocationId(id) {
   // console.log(id);
   LocalStorage.set("parkId", id);
+}
+function clearSelect() {
+  store.set_search("");
+  sel_radio.value = "";
+  selection.value = [];
+  store.set_search("");
 }
 </script>
 <style></style>

@@ -69,7 +69,10 @@ function initMap() {
       // label: location.title,
       // title: location.name,
       map: map,
-      icon: "https://maps.google.com/mapfiles/kml/pal2/icon4.png",
+      icon: {
+        url: "https://maps.google.com/mapfiles/kml/pal2/icon4.png",
+        scaledSize: new google.maps.Size(40, 40),
+      },
     });
 
     //彈跳說明視窗
