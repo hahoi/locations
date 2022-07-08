@@ -173,14 +173,15 @@ export const locationStore = defineStore('locationStore', {
       this.locations = []
       try {
         const q = query(
-          // collection(getFirestore(), "FunParks"), orderBy("id", "desc"));
-          collection(getFirestore(), "FunParks"));
+          collection(getFirestore(), "FunParks"), orderBy("id", "desc"));
+        // collection(getFirestore(), "FunParks"));
         const qSnap = await getDocs(q);
         qSnap.forEach((doc) => {
           // this.funparks[doc.id] = doc.data() //物件
           this.locations.push({ id: doc.id, ...doc.data() }) //陣列
         });
-        console.log(this.locations)
+        // console.log(this.locations)
+        console.log("dataReady")
         this.locationDataReady = true;
       } catch (error) {
         console.error("Firestore 錯誤", error);

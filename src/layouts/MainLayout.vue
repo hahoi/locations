@@ -169,6 +169,10 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const leftDrawerOpen = ref(false);
+
+    //載入資料庫資料
+    reload();
+
     //---------- data ----------
     const data = reactive({
       // 顯示倒退按鈕
@@ -204,6 +208,7 @@ export default defineComponent({
 
     function reload() {
       //更新
+      store.set_dataReady(false);
       store.queryFunParks();
       // window.location.reload(true);
     }

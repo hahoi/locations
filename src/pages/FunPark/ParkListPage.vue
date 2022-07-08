@@ -123,8 +123,8 @@
       <!-- 關鍵字搜尋 -->
       <search class="q-ma-md full-width" />
 
-      <!-- List選項 -->
       <template v-if="store.locationDataReady">
+        <!-- List選項 -->
         <q-list bordered separator>
           <q-infinite-scroll @load="loadMore" :offset="500">
             <div v-for="(item, key) in showingData" :key="key">
@@ -133,7 +133,7 @@
                 v-ripple
                 :to="{ name: 'showPark', params: { parkId: item.id } }"
               >
-                <q-item-section>
+                <q-item-section @click="storeLocationId(item.id)">
                   <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
                   <q-item-label class="text-body1 text-grey">{{
                     item.縣市
@@ -177,10 +177,12 @@
 import { ref, reactive, computed, toRefs, watchEffect } from "vue";
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
+import { LocalStorage, Loading, extend } from "quasar";
 
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
-store.queryFunParks();
+// store.set_dataReady(false);
+// store.queryFunParks();
 // const locations = computed(() => store.locationsFilteredArray); // 響應式
 let rating = ref(0);
 let area = ref(0);
@@ -224,5 +226,9 @@ watchEffect(() => {
   let stext = selection.value.toString().replaceAll(",", " ");
   store.set_search(stext);
 });
+function storeLocationId(id) {
+  // console.log(id);
+  LocalStorage.set("parkId", id);
+}
 </script>
 <style></style>
