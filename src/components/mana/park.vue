@@ -179,6 +179,14 @@ const park = props.location || restore;
 
 // 存檔 pinia 記憶體部分不用存檔，存到firebase 即可
 function editSave() {
+  // /更新前 段落 陣列需先排序
+  park.段落.sort((a, b) => {
+    // (小) 排在前面
+    if (a.排序 > b.排序) return 1;
+    else if (a.排序 < b.排序) return -1;
+    else return 0;
+  });
+  // console.log(park);
   const payload = {
     id: park.id,
     data: park,

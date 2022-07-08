@@ -122,12 +122,12 @@ async function factoryFn2(files) {
   let storageInfo = await store.uploadPhoto(payload);
   data.message.照片.url = storageInfo.url;
   data.message.照片.findKey = storageInfo.findKey;
-  console.log("段落", park.段落);
+  // console.log("段落", park.段落);
 }
 
 // 刪除item 資料
 function delItem(index) {
-  console.log(park.段落[index]);
+  // console.log(park.段落[index]);
   // 刪除storage上的照片
   // console.log(park.段落[index].照片.findKey);
   storageImgDelete(park.段落[index].照片.findKey);
@@ -159,7 +159,7 @@ function editSave(key) {
     else if (a.排序 < b.排序) return -1;
     else return 0;
   });
-  console.log("段落", park.段落);
+  // console.log("段落", park.段落);
 
   dialogMessage.value = false;
   const payload = {
@@ -174,7 +174,7 @@ async function onMediaFileSelected(event) {
   event.preventDefault();
   var file = event.target.files[0];
   let fileName = file.name;
-  console.log(file);
+  // console.log(file);
   if (!file.type.match("image.*")) {
     return;
   }
@@ -192,7 +192,7 @@ async function onMediaFileSelected(event) {
 const LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif?a";
 
 async function saveImageMessage(fileName, file) {
-  console.log(data.key, park.段落[data.key]);
+  // console.log(data.key, park.段落[data.key]);
   // 內容: ""
   // 排序: "2"
   // 標題: ""

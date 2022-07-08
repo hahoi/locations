@@ -334,7 +334,7 @@ export const locationStore = defineStore('locationStore', {
           // this.funparks[doc.id] = doc.data() //物件
           this.locations.push({ id: doc.id, ...doc.data() }) //陣列
         });
-        console.log(this.locations)
+        // console.log(this.locations)
       } catch (error) {
         console.error("Firestore 錯誤", error);
       }
@@ -342,7 +342,7 @@ export const locationStore = defineStore('locationStore', {
 
     // 存入資料
     async saveFunpark (payload) {
-      console.log(payload.data)
+      // console.log(payload.data)
       Notify.create({
         type: 'positive',
         message: '資料存檔中...',
@@ -360,7 +360,7 @@ export const locationStore = defineStore('locationStore', {
 
     // 更新資料
     async updateFunpark (payload) {
-      console.log(payload.data)
+      // console.log(payload.data)
       Notify.create({
         type: 'positive',
         message: '資料存檔中...',
@@ -378,12 +378,12 @@ export const locationStore = defineStore('locationStore', {
       try {
         // //如果已經有圖檔，因為只要一個，所以要先刪除
         const findKey = "/FunParks/" + payload.id + "/" + payload.files[0].name;
-        console.log(findKey);
+        // console.log(findKey);
         const newImageRef = StorageRef(getStorage(), findKey);
         const fileSnapshot = await uploadBytes(newImageRef, payload.files);
         // 3 - Generate a public URL for the file.
         const publicImageUrl = await getDownloadURL(newImageRef);
-        console.log(publicImageUrl)
+        // console.log(publicImageUrl)
         return {
           findKey: findKey,
           url: publicImageUrl

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="q-ma-md">
+      <CMap :locations="locations" :center="center"></CMap>
+    </div>
     <template
       v-if="location.便利商店"
       v-for="(item, key) in location.便利商店"
@@ -24,9 +27,6 @@
         </q-card-section>
       </q-card>
     </template>
-    <div class="q-ma-md">
-      <CMap :locations="locations" :center="center"></CMap>
-    </div>
   </div>
 </template>
 <script setup>
@@ -44,13 +44,13 @@ const id = route.params.parkId;
 const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
 
-console.log(location);
+// console.log(location);
 const iconBase = "https://maps.google.com/mapfiles/kml/pal2/";
 // 用公園當中心點
 const center = {
   lat: location.lat,
   lng: location.lng,
-  zoom: 13,
+  zoom: 14,
 };
 // 先把公園當作一個點位
 const locations = [

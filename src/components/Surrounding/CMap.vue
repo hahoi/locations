@@ -83,6 +83,7 @@ onMounted(() => {
 <style>
 #map {
   width: 100%;
-  height: calc(100vh - 126px);
+  /* height: calc(100vh - 126px); */
+  height: calc(60vh);
 }
 </style>

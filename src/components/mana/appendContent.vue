@@ -173,7 +173,6 @@ async function factoryFn2(files) {
 }
 // 存入資料庫
 async function addSave() {
-  console.log(park);
   // 新增段落的內容
   park.段落.push(data.message);
   park.段落.sort((a, b) => {
@@ -182,7 +181,7 @@ async function addSave() {
     else if (a.排序 < b.排序) return -1;
     else return 0;
   });
-  console.log("段落", park.段落);
+  // console.log("段落", park.段落);
   showSaveBtnMsg.value = false;
 
   const payload = {

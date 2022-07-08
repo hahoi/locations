@@ -171,7 +171,7 @@ const showSaveBtnMsg = ref(false);
 
 function appendItem() {
   park.廁所.push(extend(true, {}, blank));
-  console.log(park.廁所);
+  // console.log(park.廁所);
 }
 
 // 刪除item 資料
@@ -191,7 +191,7 @@ function delImg(key, index) {
 
 function storageImgDelete(findKey) {
   const storage = getStorage();
-  console.log(findKey);
+  // console.log(findKey);
 
   const desertRef = StorageRef(storage, findKey);
 
@@ -211,7 +211,7 @@ async function SaveToDB() {
     id: park.id,
     data: park,
   };
-  console.log(payload);
+  // console.log(payload);
   await store.saveFunpark(payload);
 }
 
@@ -247,7 +247,7 @@ async function saveImageMessage(fileName, file) {
 
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
-    console.log(message, data.key, park.廁所[data.key]);
+    // console.log(message, data.key, park.廁所[data.key]);
     // 很多張照片，用array
     const image = {
       url: publicImageUrl,
