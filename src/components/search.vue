@@ -36,3 +36,8 @@ const searchField = computed({
   },
 });
 </script>
+<style>
+button.q-icon.notranslate.material-icons.q-field__focusable-action {
+  color: red;
+}
+</style>

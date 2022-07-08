@@ -130,13 +130,15 @@ function delItem(index) {
   // console.log(park.段落[index]);
   // 刪除storage上的照片
   // console.log(park.段落[index].照片.findKey);
-  storageImgDelete(park.段落[index].照片.findKey);
+  if (park.段落[index].照片) {
+    storageImgDelete(park.段落[index].照片.findKey);
+  }
   park.段落.splice(index, 1); // 通过splice 删除数据
 }
 
 function storageImgDelete(findKey) {
   const storage = getStorage();
-  // console.log(findKey);
+  console.log(findKey);
 
   const desertRef = StorageRef(storage, findKey);
 

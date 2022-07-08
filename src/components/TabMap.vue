@@ -78,8 +78,8 @@ function initMap() {
           <div id="content">
             <p class="text-h6 text-brown">${location.名稱}</p>
           </div>
+          <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
         `,
-      // <a href="${location.naveUrl}" target="_blank"><span class="text-h6">導航</span></a>
       maxWidth: 200,
     });
 

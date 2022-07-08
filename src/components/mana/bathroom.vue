@@ -177,9 +177,12 @@ function appendItem() {
 // 刪除item 資料
 function delItem(index) {
   // 刪除storage上的照片
-  park.廁所[index].照片.forEach((element) => {
-    storageImgDelete(element.findKey);
-  });
+  if (park.廁所[index].照片) {
+    park.廁所[index].照片.forEach((element) => {
+      storageImgDelete(element.findKey);
+    });
+  }
+
   park.廁所.splice(index, 1); // 通过splice 删除数据
 }
 function delImg(key, index) {

@@ -177,9 +177,11 @@ function appendItem() {
 // 刪除item 資料
 function delItem(index) {
   // 刪除storage上的照片
-  park.停車場[index].照片.forEach((element) => {
-    storageImgDelete(element.findKey);
-  });
+  if (park.停車場[index].照片) {
+    park.停車場[index].照片.forEach((element) => {
+      storageImgDelete(element.findKey);
+    });
+  }
   park.停車場.splice(index, 1); // 通过splice 删除数据
 }
 function delImg(key, index) {
@@ -247,7 +249,7 @@ async function saveImageMessage(fileName, file) {
 
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
-    // console.log(message, data.key, park.停車場[data.key]);
+    console.log(message, data.key, park.停車場[data.key]);
     // 很多張照片，用array
     const image = {
       url: publicImageUrl,

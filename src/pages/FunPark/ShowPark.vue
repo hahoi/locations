@@ -9,7 +9,7 @@
               class="text-h5 text-center q-ma-md"
               v-html="matchLocation.名稱"
             ></div>
-            <div style="width: 30px">
+            <div style="width: 30px" @click="showMap()">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 232597 333333"
@@ -251,6 +251,11 @@ const matchLocation = computed(() => {
   }
   return task;
 });
+function showMap() {
+  // console.log(location.id);
+  store.set_search(location.id);
+  router.push("/FunPark/map");
+}
 
 function previewImgObject(url) {
   // console.log([url]);

@@ -10,29 +10,27 @@
       >
         <q-card class="bg-brown-1 text-black text-body1">
           <q-card-section>
-            <div class="q-gutter-sm">
-              <q-checkbox
-                v-model="selection"
+            <div class="q-gutter-sm" style="position: relative">
+              <q-radio
+                v-model="sel_radio"
                 val="屏東縣"
                 label="屏東縣"
                 color="teal"
               />
-              <q-checkbox
-                v-model="selection"
+              <q-radio
+                v-model="sel_radio"
                 val="台南市"
                 label="台南市"
                 color="teal"
               />
-              <q-checkbox
-                v-model="selection"
+              <q-radio
+                v-model="sel_radio"
                 val="台北市"
                 label="台北市"
                 color="teal"
               />
-            </div>
 
-            <div class="q-px-sm">
-              <!-- {{ selectionText }} -->
+              <div style="position: absolute; top: 5px; right: 10px">清除</div>
             </div>
           </q-card-section>
 
@@ -174,7 +172,15 @@
   </q-page>
 </template>
 <script setup>
-import { ref, reactive, computed, toRefs, watchEffect } from "vue";
+import {
+  ref,
+  reactive,
+  computed,
+  toRefs,
+  watch,
+  watchEffect,
+  watchPostEffect,
+} from "vue";
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
 import { LocalStorage, Loading, extend } from "quasar";
@@ -213,6 +219,7 @@ function done(timer) {
 }
 
 const selection = ref([]);
+const sel_radio = ref("");
 // let selectionText = computed(() => {
 // 如果 template 中沒有把{{selectionText}}顯示出來，就不會作動。改watchEffect
 //   let stext = selection.value.toString().replaceAll(",", " ");
@@ -221,11 +228,14 @@ const selection = ref([]);
 // });
 
 //用誰就觀察誰，觀察值變化，執行函數
-watchEffect(() => {
+watchPostEffect(() => {
   //執行函數( 觀察值)
-  let stext = selection.value.toString().replaceAll(",", " ");
+  let stext =
+    sel_radio.value + " " + selection.value.toString().replaceAll(",", " ");
   store.set_search(stext);
 });
+
+// 將id 存入storeLocation中，重整時讀出
 function storeLocationId(id) {
   // console.log(id);
   LocalStorage.set("parkId", id);
