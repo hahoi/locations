@@ -55,7 +55,7 @@
   </q-page>
 </template>
 <script setup>
-import { ref, reactive, computed, toRefs, watchEffect } from "vue";
+import { ref, reactive, computed, toRefs, watchEffect, onMounted } from "vue";
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
 import { LocalStorage, Loading, extend, useQuasar } from "quasar";
@@ -114,14 +114,21 @@ function storeLocationId(id) {
   // console.log(id);
   LocalStorage.set("parkId", id);
 }
-prompt();
+onMounted(async () => {
+  Authority.value = (await LocalStorage.getItem("Authority")) || false;
+
+  if (!Authority.value) {
+    prompt();
+  }
+});
+
 function prompt() {
   $q.dialog({
     title: "請輸入編輯密碼",
     message: "",
     prompt: {
       model: "",
-      isValid: (val) => val.length > 2, // << here is the magic
+      // isValid: (val) => val.length > 2, // << here is the magic
       cancel: false,
       type: "text", // optional
     },
@@ -131,6 +138,9 @@ function prompt() {
     .onOk((data) => {
       if (data === "20220708") {
         Authority.value = true;
+        LocalStorage.set("Authority", Authority.value);
+      } else {
+        LocalStorage.set("Authority", false);
       }
     })
     .onCancel(() => {})

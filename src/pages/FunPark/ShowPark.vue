@@ -78,18 +78,18 @@
           </q-card-section>
 
           <q-card-section class="row q-pt-none">
-            <div
-              class="text-subtitle1 col-sm-6 col-xs-12"
-              v-html="item.內容"
-            ></div>
+            <div class="text-subtitle1 col-sm-6 col-xs-12">
+              <div class="q-mr-md" v-html="item.內容"></div>
+            </div>
             <div class="col-sm-6 col-xs-12">
               <q-img
                 contain
                 spinner-color="white"
                 :src="item.照片.url"
                 @click="previewImgObject(item.照片.url)"
-                style="border-radius: 3%/5%; max-width: 300px"
+                style="border-radius: 3%/5%"
               >
+                <!-- max-width: 300px -->
                 <div
                   class="absolute-bottom-left text-subtitle2"
                   v-if="item.照片.簡介 != ''"
@@ -170,7 +170,7 @@ const id = route.params.parkId || LocalStorage.getItem("parkId");
 // console.log("showPark id", id);
 const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
-// console.log("location data", location);
+console.log("location data", location);
 
 // 設定fab縮起來
 const fab1 = ref(false);

@@ -144,7 +144,11 @@
                 clickable
                 v-ripple
                 :to="{ name: 'showPark', params: { parkId: item.id } }"
-              >
+                ><q-item-section thumbnail v-if="item.段落[0]">
+                  <div v-if="item.段落[0].照片.url">
+                    <img :src="item.段落[0].照片.url" />
+                  </div>
+                </q-item-section>
                 <q-item-section @click="storeLocationId(item.id)">
                   <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
                   <q-item-label class="text-body1 text-grey">{{

@@ -179,6 +179,9 @@ const park = props.location || restore;
 
 // 存檔 pinia 記憶體部分不用存檔，存到firebase 即可
 function editSave() {
+  // lat,lng 轉換 string -> Number，因從 open data json 資料匯入是 Number
+  park.lat = Number(park.lat);
+  park.lng = Number(park.lng);
   // /更新前 段落 陣列需先排序
   park.段落.sort((a, b) => {
     // (小) 排在前面

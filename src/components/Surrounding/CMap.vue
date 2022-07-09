@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="">
-    <div id="map" ref="mapref"></div>
+    <div id="map2" ref="mapref2"></div>
   </div>
 </template>
 
@@ -15,12 +15,12 @@ const props = defineProps({
   locations: Array,
 });
 
-const mapref = ref(null);
-let map;
+const mapref2 = ref(null);
+let map2;
 let info_window = null;
 
 function initMap() {
-  map = new google.maps.Map(mapref.value, {
+  map2 = new google.maps.Map(mapref2.value, {
     center: new google.maps.LatLng(props.center.lat, props.center.lng),
     zoom: props.center.zoom,
   });
@@ -47,8 +47,9 @@ function initMap() {
     const marker = new google.maps.Marker({
       position: location.position,
       label: location.標題,
-      map: map,
+      map: map2,
       icon: location.icon,
+      labelClass: "labels",
     });
 
     //彈跳說明視窗
@@ -66,7 +67,7 @@ function initMap() {
       // 如果目前有開啟中的訊息視窗，先將其關閉
       if (info_window) info_window.close();
       // 顯示被點擊地標的訊息視窗
-      infowindow.open(map, marker);
+      infowindow.open(map2, marker);
       // 存入目前開啟的訊息視窗
       info_window = infowindow;
     });
@@ -81,9 +82,12 @@ onMounted(() => {
 });
 </script>
 <style>
-#map {
+#map2 {
   width: 100%;
   /* height: calc(100vh - 126px); */
   height: calc(60vh);
+}
+.labels {
+  color: red;
 }
 </style>

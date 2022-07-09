@@ -69,7 +69,7 @@ if (location.便利商店 !== undefined) {
   location.便利商店.forEach((element) => {
     const data = {
       標題: element.標題,
-      position: new google.maps.LatLng(element.lat, element.lng),
+      position: new google.maps.LatLng(element.lat, element.lng), // lat,lng 字串格式
       icon: {
         url: iconBase + "icon19.png",
         scaledSize: new google.maps.Size(50, 50),

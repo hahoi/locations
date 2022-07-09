@@ -146,7 +146,7 @@ module.exports = configure(function (ctx) {
       manifest: {
         name: `funpark`,
         short_name: `funpark`,
-        description: `A Quasar Project`,
+        description: `funpark`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

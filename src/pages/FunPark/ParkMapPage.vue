@@ -6,11 +6,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, toRefs, computed } from "vue";
+import { ref, reactive, toRefs, computed, onMounted } from "vue";
 import { locationStore } from "stores/location";
+
 import TabMap from "src/components/TabMap";
 
 const store = locationStore();
 const locationsFilteredArray = store.locationsFilteredArray;
+onMounted(() => {});
 </script>
 <style></style>
