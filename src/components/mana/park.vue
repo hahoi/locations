@@ -143,9 +143,15 @@
             </div>
           </q-form>
         </q-card-section>
-        <q-card-actions class="row justify-center">
+        <q-card-actions class="row justify-around">
           <q-btn
-            class="bg-positive"
+            class="bg-negative text-white q-ma-md"
+            label="刪除公園所有資料"
+            style="width: 200px; font-size: 18px"
+            @click="deletePark()"
+          ></q-btn>
+          <q-btn
+            class="bg-positive q-ma-xs"
             label="存 檔"
             style="width: 200px; font-size: 18px"
             @click="editSave()"
@@ -163,8 +169,9 @@
 <script setup>
 import { onMounted, computed, reactive, ref, toRefs, watchEffect } from "vue";
 import { locationStore } from "stores/location";
-import { LocalStorage, Loading, extend } from "quasar";
+import { LocalStorage, Loading, extend, useQuasar } from "quasar";
 
+const $q = useQuasar();
 const props = defineProps({
   location: Object,
 });
@@ -195,5 +202,26 @@ function editSave() {
     data: park,
   };
   store.saveFunpark(payload);
+}
+
+function deletePark() {
+  $q.dialog({
+    title: "確定要刪除此公園全部資料？請輸入下面的公園名稱",
+    message: park.id,
+    prompt: {
+      model: "",
+      type: "text", // optional
+    },
+    cancel: true,
+    persistent: true,
+  })
+    .onOk((data) => {
+      if (data === park.id) {
+        alert("此功能稍後開發.....");
+      } else {
+      }
+    })
+    .onCancel(() => {})
+    .onDismiss(() => {});
 }
 </script>

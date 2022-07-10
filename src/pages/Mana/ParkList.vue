@@ -52,6 +52,42 @@
         <q-btn fab icon="keyboard_arrow_up" color="grey-13" size="sm" />
       </q-page-scroller>
     </div>
+    <q-page-sticky position="top-right" :scroll-offset="0" :offset="[18, 48]">
+      <div class="flex justify-end">
+        <!-- 新增按鈕 -->
+        <q-btn
+          fab
+          icon="add"
+          color="info"
+          @click="dialogAdd = true"
+          size="sm"
+          class="q-my-xs"
+        />
+      </div>
+    </q-page-sticky>
+    <!-- 新增資料視窗============================== -->
+    <q-dialog
+      v-model="dialogAdd"
+      :maximized="true"
+      persistent
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card class="bg-grey-1 text-white">
+        <q-bar>
+          <q-btn flat icon="close" v-close-popup class="bg-black text-white"
+            >離開
+            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+          <q-space />
+        </q-bar>
+
+        <q-card-section>
+          <!-- 新增資料元件 -->
+          <addPark />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script setup>
@@ -60,6 +96,7 @@ import { locationStore } from "stores/location";
 import Search from "src/components/search";
 import { LocalStorage, Loading, extend, useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import addPark from "src/pages/mana/addPark";
 
 const router = useRouter();
 
@@ -70,6 +107,7 @@ const store = locationStore();
 const rating = ref(0);
 const area = ref(0);
 const Authority = ref(false);
+const dialogAdd = ref(false);
 
 // 捲動分頁載入
 const timer = null;
@@ -114,6 +152,7 @@ function storeLocationId(id) {
   // console.log(id);
   LocalStorage.set("parkId", id);
 }
+
 onMounted(async () => {
   Authority.value = (await LocalStorage.getItem("Authority")) || false;
 

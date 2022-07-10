@@ -13,12 +13,12 @@ const routes = [
         component: () => import('src/pages/Mana/index.vue'),
         children: [
           { path: '', component: () => import('pages/Mana/parkList.vue') },
+          { path: 'list', component: () => import('pages/Mana/parkList.vue') },
           {
             path: 'edit/:parkId',
             name: 'edit',
             component: () => import('pages/Mana/edit.vue')
           },
-
         ]
       },
       {

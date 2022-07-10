@@ -170,7 +170,7 @@ const id = route.params.parkId || LocalStorage.getItem("parkId");
 // console.log("showPark id", id);
 const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
-console.log("location data", location);
+// console.log("location data", location);
 
 // 設定fab縮起來
 const fab1 = ref(false);

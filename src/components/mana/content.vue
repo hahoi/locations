@@ -138,7 +138,7 @@ function delItem(index) {
 
 function storageImgDelete(findKey) {
   const storage = getStorage();
-  console.log(findKey);
+  // console.log(findKey);
 
   const desertRef = StorageRef(storage, findKey);
 

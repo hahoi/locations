@@ -193,7 +193,7 @@ function delImg(key, index) {
 
 function storageImgDelete(findKey) {
   const storage = getStorage();
-  console.log(findKey);
+  // console.log(findKey);
 
   const desertRef = StorageRef(storage, findKey);
 
@@ -249,7 +249,7 @@ async function saveImageMessage(fileName, file) {
 
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
-    console.log(message, data.key, park.停車場[data.key]);
+    // console.log(message, data.key, park.停車場[data.key]);
     // 很多張照片，用array
     const image = {
       url: publicImageUrl,
