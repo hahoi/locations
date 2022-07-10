@@ -27,9 +27,11 @@ import {
 
 import {
   getStorage,
-  ref as StorageRef, uploadBytes,
+  ref as StorageRef,
+  uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 const firebaseApp = initializeApp(getFirebaseConfig());
@@ -190,6 +192,80 @@ export const locationStore = defineStore('locationStore', {
       } catch (error) {
         console.error("Firestore 錯誤", error);
       }
+    },
+    //刪除資料
+    async deleteFuncPark (id) {
+      Notify.create({
+        type: 'positive',
+        message: '資料刪除中...',
+        position: "center",
+        timeout: 1000,
+      })
+      try {
+        const park = this.locations.find((item) => id == item.id);
+        // console.log(park, park.id, id)
+        // 將 storage中檔案刪除
+        park.段落.forEach(item => {
+          if (item.照片) {
+            // 段落只有一張照片，不須循環
+            // console.log(item.照片.findKey)
+            this.storageImgDelete(item.照片.findKey);
+          }
+        })
+        park.廁所.forEach(item => {
+          if (item.照片) {
+            item.照片.forEach(elm => {
+              // console.log(elm.findKey)
+              this.storageImgDelete(elm.findKey);
+            })
+          }
+        })
+        park.停車場.forEach(item => {
+          if (item.照片) {
+            item.照片.forEach(elm => {
+              // console.log(elm.findKey)
+              this.storageImgDelete(elm.findKey);
+            })
+          }
+        })
+        park.附近美食.forEach(item => {
+          if (item.照片) {
+            item.照片.forEach(elm => {
+              // console.log(elm.findKey)
+              this.storageImgDelete(elm.findKey);
+            })
+          }
+        })
+        park.便利商店.forEach(item => {
+          if (item.照片) {
+            item.照片.forEach(elm => {
+              // console.log(elm.findKey)
+              this.storageImgDelete(elm.findKey);
+            })
+          }
+        })
+        // 刪除資料庫
+        await deleteDoc(doc(getFirestore(), "FunParks", id));
+        //重新讀取資料庫
+        this.queryFunParks()
+      } catch (error) {
+        console.error("firebase 有錯誤發生", error);
+      }
+
+    },
+    // 將 storage中檔案刪除
+    storageImgDelete (findKey) {
+      const storage = getStorage();
+      // console.log(findKey);
+      const desertRef = StorageRef(storage, findKey);
+      // Delete the file
+      deleteObject(desertRef)
+        .then(() => {
+          console.log("檔案刪除成功！");
+        })
+        .catch((error) => {
+          console.log("錯誤發生");
+        });
     },
 
     // 存入資料

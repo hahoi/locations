@@ -16,7 +16,7 @@
         class="q-mt-xl cursor-pointer bg-blue-grey-1"
         style="width: 100%; max-width: 800px"
       >
-        <q-card-section class="q-mt-xl">
+        <q-card-section class="row justify-end">
           <q-btn label="刪除" @click="delItem(key)"></q-btn>
         </q-card-section>
         <q-card-section class="">

@@ -1,5 +1,16 @@
 <template>
   <q-page style="z-index: 1; max-width: 800px">
+    <div class="">
+      <!-- 新增按鈕 -->
+      <q-btn
+        fab
+        color="info"
+        size="xs"
+        @click="dialogAdd = true"
+        label="新增公園"
+        class="q-ma-md text-h6 full-width"
+      />
+    </div>
     <div class="q-ma-md" v-if="Authority">
       <!-- 關鍵字搜尋 -->
       <search class="q-ma-md full-width" />
@@ -52,19 +63,7 @@
         <q-btn fab icon="keyboard_arrow_up" color="grey-13" size="sm" />
       </q-page-scroller>
     </div>
-    <q-page-sticky position="top-right" :scroll-offset="0" :offset="[18, 48]">
-      <div class="flex justify-end">
-        <!-- 新增按鈕 -->
-        <q-btn
-          fab
-          icon="add"
-          color="info"
-          @click="dialogAdd = true"
-          size="sm"
-          class="q-my-xs"
-        />
-      </div>
-    </q-page-sticky>
+
     <!-- 新增資料視窗============================== -->
     <q-dialog
       v-model="dialogAdd"

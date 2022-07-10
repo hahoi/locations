@@ -2,6 +2,9 @@
   <div>
     <template v-if="store.locationDataReady">
       <q-card flat class="bg-grey-11">
+        <q-card-section class="row justify-end">
+          <q-btn label="刪除公園所有資料" @click="deletePark()"></q-btn>
+        </q-card-section>
         <q-card-section>
           <q-form ref="form">
             <div class="q-ma-md row items-start">
@@ -145,12 +148,6 @@
         </q-card-section>
         <q-card-actions class="row justify-around">
           <q-btn
-            class="bg-negative text-white q-ma-md"
-            label="刪除公園所有資料"
-            style="width: 200px; font-size: 18px"
-            @click="deletePark()"
-          ></q-btn>
-          <q-btn
             class="bg-positive q-ma-xs"
             label="存 檔"
             style="width: 200px; font-size: 18px"
@@ -167,10 +164,12 @@
   </div>
 </template>
 <script setup>
+import { useRouter, useRoute } from "vue-router";
 import { onMounted, computed, reactive, ref, toRefs, watchEffect } from "vue";
 import { locationStore } from "stores/location";
 import { LocalStorage, Loading, extend, useQuasar } from "quasar";
 
+const router = useRouter();
 const $q = useQuasar();
 const props = defineProps({
   location: Object,
@@ -217,7 +216,11 @@ function deletePark() {
   })
     .onOk((data) => {
       if (data === park.id) {
-        alert("此功能稍後開發.....");
+        // console.log(park.id);
+        store.deleteFuncPark(park.id);
+        // 將資料庫刪除
+        // 將 storage中檔案刪除
+        router.back();
       } else {
       }
     })

@@ -19,7 +19,7 @@
           <q-input
             ref="ref2"
             v-model="park.名稱"
-            label="名稱"
+            label="公園名稱"
             class="full-width text-h6"
             :rules="[(val) => !!val || '不能空白，必填']"
           >
@@ -30,7 +30,13 @@
         </div>
       </q-card-section>
       <q-card-actions vertical>
-        <q-btn class="bg-positive" label="存檔" @click="addParkSave"></q-btn>
+        <!-- 關閉彈出視窗 -->
+        <q-btn
+          class="bg-positive"
+          label="存檔"
+          @click="addParkSave"
+          v-close-popup
+        ></q-btn>
       </q-card-actions>
     </q-card>
   </div>
