@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="store.locationDataReady">
     <div class="q-ma-md">
       <CMap :locations="locations" :center="center"></CMap>
     </div>
@@ -45,6 +45,10 @@ const route = useRoute();
 const id = route.params.parkId;
 const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
+
+if (!store.locationDataReady) {
+  router.push("/");
+}
 
 // console.log(location);
 const iconBase = "https://maps.google.com/mapfiles/kml/pal2/";

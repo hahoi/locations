@@ -172,6 +172,10 @@ const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
 // console.log("location data", location);
 
+if (!store.locationDataReady) {
+  router.push("/");
+}
+
 // 設定fab縮起來
 const fab1 = ref(false);
 const hideLabels = ref(false);

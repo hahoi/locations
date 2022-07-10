@@ -41,6 +41,7 @@ export const locationStore = defineStore('locationStore', {
     search: "",
     currentID: "",
     locationDataReady: false,
+    normalRouter: null,
   }),
 
   getters: {
@@ -153,6 +154,9 @@ export const locationStore = defineStore('locationStore', {
   },
 
   actions: {
+    set_normalRouter (val) {
+      this.normalRouter = val
+    },
     increment () {
       this.counter++
     },
