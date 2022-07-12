@@ -80,18 +80,29 @@ function initMap() {
       return;
     }
     if (!location.lat || !location.lng) {
-      console.log(location.id, location.lat, location.lng);
+      // console.log(location.id, location.lat, location.lng);
       return;
     }
     //彈跳說明視窗
-    const infowindow = new google.maps.InfoWindow({
-      content: `
+    let content = "";
+    if (location.navi) {
+      content = `
+          <div id="content">
+            <p class="text-h6 text-brown">${location.名稱}</p>
+          <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
+          </div>
+        `;
+    } else {
+      content = `
           <div id="content">
             <p class="text-h6 text-brown">${location.名稱}</p>
           </div>
-          <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
-        `,
-      maxWidth: 200,
+        `;
+    }
+
+    const infowindow = new google.maps.InfoWindow({
+      content: content,
+      maxWidth: 300,
     });
 
     marker.addListener("click", () => {

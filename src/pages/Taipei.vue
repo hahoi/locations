@@ -1,7 +1,10 @@
 <script setup>
 import Taipei from "../assets/Taipei";
+import 台北市公廁 from "../assets/台北市公廁";
 
 import Pingtung from "../assets/Pingtung";
+
+// console.log(台北市公廁);
 
 const TaipeiMap = Taipei.map((item) => {
   const data = {
@@ -44,22 +47,51 @@ const TaipeiMap = Taipei.map((item) => {
 // Col22: 280
 // Col23: ""
 // Col24: "彈跳床,搖滾盤,攀爬組,磨石滑梯"
-console.log(TaipeiMap);
+// console.log(TaipeiMap);
 
-// 轉換成陣列
-const PingtungMap = Object.keys(Pingtung).map((key) => {
-  const data = {
-    名稱: Pingtung[key].name,
-    簡介: Pingtung[key].Introduction,
-    lng: Pingtung[key].lng,
-    lat: Pingtung[key].lat,
-    設施: "",
-    縣市: "屏東縣",
-    座落位置: "",
-  };
-  return data;
+TaipeiMap.forEach((item) => {
+  // if (item.名稱 === "丹鳳公園") {
+  台北市公廁.forEach((elm) => {
+    let dis = GetDistance(item.lat, item.lng, elm.緯度, elm.經度);
+
+    if (dis <= 0.5) {
+      // console.log(item, elm.緯度, elm.經度);
+      // console.log(elm.公廁名稱, dis, elm.緯度, ",", elm.經度);
+      item.附近廁所 = [];
+      item.附近廁所.push({
+        公廁名稱: elm.公廁名稱,
+        距離: dis * 1000,
+        lat: elm.緯度,
+        lng: elm.經度,
+      });
+      // console.log(item);
+    }
+  });
+  // }
 });
-console.log(PingtungMap);
+
+// 方法定义 lat,lng
+function GetDistance(lat1, lng1, lat2, lng2) {
+  var radLat1 = (lat1 * Math.PI) / 180.0;
+  var radLat2 = (lat2 * Math.PI) / 180.0;
+  var a = radLat1 - radLat2;
+  var b = (lng1 * Math.PI) / 180.0 - (lng2 * Math.PI) / 180.0;
+  var s =
+    2 *
+    Math.asin(
+      Math.sqrt(
+        Math.pow(Math.sin(a / 2), 2) +
+          Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)
+      )
+    );
+  s = s * 6378.137; // EARTH_RADIUS; //公尺   //  6378.137 公里
+  // s = Math.round(s * 10000) / 10000;
+  s = Math.round(s * 10000) / 10000;
+  // s = s.toFixed(4);
+  return s;
+}
+// 调用 return的距离单位为km
+console.log(TaipeiMap);
 </script>
 
 <template>

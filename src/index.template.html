@@ -12,6 +12,11 @@
       content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>"
     />
 
+    <meta
+      name="google-site-verification"
+      content="R_hSiV12tJmh9mB37tPYPzZhdVMG2WZImgjIAd2GbdA"
+    />
+
     <link
       rel="icon"
       type="image/png"
@@ -52,8 +57,9 @@
     />
 
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIp6u_X-pnki-DLedgYWMPQskFSIrstaE"
+      async
       defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIp6u_X-pnki-DLedgYWMPQskFSIrstaE&callback=initMap"
     ></script>
   </head>
   <body>

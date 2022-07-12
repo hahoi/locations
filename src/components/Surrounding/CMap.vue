@@ -41,6 +41,7 @@ function initMap() {
   //     map: map,
   //   });
   // });
+  // console.log(props.locations);
 
   //建立多個地標
   const markers = props.locations.map((location, i) => {
@@ -53,13 +54,24 @@ function initMap() {
     });
 
     //彈跳說明視窗
-    const infowindow = new google.maps.InfoWindow({
-      content: `
+    let content = "";
+    if (location.navi) {
+      content = `
           <div id="content">
             <p class="text-h6 text-brown">${location.標題}</p>
           <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
           </div>
-        `,
+        `;
+    } else {
+      content = `
+          <div id="content">
+            <p class="text-h6 text-brown">${location.標題}</p>
+          </div>
+        `;
+    }
+
+    const infowindow = new google.maps.InfoWindow({
+      content: content,
       maxWidth: 300,
     });
 
