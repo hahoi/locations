@@ -34,6 +34,9 @@ module.exports = configure(function (ctx) {
       'app.sass'
     ],
 
+    // embedding all animations
+    animations: 'all',
+
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       'ionicons-v4',

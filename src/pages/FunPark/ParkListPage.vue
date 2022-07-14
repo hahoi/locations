@@ -94,6 +94,12 @@
                 label="放風箏"
                 color="Cyan"
               />
+              <q-checkbox
+                v-model="selection"
+                val="飲水機"
+                label="飲水機"
+                color="Cyan"
+              />
             </div>
           </q-card-section>
           <q-separator />
