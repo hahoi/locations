@@ -1,3 +1,8 @@
+<script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIp6u_X-pnki-DLedgYWMPQskFSIrstaE&libraries=places"
+    ></script>
 
 
 1. 在 .gitgnore 中加入
@@ -12,3 +17,8 @@
 
 quasar build
 firebase deploy --only hosting:funpark
+
+
+
+
+
