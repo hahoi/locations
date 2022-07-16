@@ -24,6 +24,7 @@ let center = {
   lng: 120.538236,
   zoom: 15,
 };
+const placeId = [];
 
 function initMap() {
   map2 = new google.maps.Map(mapref2.value, {
@@ -34,7 +35,7 @@ function initMap() {
   var request = {
     location: new google.maps.LatLng(center.lat, center.lng),
     radius: "800",
-    type: ["park"],
+    type: ["restaurant"],
   };
   const service = new google.maps.places.PlacesService(map2);
   service.nearbySearch(request, callback);
@@ -44,8 +45,43 @@ function initMap() {
       for (var i = 0; i < results.length; i++) {
         console.log(results[i]);
         // createMarker(results[i]);
+        placeId.push(results[i]);
       }
+      fetchPlaceDetails();
     }
+  }
+
+  function fetchPlaceDetails() {
+    const service = new google.maps.places.PlacesService(map2);
+    // service.getDetails(request, callback);
+    placeId.forEach((item) => {
+      var request = {
+        placeId: item.place_id,
+        fields: [
+          "name",
+          "types",
+          "geometry.location",
+          "formatted_address",
+          "photo",
+          "url",
+          "website",
+          "formatted_phone_number",
+          "opening_hours",
+          "rating",
+          "user_ratings_total",
+          "price_level",
+          "review",
+        ],
+      };
+      service.getDetails(request, callback);
+
+      function callback(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          console.log(place);
+          // createMarker(place);
+        }
+      }
+    });
   }
 
   /*

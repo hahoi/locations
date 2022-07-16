@@ -10,6 +10,7 @@ const routes = [
       // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
       { path: 'gmplace', component: () => import('pages/gmplace.vue') },
+      { path: 'gmres', component: () => import('src/components/Surrounding/gmPlaceRestaurant.vue') },
       {
         path: '/mana',
         component: () => import('src/pages/Mana/index.vue'),
