@@ -16,8 +16,18 @@
             </button>
           </div>
         </header>
+
         <div class="results">
-          <ul class="place-results-list"></ul>
+          <ul class="place-results-list">
+            列表顯示在這裡
+            <div v-for="(place, key) in data.places" :key="key">
+              <li class="place-result" ref="placeResult">
+                <button class="name" @click="myclick(place)">
+                  {{ place.name }}
+                </button>
+              </li>
+            </div>
+          </ul>
         </div>
         <button class="show-more-button sticky">
           <span>Show More</span>
@@ -28,7 +38,7 @@
           />
         </button>
       </div>
-      <div class="details-panel panel"></div>
+      <div class="details-panel panel">詳細資料顯示在這裡（預設隱藏）</div>
       <div class="map" ref="map"></div>
       <div class="photo-modal">
         <img alt="place photo" />
@@ -58,19 +68,220 @@
         />
       </svg>
     </div>
+
+    <div id="nd-place-results-tmpl" ref="ndplaceresultstmpl">
+      [ #each places 列表]
+      <div v-for="(name, key) in data.places" :key="key">
+        <li class="place-result">
+          <div class="text">
+            <button class="name">{{ name }}</button>
+            <div class="info">
+              [ #if rating ]
+              <span>[ rating ]</span>
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                alt="rating"
+                class="star-icon"
+              />
+              [ /if ] [ #if numReviews ]
+              <span>&nbsp;([ numReviews ])</span>
+              [ /if ] [ #if priceLevel ] &#183;&nbsp;<span
+                >[ #each dollarSigns ]$[ /each ]&nbsp;</span
+              >
+              [ /if ]
+            </div>
+            <div class="info">[ type ]</div>
+          </div>
+          <button
+            class="photo"
+            style="background-image: url([ photos.0.urlSmall ])"
+            aria-label="show photo in viewer"
+          ></button>
+        </li>
+      </div>
+      [ /each ]
+    </div>
+    <div id="nd-place-details-tmpl" ref="ndplacedetailstmpl">
+      <div class="navbar">
+        <button class="back-button">
+          <img
+            class="icon"
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/arrow_back/v11/24px.svg"
+            alt="back"
+          />
+          Back
+        </button>
+      </div>
+      <header>
+        <h2>[ name ]詳細資料</h2>
+        <div class="info">
+          [ #if rating ]
+          <span class="star-rating-numeric">[ rating ]</span>
+          <span>
+            [ #each fullStarIcons ]
+            <img
+              src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+              alt="full star"
+              class="star-icon"
+            />
+            [ /each ] [ #each halfStarIcons ]
+            <img
+              src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
+              alt="half star"
+              class="star-icon"
+            />
+            [ /each ] [ #each emptyStarIcons ]
+            <img
+              src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
+              alt="empty star"
+              class="star-icon"
+            />
+            [ /each ]
+          </span>
+          [ /if ] [ #if numReviews ]
+          <a href="[ url ]" target="_blank">[ numReviews ] reviews</a>
+          [ else ]
+          <a href="[ url ]" target="_blank">See on Google Maps</a>
+          [ /if ] [ #if priceLevel ] &#183;
+          <span class="price-dollars"> [ #each dollarSigns ]$[ /each ] </span>
+          [ /if ]
+        </div>
+        [ #if type ]
+        <div class="info">[ type ]</div>
+        [ /if ] [ #if duration ]
+        <div class="info">
+          <img
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
+            alt="car travel"
+            class="travel-icon"
+          />
+          <span>&nbsp;[ duration.text ]</span>
+        </div>
+        [ /if ]
+      </header>
+      <div class="section">
+        [ #if address ]
+        <div class="contact">
+          <img
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/place/v10/24px.svg"
+            alt="Address"
+            class="icon"
+          />
+          <div class="text">[ address ]</div>
+        </div>
+        [ /if ] [ #if website ]
+        <div class="contact">
+          <img
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/public/v10/24px.svg"
+            alt="Website"
+            class="icon"
+          />
+          <div class="text">
+            <a href="[ website ]" target="_blank">[ websiteDomain ]</a>
+          </div>
+        </div>
+        [ /if ] [ #if phoneNumber ]
+        <div class="contact">
+          <img
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/phone/v10/24px.svg"
+            alt="Phone number"
+            class="icon"
+          />
+          <div class="text">[ phoneNumber ]</div>
+        </div>
+        [ /if ] [ #if openingHours ]
+        <div class="contact">
+          <img
+            src="https://fonts.gstatic.com/s/i/googlematerialicons/schedule/v12/24px.svg"
+            alt="Opening hours"
+            class="icon"
+          />
+          <div class="text">
+            [ #each openingHours ]
+            <div>
+              <span class="weekday">[ days ]</span>
+              <span class="hours">[ hours ]</span>
+            </div>
+            [ /each ]
+          </div>
+        </div>
+        [ /if ]
+      </div>
+      [ #if photos ]
+      <div class="photos section">
+        [ #each photos ]
+        <button
+          class="photo"
+          style="background-image: url([ urlSmall ])"
+          aria-label="show photo in viewer"
+        ></button>
+        [ /each ]
+      </div>
+      [ /if ] [ #if reviews ]
+      <div class="reviews section">
+        <p class="attribution">Reviews by Google users</p>
+        [ #each reviews ]
+        <div class="review">
+          <a class="reviewer-identity" href="[ author_url ]" target="_blank">
+            <div
+              class="reviewer-avatar"
+              style="background-image: url([ profile_photo_url ])"
+            ></div>
+            <div class="reviewer-name">[ author_name ]</div>
+          </a>
+          <div class="rating info">
+            <span>
+              [ #each fullStarIcons ]
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                alt="full star"
+                class="star-icon"
+              />
+              [ /each ] [ #each halfStarIcons ]
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
+                alt="half star"
+                class="star-icon"
+              />
+              [ /each ] [ #each emptyStarIcons ]
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
+                alt="empty star"
+                class="star-icon"
+              />
+              [ /each ]
+            </span>
+            <span class="review-time">[ relative_time_description ]</span>
+          </div>
+          <div class="info">[ text ]</div>
+        </div>
+        [ /each ]
+      </div>
+      [ /if ] [ #if html_attributions ]
+      <div class="section">
+        [ #each html_attributions ]
+        <p class="attribution">[ {this ]}</p>
+        [ /each ]
+      </div>
+      [ /if ]
+    </div>
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
-
+import { ref, reactive, onMounted } from "vue";
+const data = reactive({
+  places: [],
+});
 /** Hides a DOM element and optionally focuses on focusEl. */
 function hideElement(el, focusEl) {
+  // console.log("hide", el, focusEl);
   el.style.display = "none";
   if (focusEl) focusEl.focus();
 }
 
 /** Shows a DOM element that has been hidden and optionally focuses on focusEl. */
 function showElement(el, focusEl) {
+  // console.log("show", el, focusEl);
   el.style.display = "block";
   if (focusEl) focusEl.focus();
 }
@@ -214,16 +425,32 @@ onMounted(() => {
 /* ref =================================*/
 const neighborhooddiscovery = ref(null);
 const map = ref(null);
+const ndplacedetailstmpl = ref(null);
+const ndplaceresultstmpl = ref(null);
+const placeResult = ref(null);
 
+function myclick(place) {
+  console.log(place);
+  widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+}
 /* 主程式＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+const widget = CONFIGURATION; //當成this
 function NeighborhoodDiscovery(configuration) {
-  const widget = CONFIGURATION; //當成this
-
   const widgetEl = neighborhooddiscovery.value;
   widget.center = configuration.mapOptions.center;
   widget.places = configuration.pois || [];
+
   initializeMap();
-  // console.log(widget.center);
+  initializePlaceDetails();
+  initializeSidePanel();
+
+  // Initialize additional capabilities ----------------------------------
+
+  initializeSearchInput();
+  initializeDistanceMatrix();
+  initializeDirections();
+
+  console.log("widget", widget);
 
   function initializeMap() {
     const mapOptions = configuration.mapOptions;
@@ -239,7 +466,540 @@ function NeighborhoodDiscovery(configuration) {
       widgetEl.querySelector(".map"),
       mapOptions
     );
-    console.log(widget.map);
+    widget.map.fitBounds(widget.mapBounds, /* padding= */ 0);
+    widget.map.addListener("click", (e) => {
+      // Check if user clicks on a POI pin from the base map.
+      if (e.placeId) {
+        e.stop();
+        widget.selectPlaceById(e.placeId);
+      }
+    });
+    widget.map.addListener("zoom_changed", () => {
+      // Customize map styling to show/hide default POI pins or text based on zoom level.
+      const hideDefaultPoiPins = widget.map.getZoom() < ND_DEFAULT_POI_MIN_ZOOM;
+      widget.map.setOptions({
+        styles: [
+          {
+            featureType: "poi",
+            elementType: hideDefaultPoiPins ? "labels" : "labels.text",
+            stylers: [{ visibility: "off" }],
+          },
+        ],
+      });
+    });
+
+    const markerPath = widgetEl
+      .querySelector(".marker-pin path")
+      .getAttribute("d");
+    const drawMarker = function (
+      title,
+      position,
+      fillColor,
+      strokeColor,
+      labelText
+    ) {
+      return new google.maps.Marker({
+        title: title,
+        position: position,
+        map: widget.map,
+        icon: {
+          path: markerPath,
+          fillColor: fillColor,
+          fillOpacity: 1,
+          strokeColor: strokeColor,
+          anchor: new google.maps.Point(13, 35),
+          labelOrigin: new google.maps.Point(13, 13),
+        },
+        label: {
+          text: labelText,
+          color: "white",
+          fontSize: "16px",
+          fontFamily: "Material Icons",
+        },
+      });
+    };
+
+    // Add marker at the center location (if specified).
+    if (configuration.centerMarker && configuration.centerMarker.icon) {
+      drawMarker(
+        "Home",
+        widget.center,
+        "#1A73E8",
+        "#185ABC",
+        configuration.centerMarker.icon
+      );
+    }
+
+    // Add marker for the specified Place object.
+    widget.addPlaceMarker = function (place) {
+      // console.log(place);
+      place.marker = drawMarker(
+        place.name,
+        place.coords,
+        "#EA4335",
+        "#C5221F",
+        place.icon
+      );
+      // console.log(place);
+      place.marker.addListener(
+        "click",
+        () => void widget.selectPlaceById(place.placeId)
+      );
+    };
+
+    // Fit map to bounds that contain all markers of the specified Place objects.
+    widget.updateBounds = function (places) {
+      // console.log(places);
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend(widget.center);
+      for (let place of places) {
+        bounds.extend(place.marker.getPosition());
+      }
+      widget.map.fitBounds(bounds, /* padding= */ 100);
+    };
+
+    // Marker used to highlight a place from Autocomplete search.
+    widget.selectedPlaceMarker = new google.maps.Marker({
+      title: "Point of Interest",
+    });
+  }
+
+  /** Initializes Place Details service for the widget. */
+  function initializePlaceDetails() {
+    const detailsService = new google.maps.places.PlacesService(widget.map);
+    const placeIdsToDetails = new Map(); // Create object to hold Place results.
+
+    for (let place of widget.places) {
+      placeIdsToDetails.set(place.placeId, place);
+      place.fetchedFields = new Set(["place_id"]);
+    }
+
+    widget.fetchPlaceDetails = function (placeId, fields, callback) {
+      if (!placeId || !fields) return;
+
+      // Check for field existence in Place object.
+      let place = placeIdsToDetails.get(placeId);
+      if (!place) {
+        place = {
+          placeId: placeId,
+          fetchedFields: new Set(["place_id"]),
+        };
+        placeIdsToDetails.set(placeId, place);
+      }
+      const missingFields = fields.filter(
+        (field) => !place.fetchedFields.has(field)
+      );
+      if (missingFields.length === 0) {
+        callback(place);
+        return;
+      }
+
+      const request = { placeId: placeId, fields: missingFields };
+      let retryCount = 0;
+      const processResult = function (result, status) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+          // If query limit has been reached, wait before making another call;
+          // Increase wait time of each successive retry with exponential backoff
+          // and terminate after five failed attempts.
+          // 如果已達到查詢限制，則等待再進行另一個調用；
+          // 使用指數退避增加每次連續重試的等待時間
+          // 並在五次嘗試失敗後終止。
+          if (
+            status ===
+              google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT &&
+            retryCount < 5
+          ) {
+            const delay = (Math.pow(2, retryCount) + Math.random()) * 500;
+            setTimeout(
+              () => void detailsService.getDetails(request, processResult),
+              delay
+            );
+            retryCount++;
+          }
+          return;
+        }
+
+        // Basic details.
+        if (result.name) place.name = result.name;
+        if (result.geometry) place.coords = result.geometry.location;
+        if (result.formatted_address) place.address = result.formatted_address;
+        if (result.photos) {
+          place.photos = result.photos
+            .map((photo) => ({
+              urlSmall: photo.getUrl({ maxWidth: 200, maxHeight: 200 }),
+              urlLarge: photo.getUrl({ maxWidth: 1200, maxHeight: 1200 }),
+              attrs: photo.html_attributions,
+            }))
+            .slice(0, ND_NUM_PLACE_PHOTOS_MAX);
+        }
+        if (result.types) {
+          place.type = formatPlaceType(result.types[0]);
+          place.icon = ND_MARKER_ICONS_BY_TYPE["_default"];
+          for (let type of result.types) {
+            if (type in ND_MARKER_ICONS_BY_TYPE) {
+              place.type = formatPlaceType(type);
+              place.icon = ND_MARKER_ICONS_BY_TYPE[type];
+              break;
+            }
+          }
+        }
+        if (result.url) place.url = result.url;
+
+        // Contact details.
+        if (result.website) {
+          place.website = result.website;
+          const url = new URL(place.website);
+          place.websiteDomain = url.hostname;
+        }
+        if (result.formatted_phone_number)
+          place.phoneNumber = result.formatted_phone_number;
+        if (result.opening_hours)
+          place.openingHours = parseDaysHours(result.opening_hours);
+
+        // Review details.
+        if (result.rating) {
+          place.rating = result.rating;
+          addStarIcons(place);
+        }
+        if (result.user_ratings_total)
+          place.numReviews = result.user_ratings_total;
+        if (result.price_level) {
+          place.priceLevel = result.price_level;
+          place.dollarSigns = initArray(result.price_level);
+        }
+        if (result.reviews) {
+          place.reviews = result.reviews;
+          for (let review of place.reviews) {
+            addStarIcons(review);
+          }
+        }
+
+        for (let field of missingFields) {
+          place.fetchedFields.add(field);
+        }
+        callback(place);
+      };
+
+      // Use result from Place Autocomplete if available.
+      if (widget.placeIdsToAutocompleteResults) {
+        const autoCompleteResult =
+          widget.placeIdsToAutocompleteResults.get(placeId);
+        if (autoCompleteResult) {
+          processResult(
+            autoCompleteResult,
+            google.maps.places.PlacesServiceStatus.OK
+          );
+          return;
+        }
+      }
+      detailsService.getDetails(request, processResult);
+    };
+  }
+
+  /** Initializes the side panel that holds curated POI results. */
+  function initializeSidePanel() {
+    const placesPanelEl = widgetEl.querySelector(".places-panel");
+    const detailsPanelEl = widgetEl.querySelector(".details-panel");
+    const placeResultsEl = widgetEl.querySelector(".place-results-list");
+    const showMoreButtonEl = widgetEl.querySelector(".show-more-button");
+    const photoModalEl = widgetEl.querySelector(".photo-modal");
+    // const detailsTemplate = Handlebars.compile(
+    //   // document.getElementById("nd-place-details-tmpl").innerHTML
+
+    // );
+    const detailsTemplate = ndplacedetailstmpl.value;
+    const resultsTemplate = ndplaceresultstmpl.value;
+    // console.log(detailsTemplate);
+    // const resultsTemplate = Handlebars.compile(
+    //   // document.getElementById("nd-place-results-tmpl").innerHTML
+
+    // );
+
+    // Show specified POI photo in a modal.
+    const showPhotoModal = function (photo, placeName) {
+      const prevFocusEl = document.activeElement;
+      const imgEl = photoModalEl.querySelector("img");
+      imgEl.src = photo.urlLarge;
+      const backButtonEl = photoModalEl.querySelector(".back-button");
+      backButtonEl.addEventListener("click", () => {
+        hideElement(photoModalEl, prevFocusEl);
+        imgEl.src = "";
+      });
+      photoModalEl.querySelector(".photo-place").innerHTML = placeName;
+      photoModalEl.querySelector(".photo-attrs span").innerHTML = photo.attrs;
+      const attributionEl = photoModalEl.querySelector(".photo-attrs a");
+      if (attributionEl) attributionEl.setAttribute("target", "_blank");
+      photoModalEl.addEventListener("click", (e) => {
+        if (e.target === photoModalEl) {
+          hideElement(photoModalEl, prevFocusEl);
+          imgEl.src = "";
+        }
+      });
+      showElement(photoModalEl, backButtonEl);
+    };
+
+    // Select a place by id and show details.
+    let selectedPlaceId;
+    widget.selectPlaceById = function (placeId, panToMarker) {
+      if (selectedPlaceId === placeId) return;
+      selectedPlaceId = placeId;
+      const prevFocusEl = document.activeElement;
+
+      const showDetailsPanel = function (place) {
+        // console.log(detailsTemplate);
+        const backButtonEl = detailsTemplate.querySelector(".back-button");
+        // console.log(backButtonEl);
+        backButtonEl.addEventListener("click", () => {
+          hideElement(detailsPanelEl, prevFocusEl);
+          selectedPlaceId = undefined;
+          widget.updateDirections();
+          widget.selectedPlaceMarker.setMap(null);
+        });
+        detailsPanelEl.querySelectorAll(".photo").forEach((photoEl, i) => {
+          photoEl.addEventListener("click", () => {
+            showPhotoModal(place.photos[i], place.name);
+          });
+        });
+        showElement(detailsPanelEl, backButtonEl);
+        detailsPanelEl.scrollTop = 0;
+      };
+
+      const processResult = function (place) {
+        if (place.marker) {
+          widget.selectedPlaceMarker.setMap(null);
+        } else {
+          widget.selectedPlaceMarker.setPosition(place.coords);
+          widget.selectedPlaceMarker.setMap(widget.map);
+        }
+        if (panToMarker) {
+          widget.map.panTo(place.coords);
+        }
+        showDetailsPanel(place);
+        widget.fetchDuration(place, showDetailsPanel);
+        widget.updateDirections(place);
+      };
+
+      widget.fetchPlaceDetails(
+        placeId,
+        [
+          "name",
+          "types",
+          "geometry.location",
+          "formatted_address",
+          "photo",
+          "url",
+          "website",
+          "formatted_phone_number",
+          "opening_hours",
+          "rating",
+          "user_ratings_total",
+          "price_level",
+          "review",
+        ],
+        processResult
+      );
+    };
+
+    // Render the specified place objects and append them to the POI list.
+    // 列表顯示在螢幕side上
+    const renderPlaceResults = function (places, startIndex) {
+      placeResultsEl.insertAdjacentHTML(
+        "beforeend",
+        // resultsTemplate({ places: places }) //這個沒有執行的話，無法顯示列表
+        resultsTemplate
+      );
+      // console.log(places);
+      // placeResultsEl = resultsTemplate;
+      console.log(resultsTemplate.querySelectorAll(".place-result"));
+      console.log(placeResultsEl);
+      console.log(resultsTemplate);
+
+      placeResultsEl.querySelectorAll("li").forEach((resultEl, i) => {
+        const place = places[i - startIndex];
+        if (!place) return;
+        // Clicking anywhere on the item selects the place.
+        // Additionally, create a button element to make this behavior
+        // accessible under tab navigation.
+        resultEl.addEventListener("click", () => {
+          widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+        });
+        resultEl.querySelector(".name").addEventListener("click", (e) => {
+          widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+          e.stopPropagation();
+        });
+        resultEl.querySelector(".photo").addEventListener("click", (e) => {
+          showPhotoModal(place.photos[0], place.name);
+          e.stopPropagation();
+        });
+        widget.addPlaceMarker(place);
+      });
+
+      // 因DOM無法正確抓取，先將Ｍarker加上
+      places.forEach((resultEl, i) => {
+        // const place = places[i - startIndex];
+        const place = places[i];
+        if (!place) return;
+
+        widget.addPlaceMarker(place);
+        // 加入響應式，讓template可見
+        // console.log(place);
+        data.places.push({
+          name: place.name,
+          placeId: place.placeId,
+        });
+      });
+    };
+
+    // Index of next Place object to show in the POI list.
+    let nextPlaceIndex = 0;
+
+    // Fetch and show basic info for the next N places.
+    const showNextPlaces = function (n) {
+      const nextPlaces = widget.places.slice(
+        nextPlaceIndex,
+        nextPlaceIndex + n
+      );
+      if (nextPlaces.length < 1) {
+        hideElement(showMoreButtonEl);
+        return;
+      }
+      showMoreButtonEl.disabled = true;
+      // Keep track of the number of Places calls that have not finished.
+      let count = nextPlaces.length;
+      for (let place of nextPlaces) {
+        const processResult = function (place) {
+          count--;
+          if (count > 0) return;
+          renderPlaceResults(nextPlaces, nextPlaceIndex);
+          nextPlaceIndex += n;
+          widget.updateBounds(widget.places.slice(0, nextPlaceIndex));
+          const hasMorePlacesToShow = nextPlaceIndex < widget.places.length;
+          if (hasMorePlacesToShow || hasHiddenContent(placesPanelEl)) {
+            showElement(showMoreButtonEl);
+            showMoreButtonEl.disabled = false;
+          } else {
+            hideElement(showMoreButtonEl);
+          }
+        };
+        widget.fetchPlaceDetails(
+          place.placeId,
+          [
+            "name",
+            "types",
+            "geometry.location",
+            "photo",
+            "rating",
+            "user_ratings_total",
+            "price_level",
+          ],
+          processResult
+        );
+      }
+    };
+    showNextPlaces(ND_NUM_PLACES_INITIAL);
+
+    showMoreButtonEl.addEventListener("click", () => {
+      placesPanelEl.classList.remove("no-scroll");
+      showMoreButtonEl.classList.remove("sticky");
+      showNextPlaces(ND_NUM_PLACES_SHOW_MORE);
+    });
+  }
+
+  /** Initializes Search Input for the widget. */
+  function initializeSearchInput() {
+    const searchInputEl = widgetEl.querySelector(".place-search-input");
+    widget.placeIdsToAutocompleteResults = new Map();
+
+    // Set up Autocomplete on the search input.
+    const autocomplete = new google.maps.places.Autocomplete(searchInputEl, {
+      types: ["establishment"],
+      fields: [
+        "place_id",
+        "name",
+        "types",
+        "geometry.location",
+        "formatted_address",
+        "photo",
+        "url",
+        "website",
+        "formatted_phone_number",
+        "opening_hours",
+        "rating",
+        "user_ratings_total",
+        "price_level",
+        "review",
+      ],
+      bounds: widget.mapBounds,
+      strictBounds: true,
+    });
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      widget.placeIdsToAutocompleteResults.set(place.place_id, place);
+      widget.selectPlaceById(place.place_id, /* panToMarker= */ true);
+      searchInputEl.value = "";
+    });
+  }
+
+  /** Initializes Distance Matrix service for the widget. */
+  function initializeDistanceMatrix() {
+    const distanceMatrixService = new google.maps.DistanceMatrixService();
+
+    // Annotate travel times from the centered location to the specified place.
+    widget.fetchDuration = function (place, callback) {
+      if (!widget.center || !place || !place.coords || place.duration) return;
+      const request = {
+        origins: [widget.center],
+        destinations: [place.coords],
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+      distanceMatrixService.getDistanceMatrix(
+        request,
+        function (result, status) {
+          if (status === google.maps.DistanceMatrixStatus.OK) {
+            const trip = result.rows[0].elements[0];
+            if (trip.status === google.maps.DistanceMatrixElementStatus.OK) {
+              place.duration = trip.duration;
+              callback(place);
+            }
+          }
+        }
+      );
+    };
+  }
+
+  /** Initializes Directions service for the widget. */
+  function initializeDirections() {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true,
+      preserveViewport: true,
+    });
+
+    // Update directions from the centered location to specified place.
+    widget.updateDirections = function (place) {
+      if (!widget.center || !place || !place.coords) {
+        directionsRenderer.setMap(null);
+        return;
+      }
+      // Use existing results if available.
+      if (place.directions) {
+        directionsRenderer.setMap(widget.map);
+        directionsRenderer.setDirections(place.directions);
+        return;
+      }
+      const request = {
+        origin: widget.center,
+        destination: place.coords,
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+      directionsService.route(request, function (result, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          place.directions = result;
+          directionsRenderer.setMap(widget.map);
+          directionsRenderer.setDirections(result);
+        }
+      });
+    };
   }
 } //end NeighborhoodDiscovery
 

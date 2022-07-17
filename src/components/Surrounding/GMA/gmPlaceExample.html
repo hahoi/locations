@@ -495,7 +495,10 @@
 
         // Initializer function definitions ------------------------------------
 
-        /** Initializes the interactive map and adds place markers. */
+        /** Initializes the interactive map and adds place markers.
+         * 要求每次有人更改視口(viewport)時(通過縮放或移動 map )獲取新資料，並丟棄我擁有的舊資料。
+         * LatLngBounds的物件，通過其東北和西南座標(由緯度和經度組成)定義了視口(viewport)。
+         */
         function initializeMap() {
           const mapOptions = configuration.mapOptions;
           widget.mapBounds = new google.maps.Circle({
@@ -577,6 +580,7 @@
 
           // Add marker for the specified Place object.
           widget.addPlaceMarker = function (place) {
+            // console.log(place);
             place.marker = drawMarker(
               place.name,
               place.coords,
@@ -592,6 +596,7 @@
 
           // Fit map to bounds that contain all markers of the specified Place objects.
           widget.updateBounds = function (places) {
+            // console.log(places);
             const bounds = new google.maps.LatLngBounds();
             bounds.extend(widget.center);
             for (let place of places) {
@@ -973,7 +978,9 @@
           });
         }
 
-        /** Initializes Distance Matrix service for the widget. */
+        /** Initializes Distance Matrix service for the widget.
+         * 取得旅程時間及距離
+         */
         function initializeDistanceMatrix() {
           const distanceMatrixService = new google.maps.DistanceMatrixService();
 
@@ -1003,7 +1010,9 @@
           };
         }
 
-        /** Initializes Directions service for the widget. */
+        /** Initializes Directions service for the widget.
+         * 獲取及顯示最佳路徑
+         */
         function initializeDirections() {
           const directionsService = new google.maps.DirectionsService();
           const directionsRenderer = new google.maps.DirectionsRenderer({
