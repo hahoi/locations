@@ -1,7 +1,7 @@
 <template>
   <div style="height: 80vh">
     <div class="neighborhood-discovery" ref="neighborhooddiscovery">
-      <div class="places-panel panel no-scroll">
+      <div class="places-panel panel no-scroll" ref="PlacesPanel">
         <header class="navbar">
           <div class="search-input">
             <input
@@ -19,18 +19,34 @@
 
         <div class="results">
           <ul class="place-results-list">
-            列表顯示在這裡
-            <div v-for="(place, key) in data.places" :key="key">
-              <li class="place-result" ref="placeResult">
-                <button class="name" @click="myclick(place)">
-                  {{ place.name }}
-                </button>
+            <template v-for="place in data.places">
+              <li class="place-result">
+                <div class="text">
+                  <button class="name">{{ place.name }}</button>
+
+                  <div class="info" v-if="place.rating">
+                    <span>{{ place.rating }}</span>
+                    <img
+                      src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                      alt="rating"
+                      class="star-icon"
+                    />
+                    <span v-if="place.numReviews"
+                      >&nbsp;&nbsp; ({{ place.numReviews }})評論</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="photo"
+                  :style="`background-image: url(${place.photos[0].urlSmall});`"
+                  aria-label="show photo in viewer"
+                ></span>
               </li>
-            </div>
+            </template>
           </ul>
         </div>
         <button class="show-more-button sticky">
-          <span>Show More</span>
+          <span>顯示更多</span>
           <img
             class="right"
             src="https://fonts.gstatic.com/s/i/googlematerialicons/expand_more/v11/24px.svg"
@@ -38,7 +54,168 @@
           />
         </button>
       </div>
-      <div class="details-panel panel">詳細資料顯示在這裡（預設隱藏）</div>
+      <div class="details-panel panel" ref="DetailsPanel">
+        <div class="navbar">
+          <button class="back-button">
+            <img
+              class="icon"
+              src="https://fonts.gstatic.com/s/i/googlematerialicons/arrow_back/v11/24px.svg"
+              alt="back"
+            />
+            Back
+          </button>
+        </div>
+        <template v-if="data.detail">
+          <h2>{{ data.detail.name }}</h2>
+          <div class="info">
+            <span class="star-rating-numeric" v-if="data.detail.rating">{{
+              data.detail.rating
+            }}</span>
+            <span v-for="star in data.detail.fullStarIcons">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                alt="full star"
+                class="star-icon"
+              />
+            </span>
+            <span v-for="star in data.detail.halfStarIcons">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
+                alt="half star"
+                class="star-icon"
+              />
+            </span>
+            <span v-for="star in data.detail.emptyStarIcons">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
+                alt="empty star"
+                class="star-icon"
+              />
+            </span>
+          </div>
+          <a
+            :href="data.detail.url"
+            target="_blank"
+            v-if="data.detail.numReviews"
+            >{{ data.detail.numReviews }}評論</a
+          >
+
+          <span class="price-dollars" v-if="data.detail.priceLevel">
+            {{ data.detail.dollarSigns }}$
+          </span>
+          <div class="info">
+            <img
+              src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
+              alt="car travel"
+              class="travel-icon"
+            />
+            <span
+              >開車&nbsp;
+              {{ data.detail.duration.text }}
+            </span>
+          </div>
+          <div class="section">
+            <div class="contact" v-if="data.detail.address">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/place/v10/24px.svg"
+                alt="Address"
+                class="icon"
+              />
+              <div class="text">{{ data.detail.address }}</div>
+            </div>
+            <div class="contact" v-if="data.detail.website">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/public/v10/24px.svg"
+                alt="Website"
+                class="icon"
+              />
+              <div class="text">
+                <a :href="data.detail.website" target="_blank">{{
+                  data.detail.websiteDomain
+                }}</a>
+              </div>
+            </div>
+            <div class="contact" v-if="data.detail.phoneNumber">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/phone/v10/24px.svg"
+                alt="Phone number"
+                class="icon"
+              />
+              <div class="text">{{ data.detail.phoneNumber }}</div>
+            </div>
+            <div class="contact" v-if="data.detail.openingHours">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/schedule/v12/24px.svg"
+                alt="Opening hours"
+                class="icon"
+              />
+              <div class="text">
+                <div v-for="time in data.detail.openingHours">
+                  <span class="weekday">{{ time.days }}</span>
+                  <span class="hours">{{ time.hours }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="photos section">
+            <template
+              v-for="photo in data.detail.photos"
+              v-if="data.detail.photos"
+            >
+              <button
+                class="photo"
+                :style="`background-image: url( ${photo.urlSmall} )`"
+                aria-label="show photo in viewer"
+              ></button>
+            </template>
+          </div>
+          <div class="reviews section" v-if="data.detail.reviews">
+            <p class="attribution">Reviews by Google users</p>
+            <template v-for="review in data.detail.reviews">
+              <div class="review">
+                <a
+                  class="reviewer-identity"
+                  :href="`${review.author_url}`"
+                  target="_blank"
+                >
+                  <div
+                    class="reviewer-avatar"
+                    :style="`background-image: url( ${review.profile_photo_url} )`"
+                  ></div>
+                  <div class="reviewer-name">{{ review.author_name }}</div>
+                </a>
+                <div class="rating info">
+                  <span v-for="star in data.detail.fullStarIcons">
+                    <img
+                      src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                      alt="full star"
+                      class="star-icon"
+                    />
+                  </span>
+                  <span v-for="star in data.detail.halfStarIcons">
+                    <img
+                      src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
+                      alt="half star"
+                      class="star-icon"
+                    />
+                  </span>
+                  <span v-for="star in data.detail.emptyStarIcons">
+                    <img
+                      src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
+                      alt="empty star"
+                      class="star-icon"
+                    />
+                  </span>
+                  <span class="review-time">{{
+                    review.relative_time_description
+                  }}</span>
+                </div>
+                <div class="info">{{ review.text }}</div>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
       <div class="map" ref="map"></div>
       <div class="photo-modal">
         <img alt="place photo" />
@@ -68,210 +245,31 @@
         />
       </svg>
     </div>
-
-    <div id="nd-place-results-tmpl" ref="ndplaceresultstmpl">
-      [ #each places 列表]
-      <div v-for="(name, key) in data.places" :key="key">
-        <li class="place-result">
-          <div class="text">
-            <button class="name">{{ name }}</button>
-            <div class="info">
-              [ #if rating ]
-              <span>[ rating ]</span>
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
-                alt="rating"
-                class="star-icon"
-              />
-              [ /if ] [ #if numReviews ]
-              <span>&nbsp;([ numReviews ])</span>
-              [ /if ] [ #if priceLevel ] &#183;&nbsp;<span
-                >[ #each dollarSigns ]$[ /each ]&nbsp;</span
-              >
-              [ /if ]
-            </div>
-            <div class="info">[ type ]</div>
-          </div>
-          <button
-            class="photo"
-            style="background-image: url([ photos.0.urlSmall ])"
-            aria-label="show photo in viewer"
-          ></button>
-        </li>
-      </div>
-      [ /each ]
-    </div>
-    <div id="nd-place-details-tmpl" ref="ndplacedetailstmpl">
-      <div class="navbar">
-        <button class="back-button">
-          <img
-            class="icon"
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/arrow_back/v11/24px.svg"
-            alt="back"
-          />
-          Back
-        </button>
-      </div>
-      <header>
-        <h2>[ name ]詳細資料</h2>
-        <div class="info">
-          [ #if rating ]
-          <span class="star-rating-numeric">[ rating ]</span>
-          <span>
-            [ #each fullStarIcons ]
-            <img
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
-              alt="full star"
-              class="star-icon"
-            />
-            [ /each ] [ #each halfStarIcons ]
-            <img
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
-              alt="half star"
-              class="star-icon"
-            />
-            [ /each ] [ #each emptyStarIcons ]
-            <img
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
-              alt="empty star"
-              class="star-icon"
-            />
-            [ /each ]
-          </span>
-          [ /if ] [ #if numReviews ]
-          <a href="[ url ]" target="_blank">[ numReviews ] reviews</a>
-          [ else ]
-          <a href="[ url ]" target="_blank">See on Google Maps</a>
-          [ /if ] [ #if priceLevel ] &#183;
-          <span class="price-dollars"> [ #each dollarSigns ]$[ /each ] </span>
-          [ /if ]
-        </div>
-        [ #if type ]
-        <div class="info">[ type ]</div>
-        [ /if ] [ #if duration ]
-        <div class="info">
-          <img
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
-            alt="car travel"
-            class="travel-icon"
-          />
-          <span>&nbsp;[ duration.text ]</span>
-        </div>
-        [ /if ]
-      </header>
-      <div class="section">
-        [ #if address ]
-        <div class="contact">
-          <img
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/place/v10/24px.svg"
-            alt="Address"
-            class="icon"
-          />
-          <div class="text">[ address ]</div>
-        </div>
-        [ /if ] [ #if website ]
-        <div class="contact">
-          <img
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/public/v10/24px.svg"
-            alt="Website"
-            class="icon"
-          />
-          <div class="text">
-            <a href="[ website ]" target="_blank">[ websiteDomain ]</a>
-          </div>
-        </div>
-        [ /if ] [ #if phoneNumber ]
-        <div class="contact">
-          <img
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/phone/v10/24px.svg"
-            alt="Phone number"
-            class="icon"
-          />
-          <div class="text">[ phoneNumber ]</div>
-        </div>
-        [ /if ] [ #if openingHours ]
-        <div class="contact">
-          <img
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/schedule/v12/24px.svg"
-            alt="Opening hours"
-            class="icon"
-          />
-          <div class="text">
-            [ #each openingHours ]
-            <div>
-              <span class="weekday">[ days ]</span>
-              <span class="hours">[ hours ]</span>
-            </div>
-            [ /each ]
-          </div>
-        </div>
-        [ /if ]
-      </div>
-      [ #if photos ]
-      <div class="photos section">
-        [ #each photos ]
-        <button
-          class="photo"
-          style="background-image: url([ urlSmall ])"
-          aria-label="show photo in viewer"
-        ></button>
-        [ /each ]
-      </div>
-      [ /if ] [ #if reviews ]
-      <div class="reviews section">
-        <p class="attribution">Reviews by Google users</p>
-        [ #each reviews ]
-        <div class="review">
-          <a class="reviewer-identity" href="[ author_url ]" target="_blank">
-            <div
-              class="reviewer-avatar"
-              style="background-image: url([ profile_photo_url ])"
-            ></div>
-            <div class="reviewer-name">[ author_name ]</div>
-          </a>
-          <div class="rating info">
-            <span>
-              [ #each fullStarIcons ]
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
-                alt="full star"
-                class="star-icon"
-              />
-              [ /each ] [ #each halfStarIcons ]
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
-                alt="half star"
-                class="star-icon"
-              />
-              [ /each ] [ #each emptyStarIcons ]
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
-                alt="empty star"
-                class="star-icon"
-              />
-              [ /each ]
-            </span>
-            <span class="review-time">[ relative_time_description ]</span>
-          </div>
-          <div class="info">[ text ]</div>
-        </div>
-        [ /each ]
-      </div>
-      [ /if ] [ #if html_attributions ]
-      <div class="section">
-        [ #each html_attributions ]
-        <p class="attribution">[ {this ]}</p>
-        [ /each ]
-      </div>
-      [ /if ]
-    </div>
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, nextTick } from "vue";
+
 const data = reactive({
   places: [],
+  detail: null,
 });
+
+let ResaultsListEL = null;
+
+/* ref =================================*/
+const neighborhooddiscovery = ref(null);
+const map = ref(null);
+
+// // 因為result list DOM <li>讀取錯誤，改用此法
+// function selectPlaceById(place) {
+//   widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+//   // console.log(widget.places.find((item) => item.placeId === place.placeId));
+//   nextTick(() => {
+//     data.detail = widget.places.find((item) => item.placeId === place.placeId);
+//   });
+// }
+
 /** Hides a DOM element and optionally focuses on focusEl. */
 function hideElement(el, focusEl) {
   // console.log("hide", el, focusEl);
@@ -422,17 +420,6 @@ onMounted(() => {
   new NeighborhoodDiscovery(CONFIGURATION);
 });
 
-/* ref =================================*/
-const neighborhooddiscovery = ref(null);
-const map = ref(null);
-const ndplacedetailstmpl = ref(null);
-const ndplaceresultstmpl = ref(null);
-const placeResult = ref(null);
-
-function myclick(place) {
-  console.log(place);
-  widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-}
 /* 主程式＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 const widget = CONFIGURATION; //當成this
 function NeighborhoodDiscovery(configuration) {
@@ -445,12 +432,12 @@ function NeighborhoodDiscovery(configuration) {
   initializeSidePanel();
 
   // Initialize additional capabilities ----------------------------------
-
   initializeSearchInput();
   initializeDistanceMatrix();
   initializeDirections();
 
-  console.log("widget", widget);
+  // console.log("widget", widget);
+  // console.log("data.places", data.places);
 
   function initializeMap() {
     const mapOptions = configuration.mapOptions;
@@ -596,20 +583,24 @@ function NeighborhoodDiscovery(configuration) {
 
       const request = { placeId: placeId, fields: missingFields };
       let retryCount = 0;
+
+      // 查詢詳細資料，調整格式
       const processResult = function (result, status) {
         if (status !== google.maps.places.PlacesServiceStatus.OK) {
-          // If query limit has been reached, wait before making another call;
-          // Increase wait time of each successive retry with exponential backoff
-          // and terminate after five failed attempts.
-          // 如果已達到查詢限制，則等待再進行另一個調用；
-          // 使用指數退避增加每次連續重試的等待時間
-          // 並在五次嘗試失敗後終止。
           if (
             status ===
               google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT &&
             retryCount < 5
           ) {
             const delay = (Math.pow(2, retryCount) + Math.random()) * 500;
+
+            // If query limit has been reached, wait before making another call;
+            // Increase wait time of each successive retry with exponential backoff
+            // and terminate after five failed attempts.
+            // 如果已達到查詢限制，則等待再進行另一個調用；
+            // 使用指數退避增加每次連續重試的等待時間
+            // 並在五次嘗試失敗後終止。
+
             setTimeout(
               () => void detailsService.getDetails(request, processResult),
               delay
@@ -618,7 +609,6 @@ function NeighborhoodDiscovery(configuration) {
           }
           return;
         }
-
         // Basic details.
         if (result.name) place.name = result.name;
         if (result.geometry) place.coords = result.geometry.location;
@@ -677,6 +667,9 @@ function NeighborhoodDiscovery(configuration) {
         for (let field of missingFields) {
           place.fetchedFields.add(field);
         }
+
+        // console.log(place);
+        // 這裡設定可以顯示到template
         callback(place);
       };
 
@@ -703,17 +696,6 @@ function NeighborhoodDiscovery(configuration) {
     const placeResultsEl = widgetEl.querySelector(".place-results-list");
     const showMoreButtonEl = widgetEl.querySelector(".show-more-button");
     const photoModalEl = widgetEl.querySelector(".photo-modal");
-    // const detailsTemplate = Handlebars.compile(
-    //   // document.getElementById("nd-place-details-tmpl").innerHTML
-
-    // );
-    const detailsTemplate = ndplacedetailstmpl.value;
-    const resultsTemplate = ndplaceresultstmpl.value;
-    // console.log(detailsTemplate);
-    // const resultsTemplate = Handlebars.compile(
-    //   // document.getElementById("nd-place-results-tmpl").innerHTML
-
-    // );
 
     // Show specified POI photo in a modal.
     const showPhotoModal = function (photo, placeName) {
@@ -746,8 +728,9 @@ function NeighborhoodDiscovery(configuration) {
       const prevFocusEl = document.activeElement;
 
       const showDetailsPanel = function (place) {
-        // console.log(detailsTemplate);
-        const backButtonEl = detailsTemplate.querySelector(".back-button");
+        // detailsPanelEl.innerHTML = detailsTemplate(place);
+
+        const backButtonEl = detailsPanelEl.querySelector(".back-button");
         // console.log(backButtonEl);
         backButtonEl.addEventListener("click", () => {
           hideElement(detailsPanelEl, prevFocusEl);
@@ -800,53 +783,57 @@ function NeighborhoodDiscovery(configuration) {
       );
     };
 
-    // Render the specified place objects and append them to the POI list.
-    // 列表顯示在螢幕side上
+    /*
+     * Render the specified place objects and append them to the POI list.
+     * 列表顯示在螢幕side上
+     */
     const renderPlaceResults = function (places, startIndex) {
-      placeResultsEl.insertAdjacentHTML(
-        "beforeend",
-        // resultsTemplate({ places: places }) //這個沒有執行的話，無法顯示列表
-        resultsTemplate
-      );
-      // console.log(places);
-      // placeResultsEl = resultsTemplate;
-      console.log(resultsTemplate.querySelectorAll(".place-result"));
-      console.log(placeResultsEl);
-      console.log(resultsTemplate);
+      // // 因DOM無法正確抓取，先將Ｍarker加上
 
-      placeResultsEl.querySelectorAll("li").forEach((resultEl, i) => {
-        const place = places[i - startIndex];
-        if (!place) return;
-        // Clicking anywhere on the item selects the place.
-        // Additionally, create a button element to make this behavior
-        // accessible under tab navigation.
-        resultEl.addEventListener("click", () => {
-          widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-        });
-        resultEl.querySelector(".name").addEventListener("click", (e) => {
-          widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-          e.stopPropagation();
-        });
-        resultEl.querySelector(".photo").addEventListener("click", (e) => {
-          showPhotoModal(place.photos[0], place.name);
-          e.stopPropagation();
-        });
-        widget.addPlaceMarker(place);
-      });
-
-      // 因DOM無法正確抓取，先將Ｍarker加上
       places.forEach((resultEl, i) => {
         // const place = places[i - startIndex];
         const place = places[i];
         if (!place) return;
 
+        // console.log("place", place);
+        // 加上 Marker
         widget.addPlaceMarker(place);
+
         // 加入響應式，讓template可見
-        // console.log(place);
         data.places.push({
           name: place.name,
           placeId: place.placeId,
+          photos: place.photos,
+          rating: place.rating,
+          numReviews: place.numReviews,
+          priceLevel: place.priceLevel,
+          type: place.type,
         });
+      });
+      nextTick(() => {
+        // console.log(placesPanelEl.querySelectorAll(".place-result"));
+
+        placeResultsEl
+          .querySelectorAll(".place-result")
+          .forEach((resultEl, i) => {
+            const place = places[i - startIndex];
+            if (!place) return;
+            // Clicking anywhere on the item selects the place.
+            // Additionally, create a button element to make this behavior
+            // accessible under tab navigation.
+            resultEl.addEventListener("click", () => {
+              widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+            });
+            resultEl.querySelector(".name").addEventListener("click", (e) => {
+              widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+              e.stopPropagation();
+            });
+            resultEl.querySelector(".photo").addEventListener("click", (e) => {
+              showPhotoModal(place.photos[0], place.name);
+              e.stopPropagation();
+            });
+            widget.addPlaceMarker(place);
+          });
       });
     };
 
@@ -960,6 +947,10 @@ function NeighborhoodDiscovery(configuration) {
             if (trip.status === google.maps.DistanceMatrixElementStatus.OK) {
               place.duration = trip.duration;
               callback(place);
+
+              // 這裡宣染到template
+              console.log(place);
+              data.detail = place;
             }
           }
         }
@@ -1177,7 +1168,7 @@ function NeighborhoodDiscovery(configuration) {
 }
 
 .neighborhood-discovery .place-result .name {
-  font-size: 1em;
+  font-size: 1.2rem;
   font-weight: 500;
   text-align: left;
 }

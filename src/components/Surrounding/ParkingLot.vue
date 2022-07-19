@@ -91,6 +91,11 @@ const location = store.locationsFilteredArray.find((item) => id == item.id);
 const fab1 = ref(true);
 const hideLabels = ref(false);
 
+if (!location) {
+  // console.log(location);
+  router.push("/").catch((err) => {});
+}
+
 // console.log(location);
 const iconBase = "https://maps.google.com/mapfiles/kml/pal2/";
 // 用公園當中心點

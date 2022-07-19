@@ -171,7 +171,7 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
 
     //載入資料庫資料
-    reload();
+    // reload();
 
     //---------- data ----------
     const data = reactive({
@@ -208,7 +208,7 @@ export default defineComponent({
 
     function reload() {
       //更新
-      store.set_dataReady(false);
+      // store.set_dataReady(false);
       store.queryFunParks();
       // window.location.reload(true);
     }

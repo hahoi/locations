@@ -92,8 +92,12 @@ const location = store.locationsFilteredArray.find((item) => id == item.id);
 // 設定fab展開
 const fab1 = ref(true);
 const hideLabels = ref(false);
+// console.log("store.locationDataReady", store.locationDataReady);
+if (!location) {
+  // console.log(location);
+  router.push("/").catch((err) => {});
+}
 
-// console.log(location);
 const iconBase = "https://maps.google.com/mapfiles/kml/pal2/";
 // 用公園當中心點
 const center = {
@@ -128,7 +132,6 @@ if (location.廁所 !== undefined) {
     locations.push(data);
   });
 }
-
 function previewImgObject(url) {
   // console.log([url]);
   const $viewer = viewerApi({

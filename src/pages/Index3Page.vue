@@ -22,36 +22,34 @@
 
       <div class="row justify-center" style="position: relative">
         <div
-          class="col-6"
+          class="col-12"
           style="
-            background-image: url(/img/img4.jpg);
+            background-image: url(/img/01.jpg);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            filter: brightness(20%);
+            filter: brightness(70%);
             border-radius: 3% 0 0 3%;
             height: 28vh;
           "
         ></div>
+
         <div
-          class="col-6"
-          style="
-            background-image: url(/img/img5.jpg);
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            filter: brightness(30%);
-            border-radius: 0 3% 3% 0;
-            height: 28vh;
-          "
-        ></div>
-        <div
-          class="row text-h5 text-blue-grey-2 full-width items-center justify-center"
+          class="row text-h5 text-black full-width items-center justify-end"
           style="position: absolute; top: 10px; height: 28vh"
         >
-          <p class="col-12">缺少活動</p>
-          <p class="col-12">視力受到影響</p>
-          <p class="col-12">沉迷3C世界</p>
+          <div
+            class="text-right"
+            style="
+              background-color: rgba(171, 174, 177, 0.7);
+              border-radius: 12px;
+              box-shadow: 2px 2px 12px 4px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <p class="col-6">缺少活動</p>
+            <p class="col-6">沉迷3C世界</p>
+            <p class="col-6">視力受到影響</p>
+          </div>
         </div>
       </div>
 
@@ -66,22 +64,31 @@
         <div
           class="full-width"
           style="
-            background-image: url(/img/img1.png);
+            background-image: url(/img/02.jpg);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            filter: brightness(30%);
+            /* filter: brightness(30%); */
             border-radius: 3%/5%;
             height: 28vh;
           "
         ></div>
         <div
-          class="row text-h5 text-brown-2 full-width items-center justify-center"
+          class="row text-h5 text-black full-width items-center justify-start"
           style="position: absolute; top: 10px; height: 28vh"
         >
-          <p class="col-12">促進親子感情</p>
-          <p class="col-12">促進孩子探索</p>
-          <p class="col-12">釋放孩子精力</p>
+          <div
+            class="text-left"
+            style="
+              background-color: rgba(158, 207, 113, 0.6);
+              border-radius: 12px;
+              box-shadow: 2px 2px 12px 4px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <p class="col-6">釋放孩子精力</p>
+            <p class="col-6">促進孩子探索</p>
+            <p class="col-6">促進親子感情</p>
+          </div>
         </div>
       </div>
 
@@ -115,16 +122,23 @@
 
 <script>
 import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
-
+import { useRouter, useRoute } from "vue-router";
 import { locationStore } from "stores/location";
 
 export default defineComponent({
   name: "IndexPage",
   setup(props, context) {
-    const router = useRouter();
+    const store = locationStore();
 
+    const router = useRouter();
+    const route = useRoute();
+
+    // store.set_dataReady(false);
+    if (!store.locationDataReady) {
+      store.queryFunParks();
+    }
     // router.replace("/funpark").catch((err) => {});
+
     return {};
   },
 });

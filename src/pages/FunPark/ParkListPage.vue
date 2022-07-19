@@ -212,7 +212,10 @@ import { LocalStorage, Loading, extend } from "quasar";
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
 // store.set_dataReady(false);
-// store.queryFunParks();
+if (!store.locationDataReady) {
+  store.queryFunParks();
+}
+
 // const locations = computed(() => store.locationsFilteredArray); // 響應式
 let rating = ref(0);
 let area = ref(0);
