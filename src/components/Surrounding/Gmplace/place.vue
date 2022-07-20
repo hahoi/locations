@@ -11,15 +11,20 @@
 <script setup>
 // icon32
 
-import gmplace from "src/components/Surrounding/Gmplace";
+import gmplace from "src/components/Surrounding/Gmplace/gmPlace";
 
 import { ref, reactive, toRefs, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { locationStore } from "stores/location";
 
 const props = defineProps({
-  type: String,
+  location: Object,
+  radius: String, //"2000",
+  type: Array,
 });
+// 搜尋種類網址
+// https://developers.google.com/maps/documentation/javascript/supported_types
+
 const router = useRouter();
 const route = useRoute();
 
@@ -31,18 +36,18 @@ const location = store.locationsFilteredArray.find((item) => id == item.id);
 const fab1 = ref(true);
 const hideLabels = ref(false);
 
-if (!location) {
-  // console.log(location);
-  router.push("/").catch((err) => {});
-}
+// if (!location) {
+//   // console.log(location);
+//   router.push("/").catch((err) => {});
+// }
 
 const mapref2 = ref(null);
 
 const data = reactive({
   // 用公園當中心點
   center: {
-    lat: location.lat,
-    lng: location.lng,
+    lat: 22.532781,
+    lng: 120.538236,
   },
   placeId: [],
   dataReady: false,
@@ -58,10 +63,12 @@ function initMap() {
   });
 
   var request = {
-    location: new google.maps.LatLng(data.center.lat, data.center.lng),
-    radius: "2000",
+    location:
+      props.location ||
+      new google.maps.LatLng(data.center.lat, data.center.lng),
+    radius: props.radius || "2000",
     // type: ["restaurant"],
-    type: [props.type],
+    type: props.tyge || ["parking"],
   };
   const service = new google.maps.places.PlacesService(map2);
   service.nearbySearch(request, callback);

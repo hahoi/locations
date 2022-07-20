@@ -102,9 +102,9 @@
               >{{ data.detail.numReviews }}評論</a
             >
 
-            <span class="price-dollars" v-if="data.detail.priceLevel">
+            <!-- <span class="price-dollars" v-if="data.detail.priceLevel">
               {{ data.detail.dollarSigns }}$
-            </span>
+            </span> -->
             <div class="info">
               <img
                 src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
@@ -673,7 +673,7 @@ function NeighborhoodDiscovery(configuration) {
         }
 
         // console.log(place);
-        // 這裡設定可以顯示到template
+        // 這裡設定data.place 會少掉開車資訊
         callback(place);
       };
 
@@ -814,8 +814,8 @@ function NeighborhoodDiscovery(configuration) {
           type: place.type,
         });
       });
-      console.log(placesPanelEl);
-      console.log(resultsTemplate.value);
+      // console.log(placesPanelEl);
+      // console.log(resultsTemplate.value);
 
       nextTick(() => {
         placeResultsEl

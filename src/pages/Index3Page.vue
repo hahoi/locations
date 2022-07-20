@@ -28,7 +28,7 @@
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            filter: brightness(70%);
+            filter: brightness(90%);
             border-radius: 3% 0 0 3%;
             /* height: 30%; */
           "

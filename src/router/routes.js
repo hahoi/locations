@@ -9,8 +9,7 @@ const routes = [
       // { path: 'writeToFirestore', component: () => import('pages/writeToFirestore.vue') },
       // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
-      { path: 'gmplace', component: () => import('pages/gmplace.vue') },
-      // { path: 'gmres', component: () => import('src/components/Surrounding/gmPlaceRestaurant.vue') },
+      // { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },
       {
         path: '/mana',
         component: () => import('src/pages/Mana/index.vue'),
