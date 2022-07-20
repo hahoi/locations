@@ -3,7 +3,7 @@
     <div class="neighborhood-discovery" ref="neighborhooddiscovery">
       <div class="places-panel panel no-scroll" ref="PlacesPanel">
         <header class="navbar">
-          <div class="search-input">
+          <div class="search-input" style="display: none">
             <input
               class="place-search-input"
               placeholder="Search nearby places"
@@ -66,54 +66,56 @@
           </button>
         </div>
         <template v-if="data.detail">
-          <h2>{{ data.detail.name }}</h2>
-          <div class="info">
-            <span class="star-rating-numeric" v-if="data.detail.rating">{{
-              data.detail.rating
-            }}</span>
-            <span v-for="star in data.detail.fullStarIcons">
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
-                alt="full star"
-                class="star-icon"
-              />
-            </span>
-            <span v-for="star in data.detail.halfStarIcons">
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
-                alt="half star"
-                class="star-icon"
-              />
-            </span>
-            <span v-for="star in data.detail.emptyStarIcons">
-              <img
-                src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
-                alt="empty star"
-                class="star-icon"
-              />
-            </span>
-          </div>
-          <a
-            :href="data.detail.url"
-            target="_blank"
-            v-if="data.detail.numReviews"
-            >{{ data.detail.numReviews }}評論</a
-          >
+          <header>
+            <h2>{{ data.detail.name }}</h2>
+            <div class="info">
+              <span class="star-rating-numeric" v-if="data.detail.rating">{{
+                data.detail.rating
+              }}</span>
+              <span v-for="star in data.detail.fullStarIcons">
+                <img
+                  src="https://fonts.gstatic.com/s/i/googlematerialicons/star/v15/24px.svg"
+                  alt="full star"
+                  class="star-icon"
+                />
+              </span>
+              <span v-for="star in data.detail.halfStarIcons">
+                <img
+                  src="https://fonts.gstatic.com/s/i/googlematerialicons/star_half/v17/24px.svg"
+                  alt="half star"
+                  class="star-icon"
+                />
+              </span>
+              <span v-for="star in data.detail.emptyStarIcons">
+                <img
+                  src="https://fonts.gstatic.com/s/i/googlematerialicons/star_outline/v9/24px.svg"
+                  alt="empty star"
+                  class="star-icon"
+                />
+              </span>
+            </div>
+            <a
+              :href="data.detail.url"
+              target="_blank"
+              v-if="data.detail.numReviews"
+              >{{ data.detail.numReviews }}評論</a
+            >
 
-          <span class="price-dollars" v-if="data.detail.priceLevel">
-            {{ data.detail.dollarSigns }}$
-          </span>
-          <div class="info">
-            <img
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
-              alt="car travel"
-              class="travel-icon"
-            />
-            <span
-              >開車&nbsp;
-              {{ data.detail.duration.text }}
+            <span class="price-dollars" v-if="data.detail.priceLevel">
+              {{ data.detail.dollarSigns }}$
             </span>
-          </div>
+            <div class="info">
+              <img
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/directions_car/v11/24px.svg"
+                alt="car travel"
+                class="travel-icon"
+              />
+              <span
+                >開車&nbsp;
+                {{ data.detail.duration.text }}
+              </span>
+            </div>
+          </header>
           <div class="section">
             <div class="contact" v-if="data.detail.address">
               <img
@@ -250,25 +252,21 @@
 <script setup>
 import { ref, reactive, onMounted, nextTick } from "vue";
 
+const props = defineProps({
+  center: Object,
+  placeId: Array,
+});
+
+// console.log(props.center, props.placeId);
+
 const data = reactive({
   places: [],
   detail: null,
 });
 
-let ResaultsListEL = null;
-
 /* ref =================================*/
 const neighborhooddiscovery = ref(null);
 const map = ref(null);
-
-// // 因為result list DOM <li>讀取錯誤，改用此法
-// function selectPlaceById(place) {
-//   widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-//   // console.log(widget.places.find((item) => item.placeId === place.placeId));
-//   nextTick(() => {
-//     data.detail = widget.places.find((item) => item.placeId === place.placeId);
-//   });
-// }
 
 /** Hides a DOM element and optionally focuses on focusEl. */
 function hideElement(el, focusEl) {
@@ -382,31 +380,34 @@ const CONFIGURATION = {
     atmospheres: true,
     thumbnails: true,
   },
-  pois: [
-    { placeId: "ChIJ7bo8UIQXbjQRFkgl26ajSYU" },
-    { placeId: "ChIJzyf7jZoXbjQRt7aDa1spA4k" },
-    { placeId: "ChIJvYsuO5sXbjQRu7R8fyAdthk" },
-    { placeId: "ChIJg716NpQXbjQR0xgO81BU9Ok" },
-    { placeId: "ChIJpRIuCJAXbjQRJpZaNm3_Bl8" },
-    { placeId: "ChIJETg4op0XbjQRe__xManuy6Q" },
-    { placeId: "ChIJzUh2UYQXbjQR6AoWXId9_qY" },
-    { placeId: "ChIJNRXbw74XbjQRcXgLfefbkSE" },
-    { placeId: "ChIJSXiBc58XbjQRhyzuxmWhW54" },
-    { placeId: "ChIJyQCybJoXbjQRWXnM4F9kg5E" },
-    { placeId: "ChIJrfNIpJgXbjQRiwxdnm0BMKw" },
-    { placeId: "ChIJy878cJsXbjQRHOQJlwvHHOQ" },
-    { placeId: "ChIJyd5jt58XbjQRcakRgxvT1MM" },
-    { placeId: "ChIJW5Yo9kIXbjQRkGQF2T6QVcA" },
-    { placeId: "ChIJBVBjtYQXbjQRTBE6_Cu7Fzw" },
-    { placeId: "ChIJjQzv6LwXbjQROqDfqNgUE5w" },
-    { placeId: "ChIJy_NzvoQXbjQRIvWvKH-Hjzs" },
-    { placeId: "ChIJEztQyZ8XbjQRSiIrrBshfIE" },
-    { placeId: "ChIJiQ8Cx4QXbjQREsyGGWFT-g4" },
-  ],
+  pois: props.placeId,
+
+  // [
+  //   { placeId: "ChIJ7bo8UIQXbjQRFkgl26ajSYU" },
+  //   { placeId: "ChIJzyf7jZoXbjQRt7aDa1spA4k" },
+  //   { placeId: "ChIJvYsuO5sXbjQRu7R8fyAdthk" },
+  //   { placeId: "ChIJg716NpQXbjQR0xgO81BU9Ok" },
+  //   { placeId: "ChIJpRIuCJAXbjQRJpZaNm3_Bl8" },
+  //   { placeId: "ChIJETg4op0XbjQRe__xManuy6Q" },
+  //   { placeId: "ChIJzUh2UYQXbjQR6AoWXId9_qY" },
+  //   { placeId: "ChIJNRXbw74XbjQRcXgLfefbkSE" },
+  //   { placeId: "ChIJSXiBc58XbjQRhyzuxmWhW54" },
+  //   { placeId: "ChIJyQCybJoXbjQRWXnM4F9kg5E" },
+  //   { placeId: "ChIJrfNIpJgXbjQRiwxdnm0BMKw" },
+  //   { placeId: "ChIJy878cJsXbjQRHOQJlwvHHOQ" },
+  //   { placeId: "ChIJyd5jt58XbjQRcakRgxvT1MM" },
+  //   { placeId: "ChIJW5Yo9kIXbjQRkGQF2T6QVcA" },
+  //   { placeId: "ChIJBVBjtYQXbjQRTBE6_Cu7Fzw" },
+  //   { placeId: "ChIJjQzv6LwXbjQROqDfqNgUE5w" },
+  //   { placeId: "ChIJy_NzvoQXbjQRIvWvKH-Hjzs" },
+  //   { placeId: "ChIJEztQyZ8XbjQRSiIrrBshfIE" },
+  //   { placeId: "ChIJiQ8Cx4QXbjQREsyGGWFT-g4" },
+  // ],
+
   centerMarker: { icon: "circle" },
   mapRadius: 2000,
   mapOptions: {
-    center: { lat: 22.6829699, lng: 120.4879137 },
+    center: props.center || { lat: 22.6829699, lng: 120.4879137 },
     fullscreenControl: true,
     mapTypeControl: true,
     streetViewControl: false,
@@ -420,8 +421,9 @@ onMounted(() => {
   new NeighborhoodDiscovery(CONFIGURATION);
 });
 
-/* 主程式＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 const widget = CONFIGURATION; //當成this
+
+/* 主程式＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 function NeighborhoodDiscovery(configuration) {
   const widgetEl = neighborhooddiscovery.value;
   widget.center = configuration.mapOptions.center;

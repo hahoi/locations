@@ -4,7 +4,7 @@
       class="text-center"
       style="
         position: relative;
-        height: 89vh;
+        height: calc(100vh - 100px);
         max-width: 800px;
         margin: 0 auto;
         background-image: linear-gradient(
@@ -14,29 +14,29 @@
         );
       "
     >
-      <div class="text-h5 row justify-center items-end" style="height: 6vh">
+      <div class="text-h5 row justify-center items-end" style="height: 6%">
         <span class="text-lime-10" style="text-shadow: 1px 1px 1px #bbbbbb">
           現代孩子打發時間方式
         </span>
       </div>
 
-      <div class="row justify-center" style="position: relative">
+      <div class="row justify-center" style="position: relative; height: 30%">
         <div
-          class="col-12"
+          class="col-12 full-height"
           style="
-            background-image: url(/img/01.jpg);
+            background-image: url(/img/01-1.jpg);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
             filter: brightness(70%);
             border-radius: 3% 0 0 3%;
-            height: 28vh;
+            /* height: 30%; */
           "
         ></div>
 
         <div
-          class="row text-h5 text-black full-width items-center justify-end"
-          style="position: absolute; top: 10px; height: 28vh"
+          class="row text-h5 text-black full-width full-height items-center justify-end"
+          style="position: absolute"
         >
           <div
             class="text-right"
@@ -53,29 +53,29 @@
         </div>
       </div>
 
-      <div class="row items-end justify-center" style="height: 6vh">
+      <div class="row items-end justify-center" style="height: 8%">
         <span class="text-h5 text-teal"><b>孩子需要的是</b></span>
         <span class="text-h4 text-teal" style="text-shadow: 1px 1px 1px #bbbbbb"
           ><b>奔跑</b></span
         >
       </div>
 
-      <div class="row justify-center" style="position: relative">
+      <div class="row justify-center" style="position: relative; height: 30%">
         <div
-          class="full-width"
+          class="full-width full-height"
           style="
-            background-image: url(/img/02.jpg);
+            background-image: url(/img/02-1.jpg);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
             /* filter: brightness(30%); */
             border-radius: 3%/5%;
-            height: 28vh;
+            /* height: 30%; */
           "
         ></div>
         <div
-          class="row text-h5 text-black full-width items-center justify-start"
-          style="position: absolute; top: 10px; height: 28vh"
+          class="row text-h5 text-black full-width full-height items-center justify-start"
+          style="position: absolute"
         >
           <div
             class="text-left"
@@ -94,7 +94,7 @@
 
       <div
         class="row text-h5 full-width items-center justify-center"
-        style="height: 8vh"
+        style="height: 16%"
       >
         <span class="col-12" style="text-shadow: 1px 1px 5px #bbbbbb"
           ><b class="text-green-8">好玩公園資訊哪裡找？</b></span
@@ -102,7 +102,7 @@
         <q-icon
           name="get_app"
           color="green-8"
-          style="font-size: 4rem; position: absolute; bottom: 0px"
+          style="font-size: 4rem"
           class="animated animate__shakeY text-center"
         />
       </div>
@@ -115,7 +115,7 @@
       color="white"
       size="sm"
       @click="$router.push('/mana')"
-      style="position: absolute; bottom: 58px; right: 18px"
+      style="position: absolute; bottom: 38px; right: 18px"
     />
   </q-page>
 </template>

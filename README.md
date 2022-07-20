@@ -19,6 +19,14 @@ quasar build
 firebase deploy --only hosting:funpark
 
 
+```pwa```
+quasar build -m pwa
+firebase deploy --only hosting:funparkpwa
+
+icongenie generate -m pwa --icon .\src\assets\fun-park_.png
+
+
+
 
 
 

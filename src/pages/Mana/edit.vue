@@ -11,11 +11,11 @@
               { label: '公園介紹', value: '公園介紹' },
               { label: '廁所', value: '廁所' },
               { label: '停車場', value: '停車場' },
-              { label: '附近美食', value: '附近美食' },
-              { label: '便利商店', value: '便利商店' },
             ]"
             class="text-center text-h5"
           />
+          <!-- // { label: '附近美食', value: '附近美食' },
+              // { label: '便利商店', value: '便利商店' }, -->
 
           <q-tab-panels
             v-model="panel"
@@ -40,13 +40,13 @@
               <Parking :location="location"></Parking>
             </q-tab-panel>
 
-            <q-tab-panel name="附近美食">
+            <!-- <q-tab-panel name="附近美食">
               <Dining :location="location"></Dining>
-            </q-tab-panel>
+            </q-tab-panel> -->
 
-            <q-tab-panel name="便利商店">
+            <!-- <q-tab-panel name="便利商店">
               <Convenien :location="location"></Convenien>
-            </q-tab-panel>
+            </q-tab-panel> -->
           </q-tab-panels>
         </div>
       </div>

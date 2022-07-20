@@ -4,18 +4,22 @@
       <div id="map2" ref="mapref2"></div>
     </div>
     <div v-if="data.dataReady">
-      <gmres :center="data.center" :placeId="data.placeId"></gmres>
+      <gmplace :center="data.center" :placeId="data.placeId"></gmplace>
     </div>
   </q-page>
 </template>
 <script setup>
 // icon32
 
-import gmres from "src/components/Surrounding/GMA/Restaurant";
+import gmplace from "src/components/Surrounding/Gmplace";
 
 import { ref, reactive, toRefs, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { locationStore } from "stores/location";
+
+const props = defineProps({
+  type: String,
+});
 const router = useRouter();
 const route = useRoute();
 
@@ -57,7 +61,7 @@ function initMap() {
     location: new google.maps.LatLng(data.center.lat, data.center.lng),
     radius: "2000",
     // type: ["restaurant"],
-    type: ["convenience_store"],
+    type: [props.type],
   };
   const service = new google.maps.places.PlacesService(map2);
   service.nearbySearch(request, callback);
