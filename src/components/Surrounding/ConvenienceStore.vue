@@ -4,14 +4,14 @@
       <div id="map2" ref="mapref2"></div>
     </div>
     <div v-if="data.dataReady">
-      <gmplace :center="data.center" :placeId="data.placeId"></gmplace>
+      <convenience :center="data.center" :placeId="data.placeId"></convenience>
     </div>
   </q-page>
 </template>
 <script setup>
 // icon32
 
-import gmplace from "src/components/Surrounding/Gmplace/gmPlace";
+import convenience from "src/components/Surrounding/Gmplace/convenience.vue";
 
 import { ref, reactive, toRefs, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -56,7 +56,7 @@ function initMap() {
   var request = {
     location: new google.maps.LatLng(data.center.lat, data.center.lng),
     radius: "2000",
-    // type: ["restaurant"],
+    // type: ["convenience"],
     type: ["convenience_store"],
   };
   const service = new google.maps.places.PlacesService(map2);

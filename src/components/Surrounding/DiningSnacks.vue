@@ -4,14 +4,14 @@
       <div id="map2" ref="mapref2"></div>
     </div>
     <div v-if="data.dataReady">
-      <gmplace :center="data.center" :placeId="data.placeId"></gmplace>
+      <restaurant :center="data.center" :placeId="data.placeId"></restaurant>
     </div>
   </q-page>
 </template>
 <script setup>
 // icon32
 
-import gmplace from "src/components/Surrounding/Gmplace/gmPlace";
+import restaurant from "src/components/Surrounding/Gmplace/restaurant.vue";
 
 import { ref, reactive, toRefs, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";

@@ -5,7 +5,7 @@
   },
   "hosting": {
     "site": "funpark",
-    "public": "dist/pwa",
+    "public": "dist/spa",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "storage": {
