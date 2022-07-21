@@ -43,18 +43,6 @@
               />
               <q-checkbox
                 v-model="selection"
-                val="沙坑"
-                label="沙坑"
-                color="orange"
-              />
-              <q-checkbox
-                v-model="selection"
-                val="彈跳床"
-                label="彈跳床"
-                color="orange"
-              />
-              <q-checkbox
-                v-model="selection"
                 val="鞦韆"
                 label="鞦韆"
                 color="orange"
@@ -65,6 +53,18 @@
                 label="翹翹板"
                 color="orange"
               />
+              <q-checkbox
+                v-model="selection"
+                val="沙坑"
+                label="沙坑"
+                color="orange"
+              />
+              <q-checkbox
+                v-model="selection"
+                val="彈跳床"
+                label="彈跳床"
+                color="orange"
+              />
             </div>
           </q-card-section>
           <q-separator />
@@ -72,8 +72,8 @@
             <div class="q-gutter-sm">
               <q-checkbox
                 v-model="selection"
-                val="草坪"
-                label="草坪"
+                val="草原"
+                label="草原"
                 color="Cyan"
               />
               <q-checkbox
@@ -84,14 +84,8 @@
               />
               <q-checkbox
                 v-model="selection"
-                val="游泳池"
-                label="游泳池"
-                color="Cyan"
-              />
-              <q-checkbox
-                v-model="selection"
-                val="放風箏"
-                label="放風箏"
+                val="哺乳室"
+                label="哺乳室"
                 color="Cyan"
               />
               <q-checkbox
@@ -105,13 +99,13 @@
           <q-separator />
           <q-card-section>
             <div class="row q-gutter-md justify-start items-center">
-              <div>
+              <!-- <div>
                 <input
                   v-model.number="area"
                   type="number"
                   style="max-width: 50px; max-height: 30px; height: 30px"
                 /><span>公頃以上 </span>
-              </div>
+              </div> -->
               <div>
                 <span>推薦</span>
                 <q-rating v-model="rating" size="1.6em" color="primary" />
