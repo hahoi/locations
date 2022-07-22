@@ -30,6 +30,10 @@
             background-repeat: no-repeat;
             filter: brightness(90%);
             border-radius: 3% 0 0 3%;
+            /* // 透明度 0.6 的黑色半透明遮罩 */
+            /* background-color: rgba(0, 0, 0, 0.6); */
+            /* // 設置背景混和模式為相乘模式 */
+            /* background-blend-mode: multiply; */
             /* height: 30%; */
           "
         ></div>

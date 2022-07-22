@@ -29,7 +29,7 @@
             src="../assets/好玩公園-無背景PNG.png"
             style="width: 40px"
           ></q-img>
-          爸媽去哪裡玩
+          媽媽去哪裡玩
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
@@ -209,8 +209,8 @@ export default defineComponent({
     function reload() {
       //更新
       // store.set_dataReady(false);
-      store.queryFunParks();
       // window.location.reload(true);
+      store.queryFunParks();
     }
 
     return {

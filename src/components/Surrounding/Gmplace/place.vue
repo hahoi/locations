@@ -66,9 +66,9 @@ function initMap() {
     location:
       props.location ||
       new google.maps.LatLng(data.center.lat, data.center.lng),
-    radius: props.radius || "2000",
-    // type: ["restaurant"],
-    type: props.tyge || ["parking"],
+    radius: props.radius || "10000",
+    type: ["tourist_attraction"],
+    // type: props.tyge || ["parking"],
   };
   const service = new google.maps.places.PlacesService(map2);
   service.nearbySearch(request, callback);
