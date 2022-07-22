@@ -65,6 +65,13 @@
             :hide-label="hideLabels"
             :to="{ name: 'ConvenienceStore', params: { parkId: id } }"
           />
+          <q-fab-action
+            color="info"
+            icon="tour"
+            label="附近景點"
+            :hide-label="hideLabels"
+            :to="{ name: 'Tourist', params: { parkId: id } }"
+          />
         </q-fab>
       </div>
     </q-page-sticky>

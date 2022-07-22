@@ -75,9 +75,15 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpack (/* chain */) { }
+      chainWebpack (/* chain */) { },
+      // 往process.env新增API属性
+      env: {
+        API: ctx.dev ? '/api' : 'https://play4u.gov.taipei/'
+      },
 
     },
+
+    // https://play4u.gov.taipei/News_Content.aspx?n=4773608F226124D4&sms=7B56BA5392EB632C&s=E9C4254FCD906D5B
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
     devServer: {
@@ -85,7 +91,20 @@ module.exports = configure(function (ctx) {
         type: 'http'
       },
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      proxy: {
+        // 解決開發階段跨域問題
+        '/api': {
+          // 此處的寫法，目的是為了 將 /api 替換成 https://biz3.every8d.com.tw/
+          target: 'https://play4u.gov.taipei/',
+          // 允许跨域
+          changeOrigin: true,
+          ws: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+        }
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework

@@ -9,13 +9,14 @@ const routes = [
       // { path: 'writeToFirestore', component: () => import('pages/writeToFirestore.vue') },
       // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
-      { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },
+      // { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },
+      { path: 'geturl', component: () => import('pages/GetUreData.vue') },
       {
         path: '/mana',
         component: () => import('src/pages/Mana/index.vue'),
         children: [
           { path: '', component: () => import('pages/Mana/parkList.vue') },
-          { path: 'list', component: () => import('pages/Mana/parkList.vue') },
+          { path: 'auth', component: () => import('pages/Mana/Auth.vue') },
           {
             path: 'edit/:parkId',
             name: 'edit',
@@ -74,6 +75,12 @@ const routes = [
             path: "ConvenienceStore/:parkId",
             name: "ConvenienceStore",
             component: () => import("src/components/Surrounding/ConvenienceStore.vue"),
+            meta: { transition: 'slide-left' }
+          },
+          {
+            path: "Tourist/:parkId",
+            name: "Tourist",
+            component: () => import("src/components/Surrounding/Tourist.vue"),
             meta: { transition: 'slide-left' }
           },
         ]

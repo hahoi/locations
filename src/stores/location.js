@@ -35,6 +35,8 @@ import {
 } from "firebase/storage";
 
 const firebaseApp = initializeApp(getFirebaseConfig());
+// const firebaseApp = getFirebaseConfig();
+
 export const locationStore = defineStore('locationStore', {
   state: () => ({
     counter: 0,

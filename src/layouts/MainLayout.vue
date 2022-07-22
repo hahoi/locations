@@ -185,6 +185,7 @@ export default defineComponent({
       "Bathroom",
       "DiningSnacks",
       "ConvenienceStore",
+      "Tourist",
       "edit",
     ];
 
