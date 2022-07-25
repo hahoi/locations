@@ -1,17 +1,17 @@
 <template>
   <q-page style="z-index: 1; max-width: 800px">
-    <div class="">
-      <!-- 新增按鈕 -->
-      <q-btn
-        fab
-        color="info"
-        size="xs"
-        @click="dialogAdd = true"
-        label="新增公園"
-        class="q-ma-md text-h6 full-width"
-      />
-    </div>
     <div class="q-ma-md" v-if="Authority">
+      <div class="">
+        <!-- 新增按鈕 -->
+        <q-btn
+          fab
+          color="info"
+          size="xs"
+          @click="dialogAdd = true"
+          label="新增公園"
+          class="q-ma-md text-h6 full-width"
+        />
+      </div>
       <!-- 關鍵字搜尋 -->
       <search class="q-ma-md full-width" />
 
@@ -107,6 +107,10 @@ const rating = ref(0);
 const area = ref(0);
 const Authority = ref(false);
 const dialogAdd = ref(false);
+
+if (!store.locationDataReady) {
+  store.queryFunParks();
+}
 
 // 捲動分頁載入
 const timer = null;

@@ -113,14 +113,14 @@
     </div>
     <!-- 回到頂端 -->
 
-    <q-btn
+    <!-- <q-btn
       fab
       icon="keyboard_arrow_up"
       color="white"
       size="sm"
       @click="$router.push('/mana')"
       style="position: absolute; bottom: 38px; right: 18px"
-    />
+    /> -->
   </q-page>
 </template>
 

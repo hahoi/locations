@@ -28,5 +28,10 @@ icongenie generate -m pwa --icon .\src\assets\fun-park_.png
 
 
 
+npm install cheerio
+
+
+
+
 
 
