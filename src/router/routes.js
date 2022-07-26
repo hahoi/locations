@@ -11,6 +11,7 @@ const routes = [
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
       // { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },
       { path: 'geturl', component: () => import('pages/GetUreData.vue') },
+      { path: 'auth', component: () => import('pages/PageAuth.vue') },
       {
         path: '/mana',
         component: () => import('src/pages/Mana/index.vue'),
