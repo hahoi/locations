@@ -181,7 +181,7 @@ export const locationStore = defineStore('locationStore', {
       this.locations = []
       try {
         const q = query(
-          collection(getFirestore(), "FunParks"), orderBy("id", "desc"));
+          collection(getFirestore(), "FunParks"), orderBy("排序", "asc"));
         // collection(getFirestore(), "FunParks"));
         const qSnap = await getDocs(q);
         qSnap.forEach((doc) => {
@@ -257,6 +257,7 @@ export const locationStore = defineStore('locationStore', {
     },
     // 將 storage中檔案刪除
     storageImgDelete (findKey) {
+      if (!findKey) return
       const storage = getStorage();
       // console.log(findKey);
       const desertRef = StorageRef(storage, findKey);
@@ -272,7 +273,7 @@ export const locationStore = defineStore('locationStore', {
 
     // 存入資料
     async saveFunpark (payload) {
-      // console.log(payload.data)
+      console.log(payload.data)
       Notify.create({
         type: 'positive',
         message: '資料存檔中...',
@@ -280,27 +281,27 @@ export const locationStore = defineStore('locationStore', {
         timeout: 1000,
       })
       try {
-        const cityRef = doc(getFirestore(), 'FunParks', payload.id);
+        const cityRef = doc(getFirestore(), "FunParks", payload.id);
         await setDoc(cityRef, payload.data)
       } catch (error) {
-        console.error("firebase 有錯誤發生", error);
+        console.error("firebase 存檔有錯誤發生");
       }
     },
 
 
     // 更新資料
     async updateFunpark (payload) {
-      // console.log(payload.data)
+      console.log(payload.data)
       Notify.create({
         type: 'positive',
-        message: '資料存檔中...',
+        message: '資料更新中...',
         timeout: 1000,
       })
       try {
-        const cityRef = doc(getFirestore(), 'FunParks', payload.id);
+        const cityRef = doc(getFirestore(), "FunParks", payload.id);
         await updateDoc(cityRef, payload.data)
       } catch (error) {
-        console.error("firebase 有錯誤發生", error);
+        console.error("firebase 更新有錯誤發生", error);
       }
     },
 

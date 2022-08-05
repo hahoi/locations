@@ -9,20 +9,28 @@ const routes = [
       // { path: 'writeToFirestore', component: () => import('pages/writeToFirestore.vue') },
       // { path: 'Tainan', component: () => import('pages/Tainan.vue') },
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
-      { path: 'TaipeiWeb', component: () => import('pages/TaipeiWeb.vue') },
+      // { path: 'TaipeiWeb', component: () => import('pages/TaipeiWeb.vue') },
+      // { path: 'NewTaipeiWeb', component: () => import('pages/NewTaipeiWeb.vue') },
+      // { path: 'copy', component: () => import('pages/CopyFunParks.vue') },
+      // { path: 'TaipeiDel', component: () => import('pages/TaipeiDelete.vue') },
       // { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },
-      { path: 'geturl', component: () => import('pages/GetUreData.vue') },
+      // { path: 'geturl', component: () => import('pages/GetUreData.vue') },
       // { path: 'auth', component: () => import('pages/PageAuth.vue') },
       {
         path: '/mana',
         component: () => import('src/pages/Mana/index.vue'),
         children: [
-          { path: '', component: () => import('pages/Mana/parkList.vue') },
-          { path: 'auth', component: () => import('pages/Mana/Auth.vue') },
+          {
+            path: '', component: () => import('pages/Mana/parkList.vue'),
+            meta: { transition: 'slide-left', keepAlive: true, }
+          },
+          // { path: 'auth', component: () => import('pages/Mana/Auth.vue') },
           {
             path: 'edit/:parkId',
             name: 'edit',
-            component: () => import('pages/Mana/edit.vue')
+            component: () => import('pages/Mana/edit.vue'),
+            meta: { transition: 'slide-left', keepAlive: true, }
+
           },
         ]
       },
@@ -38,7 +46,7 @@ const routes = [
             meta: { transition: 'slide-left', keepAlive: true, }
           },
           {
-            path: "list",
+            path: "",
             name: "ParkList",
             component: () => import("src/pages/FunPark/ParkListPage.vue"),
             meta: { transition: 'slide-left', keepAlive: true, },

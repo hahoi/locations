@@ -65,10 +65,11 @@ function initMap() {
   const markers = props.locations.map((location, i) => {
     const marker = new google.maps.Marker({
       // position: location.coords,
-      position: {
-        lat: location.lat, // lat,lng Number 格式
-        lng: location.lng,
-      },
+      // position: {
+      //   position:: location.lat, // lat,lng Number 格式
+      //   lng: location.lng,
+      // },
+      position: new google.maps.LatLng(location.lat, location.lng),
       // label: location.title,
       // title: location.name,
       map: map1,

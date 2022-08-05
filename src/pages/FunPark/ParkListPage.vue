@@ -19,8 +19,8 @@
               />
               <q-radio
                 v-model="sel_radio"
-                val="台南市"
-                label="台南市"
+                val="新北市"
+                label="新北市"
                 color="teal"
               />
               <q-radio
@@ -206,6 +206,7 @@ import { LocalStorage, Loading, extend } from "quasar";
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
 // store.set_dataReady(false);
+// console.log(store.locationDataReady);
 if (!store.locationDataReady) {
   store.queryFunParks();
 }
@@ -220,7 +221,7 @@ let start = 0;
 let offset = 3;
 let actualPosition = ref(3);
 const showingData = computed(() => {
-  return store.locationsFilteredArray.slice(0, actualPosition.value);
+  return store.locationsFilteredArray.slice(start, actualPosition.value);
 });
 function loadMore(index, done) {
   if (

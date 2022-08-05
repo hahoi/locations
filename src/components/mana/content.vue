@@ -137,6 +137,7 @@ function delItem(index) {
 }
 
 function storageImgDelete(findKey) {
+  if (!findKey) return;
   const storage = getStorage();
   // console.log(findKey);
 

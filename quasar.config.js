@@ -78,7 +78,8 @@ module.exports = configure(function (ctx) {
       chainWebpack (/* chain */) { },
       // 往process.env新增API属性
       env: {
-        API: ctx.dev ? '/api' : 'https://play4u.gov.taipei/'
+        // API: ctx.dev ? '/api' : 'https://play4u.gov.taipei/'
+        API: ctx.dev ? '/api' : 'https://www.cpqweb.com/ntparks/'
       },
 
     },
@@ -96,7 +97,8 @@ module.exports = configure(function (ctx) {
         // 解決開發階段跨域問題
         '/api': {
           // 此處的寫法，目的是為了 將 /api 替換成 https://biz3.every8d.com.tw/
-          target: 'https://play4u.gov.taipei/',
+          target: 'https://www.cpqweb.com/ntparks/',  // 'https://play4u.gov.taipei/'
+          // target: 'https://play4u.gov.taipei/',
           // 允许跨域
           changeOrigin: true,
           ws: true,

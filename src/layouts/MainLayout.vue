@@ -29,7 +29,7 @@
             src="../assets/好玩公園-無背景PNG.png"
             style="width: 40px"
           ></q-img>
-          媽媽去哪裡玩
+          爸媽去哪裡玩
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
@@ -74,7 +74,7 @@
               glossy
               text-color="white"
               class="col-grow"
-              to="/FunPark/list"
+              to="/FunPark/"
             >
               <q-icon left size="2em" name="park" />
               <div class="text-h6">找公園</div>
