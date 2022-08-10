@@ -1,6 +1,6 @@
 <template>
   <q-page style="z-index: 1; max-width: 800px">
-    <div class="q-ma-md">
+    <div class="q-ma-md" ref="targetElm">
       <q-expansion-item
         expand-separator
         icon="nature_people"
@@ -143,13 +143,14 @@
               <q-item
                 clickable
                 v-ripple
+                :class="`Elm${key}`"
                 :to="{ name: 'showPark', params: { parkId: item.id } }"
                 ><q-item-section thumbnail v-if="item.段落[0]">
                   <div v-if="item.段落[0].照片.url">
                     <img :src="item.段落[0].照片.url" />
                   </div>
                 </q-item-section>
-                <q-item-section @click="storeLocationId(item.id)">
+                <q-item-section @click="storeLocationId(item.id, key)">
                   <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
                   <q-item-label class="text-body1 text-grey">{{
                     item.縣市
@@ -164,6 +165,11 @@
                       icon-right="directions"
                     >
                     </q-chip>
+                  </template>
+                  <template v-for="star in item.rating" v-if="item.rating > 0">
+                    <div class="text-orange q-ma-none q-pa-none row">
+                      <q-icon name="star" size="0.5rem" />
+                    </div>
                   </template>
                 </q-item-section>
               </q-item>
@@ -191,9 +197,12 @@
 </template>
 <script setup>
 import {
+  defineComponent,
   ref,
   reactive,
+  onMounted,
   computed,
+  onActivated,
   toRefs,
   watch,
   watchEffect,
@@ -202,6 +211,13 @@ import {
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
 import { LocalStorage, Loading, extend } from "quasar";
+import { scroll } from "quasar";
+const {
+  getScrollTarget,
+  getVerticalScrollPosition,
+  setVerticalScrollPosition,
+  getScrollHeight,
+} = scroll;
 
 const store = locationStore();
 // console.log("store locationsFiltered", store.locationsFiltered);
@@ -214,6 +230,8 @@ if (!store.locationDataReady) {
 // const locations = computed(() => store.locationsFilteredArray); // 響應式
 let rating = ref(0);
 let area = ref(0);
+let targetElm = ref(null);
+let target = null;
 
 // 捲動分頁載入
 const timer = null;
@@ -255,18 +273,44 @@ watchPostEffect(() => {
   let stext =
     sel_radio.value + " " + selection.value.toString().replaceAll(",", " ");
   store.set_search(stext);
+
+  if (rating.value > 0) {
+    store.set_rating(rating.value);
+  } else {
+    store.set_rating(0);
+  }
 });
+onMounted(() => {});
 
 // 將id 存入storeLocation中，重整時讀出
-function storeLocationId(id) {
-  // console.log(id);
+function storeLocationId(id, key) {
   LocalStorage.set("parkId", id);
+  target = targetElm.value.querySelector(`.Elm${key}`);
+  // console.log(targetElm.value);
+  target.style.background = "#dedede";
 }
+
+onActivated(() => {
+  if (target) {
+    scrollToElement(target);
+  }
+});
+
+function scrollToElement(el) {
+  // console.log(el);
+  let target = getScrollTarget(el);
+  // console.log(target);
+  let offset = el.offsetTop; //- el.scrollHeight;
+  let duration = 500;
+  setVerticalScrollPosition(target, offset, duration);
+}
+
 function clearSelect() {
   store.set_search("");
   sel_radio.value = "";
   selection.value = [];
   store.set_search("");
+  rating.value = 0;
 }
 </script>
 <style></style>

@@ -136,11 +136,23 @@
                 label="介紹"
                 class="full-width"
                 type="textarea"
-                rows="4"
+                rows="6"
                 style="font-size: 18px"
               >
                 <template v-slot:append>
                   <q-icon name="close" @click="park.介紹 = ''" />
+                </template>
+              </q-input>
+            </div>
+            <div class="q-ma-md row items-start">
+              <q-input
+                v-model="park.rating"
+                label="推薦"
+                type="number"
+                style="max-width: 100px; font-size: 18px"
+              >
+                <template v-slot:append>
+                  <q-icon name="close" @click="park.rating = ''" />
                 </template>
               </q-input>
             </div>
@@ -188,6 +200,7 @@ function editSave() {
   // lat,lng 轉換 string -> Number，因從 open data json 資料匯入是 Number
   park.lat = Number(park.lat);
   park.lng = Number(park.lng);
+  park.rating = Number(park.rating);
   // /更新前 段落 陣列需先排序
   park.段落.sort((a, b) => {
     // (小) 排在前面
@@ -200,6 +213,9 @@ function editSave() {
     id: park.id,
     data: park,
   };
+  // 更新記憶體
+  store.update_locations(payload);
+  // 更新資料庫
   store.saveFunpark(payload);
 }
 

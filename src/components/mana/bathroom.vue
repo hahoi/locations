@@ -215,6 +215,9 @@ async function SaveToDB() {
     data: park,
   };
   // console.log(payload);
+  // 更新記憶體
+  store.update_locations(payload);
+  // 更新資料庫
   await store.saveFunpark(payload);
 }
 

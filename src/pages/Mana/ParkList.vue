@@ -1,6 +1,6 @@
 <template>
   <q-page style="z-index: 1; max-width: 800px">
-    <div class="q-ma-md" v-if="Authority">
+    <div class="q-ma-md" v-if="Authority8" ref="targetElm">
       <div class="">
         <!-- 新增按鈕 -->
         <q-btn
@@ -22,13 +22,14 @@
               <q-item
                 clickable
                 v-ripple
+                :class="`Elm${key}`"
                 :to="{ name: 'edit', params: { parkId: item.id } }"
                 ><q-item-section thumbnail v-if="item.段落[0]">
                   <div v-if="item.段落[0].照片.url">
                     <img :src="item.段落[0].照片.url" />
                   </div>
                 </q-item-section>
-                <q-item-section @click="storeLocationId(item.id)">
+                <q-item-section @click="storeLocationId(item.id, key)">
                   <q-item-label class="text-h6">{{ item.名稱 }}</q-item-label>
                   <q-item-label class="text-body1 text-grey">{{
                     item.縣市
@@ -93,12 +94,31 @@
   </q-page>
 </template>
 <script setup>
-import { ref, reactive, computed, toRefs, watchEffect, onMounted } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  onMounted,
+  computed,
+  onActivated,
+  toRefs,
+  watch,
+  watchEffect,
+  watchPostEffect,
+} from "vue";
 import { locationStore } from "stores/location";
 import Search from "src/components/search";
 import { LocalStorage, Loading, extend, useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 import addPark from "src/pages/mana/addPark";
+import { scroll } from "quasar";
+
+const {
+  getScrollTarget,
+  getVerticalScrollPosition,
+  setVerticalScrollPosition,
+  getScrollHeight,
+} = scroll;
 
 const router = useRouter();
 
@@ -108,7 +128,10 @@ const store = locationStore();
 
 const rating = ref(0);
 const area = ref(0);
-const Authority = ref(false);
+let targetElm = ref(null);
+let target = null;
+
+const Authority8 = ref(false);
 const dialogAdd = ref(false);
 
 if (!store.locationDataReady) {
@@ -154,16 +177,33 @@ watchEffect(() => {
   let stext = selection.value.toString().replaceAll(",", " ");
   store.set_search(stext);
 });
-function storeLocationId(id) {
-  // console.log(id);
+function storeLocationId(id, key) {
   LocalStorage.set("parkId", id);
+  target = targetElm.value.querySelector(`.Elm${key}`);
+  target.style.background = "#dedede";
+  // console.log(target);
+}
+function scrollToElement(el) {
+  // console.log(el);
+  let target = getScrollTarget(el);
+  // console.log(target);
+  let offset = el.offsetTop; //- el.scrollHeight;
+  let duration = 500;
+  setVerticalScrollPosition(target, offset, duration);
 }
 
 onMounted(async () => {
-  Authority.value = (await LocalStorage.getItem("Authority")) || false;
+  Authority8.value = (await LocalStorage.getItem("Authority8")) || false;
 
-  if (!Authority.value) {
+  if (!Authority8.value) {
     prompt();
+  }
+});
+
+onActivated(() => {
+  if (target) {
+    // console.log(target);
+    scrollToElement(target);
   }
 });
 
@@ -181,11 +221,11 @@ function prompt() {
     persistent: true,
   })
     .onOk((data) => {
-      if (data === "20220708") {
-        Authority.value = true;
-        LocalStorage.set("Authority", Authority.value);
+      if (data === "20220805") {
+        Authority8.value = true;
+        LocalStorage.set("Authority8", Authority8.value);
       } else {
-        LocalStorage.set("Authority", false);
+        LocalStorage.set("Authority8", false);
       }
     })
     .onCancel(() => {})

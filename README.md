@@ -28,10 +28,10 @@ icongenie generate -m pwa --icon .\src\assets\fun-park_.png
 
 
 
+npm i firebase
+npm install v-viewer@next
+
+
+
 npm install cheerio
-
-
-
-
-
 

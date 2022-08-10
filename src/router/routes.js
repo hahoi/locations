@@ -29,7 +29,7 @@ const routes = [
             path: 'edit/:parkId',
             name: 'edit',
             component: () => import('pages/Mana/edit.vue'),
-            meta: { transition: 'slide-left', keepAlive: true, }
+            meta: { transition: 'slide-left' }
 
           },
         ]
@@ -39,12 +39,12 @@ const routes = [
         component: () => import('src/pages/FunPark/index.vue'),
         // meta: { title: '公園', role: '', icon: 'home', divider: true },
         children: [
-          {
-            // name: "funparks",
-            path: "tab",
-            component: () => import("src/pages/FunPark/TabPage.vue"),
-            meta: { transition: 'slide-left', keepAlive: true, }
-          },
+          // {
+          //   // name: "funparks",
+          //   path: "tab",
+          //   component: () => import("src/pages/FunPark/TabPage.vue"),
+          //   meta: { transition: 'slide-left', keepAlive: true, }
+          // },
           {
             path: "",
             name: "ParkList",

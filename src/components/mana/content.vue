@@ -134,6 +134,9 @@ function delItem(index) {
     storageImgDelete(park.段落[index].照片.findKey);
   }
   park.段落.splice(index, 1); // 通过splice 删除数据
+
+  // 更新記憶體，存到資料庫
+  editSave();
 }
 
 function storageImgDelete(findKey) {
@@ -154,21 +157,27 @@ function storageImgDelete(findKey) {
 }
 
 // 存檔，存到資料庫即可
-function editSave(key) {
+function editSave() {
   //更新前 段落 陣列需先排序
+  park.lat = Number(park.lat);
+  park.lng = Number(park.lng);
+  park.rating = Number(park.rating);
+  // /更新前 段落 陣列需先排序
   park.段落.sort((a, b) => {
     // (小) 排在前面
     if (a.排序 > b.排序) return 1;
     else if (a.排序 < b.排序) return -1;
     else return 0;
   });
-  // console.log("段落", park.段落);
 
-  dialogMessage.value = false;
   const payload = {
     id: park.id,
     data: park,
   };
+  // console.log(payload);
+  // 更新記憶體
+  store.update_locations(payload);
+  // 更新資料庫
   store.saveFunpark(payload);
 }
 

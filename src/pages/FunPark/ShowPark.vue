@@ -49,15 +49,12 @@
           <div>位置：<span v-html="matchLocation.位置"></span></div>
           <div>
             面積：<span v-html="matchLocation.面積"></span
-            ><span v-if="matchLocation.面積">公頃</span>
+            ><span v-if="matchLocation.面積"></span>
           </div>
           <div>類別：<span v-html="matchLocation.類別"></span></div>
         </q-card-section>
         <q-card-section class="intro">
           <div><span v-html="matchLocation.簡介"></span></div>
-        </q-card-section>
-        <q-card-section class="intro">
-          <div><span v-html="matchLocation.介紹"></span></div>
         </q-card-section>
         <q-card-section class="intro">
           <div v-if="matchLocation.設施">遊具設施</div>
@@ -101,6 +98,11 @@
           </q-card-section>
         </q-card>
       </template>
+      <q-card class="my-card" flat bordered>
+        <q-card-section class="intro">
+          <div><span v-html="matchLocation.介紹"></span></div>
+        </q-card-section>
+      </q-card>
 
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <div class="q-mt-md">

@@ -46,6 +46,7 @@ export const locationStore = defineStore('locationStore', {
     currentID: "",
     locationDataReady: false,
     normalRouter: null,
+    rating: 0,
   }),
 
   getters: {
@@ -153,7 +154,24 @@ export const locationStore = defineStore('locationStore', {
 
     },
     locationsFilteredArray () {
-      return Object.keys(this.locationsFiltered).map((key) => this.locationsFiltered[key])
+      //過濾數字型態
+      if (this.rating > 0) {
+        return Object.keys(this.locationsFiltered)
+          .filter(key => this.locationsFiltered[key].rating == this.rating) //先找出符合的Key
+          .map(key => this.locationsFiltered[key]) //再複製一份
+        // //兩個同樣效果
+        // const ratingArr = []
+        // Object.keys(this.locationsFiltered).forEach(key => {
+        //   let task = this.locationsFiltered[key]
+        //   if (task.rating == this.rating) {
+        //     ratingArr.push(task)
+        //   }
+        // })
+        // return ratingArr
+      } else {
+        //已用文字型態過濾完成，物件=>陣列
+        return Object.keys(this.locationsFiltered).map((key) => this.locationsFiltered[key])
+      }
     }
   },
 
@@ -167,13 +185,16 @@ export const locationStore = defineStore('locationStore', {
     set_search (val) {
       this.search = val
     },
+    set_rating (val) {
+      this.rating = val
+    },
     set_current_Id (val) {
       this.currentId = val
     },
     set_dataReady (val) {
       this.locationDataReady = val
     },
-    // 更新公園資料，這個function用不到
+
 
     //查，全部
     async queryFunParks () {
@@ -286,6 +307,15 @@ export const locationStore = defineStore('locationStore', {
       } catch (error) {
         console.error("firebase 存檔有錯誤發生");
       }
+    },
+    // 更新公園記憶體中的資料
+    update_locations (payload) {
+      this.locations = this.locations.map((Item) => {
+        if (Item.id == payload.id) { //id是資料庫中的id
+          return payload.data;
+        }
+        return Item;
+      });
     },
 
 

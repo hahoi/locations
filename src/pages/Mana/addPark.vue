@@ -61,6 +61,7 @@ const park = reactive({
   區域: "",
   位置: "",
   navi: "",
+  rating: 0,
   便利商店: [],
   段落: [],
   停車場: [],
