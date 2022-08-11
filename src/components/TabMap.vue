@@ -89,14 +89,14 @@ function initMap() {
     if (location.navi) {
       content = `
           <div id="content">
-            <p class="text-h6 text-brown">${location.名稱}</p>
+            <p class="text-h6 text-brown"><a href="#/FunPark/showPark/${location.id}">${location.名稱}</a></p>
           <a href="${location.navi}" target="_blank"><span class="text-h6">導航</span></a>
           </div>
         `;
     } else {
       content = `
           <div id="content">
-            <p class="text-h6 text-brown">${location.名稱}</p>
+            <p class="text-h6 text-brown"><a href="#/FunPark/showPark/${location.id}">${location.名稱}</a></p>
           </div>
         `;
     }

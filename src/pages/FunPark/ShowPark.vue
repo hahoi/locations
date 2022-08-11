@@ -181,6 +181,7 @@ const store = locationStore();
 const location = store.locationsFilteredArray.find((item) => id == item.id);
 // console.log("location data", location);
 
+// console.log(store.locationDataReady);
 if (!store.locationDataReady) {
   router.push("/");
 }

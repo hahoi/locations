@@ -30,8 +30,11 @@ icongenie generate -m pwa --icon .\src\assets\fun-park_.png
 
 npm i firebase
 npm install v-viewer@next
-
+npm install --save @googlemaps/js-api-loader
+npm install --save @googlemaps/markerclusterer
+npm install --save image-conversion
 
 
 npm install cheerio
+
 
