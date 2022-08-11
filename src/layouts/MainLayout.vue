@@ -210,8 +210,8 @@ export default defineComponent({
     function reload() {
       //更新
       // store.set_dataReady(false);
-      // window.location.reload(true);
-      store.queryFunParks();
+      window.location.reload(true);
+      // store.queryFunParks();
     }
 
     return {

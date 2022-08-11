@@ -65,17 +65,17 @@
                 label="彈跳床"
                 color="orange"
               />
+              <q-checkbox
+                v-model="selection"
+                val="滑索"
+                label="滑索"
+                color="orange"
+              />
             </div>
           </q-card-section>
           <q-separator />
           <q-card-section>
             <div class="q-gutter-sm">
-              <q-checkbox
-                v-model="selection"
-                val="草原"
-                label="草原"
-                color="Cyan"
-              />
               <q-checkbox
                 v-model="selection"
                 val="樹屋"
