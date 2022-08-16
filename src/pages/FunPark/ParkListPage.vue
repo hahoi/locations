@@ -29,6 +29,12 @@
                 label="台北市"
                 color="teal"
               />
+              <q-radio
+                v-model="sel_radio"
+                val="高雄市"
+                label="高雄市"
+                color="teal"
+              />
             </div>
           </q-card-section>
 

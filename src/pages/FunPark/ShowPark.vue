@@ -57,7 +57,7 @@
           <div><span v-html="matchLocation.簡介"></span></div>
         </q-card-section>
         <q-card-section class="intro">
-          <div v-if="matchLocation.設施">遊具設施</div>
+          <div v-if="matchLocation.設施"></div>
           <div v-html="br(matchLocation.設施)"></div>
         </q-card-section>
 
@@ -76,7 +76,7 @@
 
           <q-card-section class="row q-pt-none">
             <div class="text-subtitle1 col-sm-6 col-xs-12">
-              <div class="q-mr-md" v-html="item.內容"></div>
+              <div class="q-mr-md intro" v-html="item.內容"></div>
             </div>
             <div class="col-sm-6 col-xs-12">
               <q-img

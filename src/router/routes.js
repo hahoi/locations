@@ -11,6 +11,7 @@ const routes = [
       // { path: 'Taipei', component: () => import('pages/Taipei.vue') },
       // { path: 'TaipeiWeb', component: () => import('pages/TaipeiWeb.vue') },
       // { path: 'NewTaipeiWeb', component: () => import('pages/NewTaipeiWeb.vue') },
+      // { path: 'KaohsiungWeb', component: () => import('pages/KaohsiungWeb.vue') },
       // { path: 'copy', component: () => import('pages/CopyFunParks.vue') },
       // { path: 'TaipeiDel', component: () => import('pages/TaipeiDelete.vue') },
       // { path: 'place', component: () => import('src/components/Surrounding/Gmplace/place.vue') },

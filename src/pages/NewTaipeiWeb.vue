@@ -45,8 +45,9 @@ const NewTaipei = 新北市公園.map((item) => {
     排序: "C",
     區域: item.行政區 + item.里別,
     位置: item.位置,
-    面積: item.面積 + "（m2）",
+    面積: item.面積 + "平方公尺",
     url: item.超連結,
+    介紹: "",
     便利商店: [],
     段落: [],
     停車場: [],
@@ -63,6 +64,26 @@ async function getUrlData(park) {
   // console.log(result.data);
 
   const $ = cheerio.load(result.data);
+
+  // 主照片
+  console.log($("img", ".views-mainPhoto").attr("src"));
+  const 一個段落 = {
+    內容: "",
+    排序: "",
+    標題: "",
+    照片: {
+      findKey: "",
+      url: "",
+      簡介: "",
+    },
+  };
+
+  一個段落.照片.url =
+    "https://www.cpqweb.com/ntparks/" +
+      $("img", ".views-mainPhoto").attr("src") || "";
+  park.段落.push(一個段落);
+
+  // 其他照片
   $("img", ".views-photo").each((t, item) => {
     const 一個段落 = {
       內容: "",
@@ -83,9 +104,22 @@ async function getUrlData(park) {
   $("table").each((t, t_item) => {
     $("tr", t_item).each((r, r_item) => {
       $("td", r_item).each((d, d_item) => {
-        console.log("table" + t, r, d, $(d_item).text());
+        // 這裡查看細節
+        // console.log("table" + t, r, d, $(d_item).text());
         if (t === 5 && r === 1 && d === 1) {
           park.簡介 = $(d_item).text();
+        }
+        if (t === 6 && r === 1 && d === 1) {
+          park.介紹 += "周邊公共設施：" + $(d_item).text() + "<br/>";
+        }
+        if (t === 7 && r === 0 && d === 1) {
+          park.介紹 += $(d_item).text() + "<br/>";
+        }
+        if (t === 8 && r === 0 && d === 1) {
+          park.介紹 += $(d_item).text();
+        }
+        if (t === 9 && r === 1 && d === 1) {
+          park.介紹 += " 電話：" + $(d_item).text();
         }
       });
     });
@@ -96,7 +130,7 @@ async function getUrlData(park) {
 }
 
 async function savePark(park) {
-  // getUrlData(park);
+  await getUrlData(park);
   park.id = "新北市" + park.名稱;
   park.類別 = "共融公園";
   const payload = {
@@ -114,6 +148,8 @@ async function savePark(park) {
   console.log("簡介", park.簡介);
   console.log("設施", park.設施);
   console.table(park.段落);
+
+  console.log("介紹", park.介紹);
   console.log(park);
 
   await store.saveFunpark(payload);
